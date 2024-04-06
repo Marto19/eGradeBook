@@ -1,12 +1,26 @@
 package com.egradebook.eGradeBook.entities;
 
+import jakarta.persistence.*;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+@Entity
+@Table(name = "principles")
 public class Principle {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @OneToOne
     private User userId;
 
     public Principle(long id, User userId) {
         this.id = id;
         this.userId = userId;
+    }
+
+    public Principle() {
+
     }
 
     public long getId() {

@@ -1,6 +1,14 @@
 package com.egradebook.eGradeBook.entities;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String firstName;
     private String lastName;
     private String address;
@@ -13,6 +21,19 @@ public class User {
         this.address = address;
         this.email = email;
         this.password = password;
+    }
+
+    public User() {
+
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -58,10 +79,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "firstName='" + firstName + '\'' +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
-                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }
