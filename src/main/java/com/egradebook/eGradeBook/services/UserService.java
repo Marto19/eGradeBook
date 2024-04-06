@@ -1,7 +1,7 @@
 package com.egradebook.eGradeBook.services;
 
-import org.springframework.security.core.userdetails.User;
+import com.egradebook.eGradeBook.entities.User;
 
 public interface UserService {
-    public User createUser(User user);
+    public com.egradebook.eGradeBook.entities.User createUser(User user);
 }
