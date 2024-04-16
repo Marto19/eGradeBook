@@ -11,4 +11,6 @@ public class EGradeBookApplication {
 		SpringApplication.run(EGradeBookApplication.class, args);
 	}
 
+	//todo: implement ABsences, Cirriculum, GradeCatalog
+	//todo: dual connection between teachers and junction table needs fixing
 }
