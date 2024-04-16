@@ -21,6 +21,9 @@ public class Teacher extends User
     @ManyToOne
     private School school;
 
+    @OneToOne
+    private SubjectClassesJunction subjectClassesJunction;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(name = "teachers_qualficiations",
             joinColumns = @JoinColumn(name = "users_id"),
