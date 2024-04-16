@@ -48,6 +48,10 @@ public class User
 
     private boolean enabled;
 
+    @ManyToOne
+    @JoinColumn(name = "authorities_id")
+    private Authorities authorities;
+
     @Override
     public String toString() {
         return "User{" +

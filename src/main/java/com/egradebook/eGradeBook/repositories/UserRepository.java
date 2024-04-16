@@ -8,6 +8,4 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsById(long id);
     User save(User user);
-
-//    com.egradebook.eGradeBook.entities.User save(com.egradebook.eGradeBook.entities.User user);
 }
