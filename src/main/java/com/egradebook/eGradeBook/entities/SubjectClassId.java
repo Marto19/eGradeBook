@@ -9,8 +9,8 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Getter
-@Setter
+
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -19,11 +19,10 @@ public class SubjectClassId implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    private Subject subjectId;
+    private Subject subject;
 
     @ManyToOne
     @JoinColumn(name = "class_id")
-    private Class classId;
-
+    private Class aClass;
 
 }

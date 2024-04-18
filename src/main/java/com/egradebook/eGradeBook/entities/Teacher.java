@@ -21,7 +21,7 @@ public class Teacher extends User
     @ManyToOne
     private School school;
 
-    @OneToOne
+    @OneToOne(mappedBy = "teacher")
     private SubjectClassesJunction subjectClassesJunction;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

@@ -18,8 +18,6 @@ public class SubjectClassesJunction {
     private SubjectClassId subjectClassId;
 
     @OneToOne
+    @JoinColumn(name = "teachers_users_user_id")
     private Teacher teacher;
-
-    //TODO: TEACHERS AND THIS TABLE HAVE DUAL CONNECTION. NEED TO FIX THIS
-
 }
