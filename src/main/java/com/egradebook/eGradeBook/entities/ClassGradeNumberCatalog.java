@@ -6,20 +6,20 @@ import lombok.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "grade_catalog")
+@Table(name = "class_grade_number_catalog")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GradeCatalog
+public class ClassGradeNumberCatalog
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private double gradeNumber;
+    private int cgNumber;
 
-    @OneToMany(mappedBy = "grade")
-    private Set<Grade> gradeSet;
+    @OneToMany(mappedBy = "classGradeNumber")
+    private Set<Class> classes;
 }

@@ -24,14 +24,17 @@ public class Class
 
     @ManyToOne
     @JoinColumn(name = "class_number")
-    private ClassGradeNumber classGradeNumber;
+    private ClassGradeNumberCatalog classGradeNumber;
 
     @ManyToOne
     @JoinColumn(name = "class_letter")
     private ClassLetterCatalog classLetterCatalog;
 
-    @OneToMany
+    @OneToMany(mappedBy = "classID")
     private Set<Student> students;
+
+    @OneToMany(mappedBy = "classId")
+    private Set<Curriculum> curriculumSet;
 
     private LocalDate graduationDate;
 

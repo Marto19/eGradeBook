@@ -6,20 +6,20 @@ import lombok.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "class_grade_number")
+@Table(name = "day_of_week_catalog")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClassGradeNumber
+public class DayOfWeekCatalog
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int cgNumber;
+    private String day;
 
-    @OneToMany(mappedBy = "classGradeNumber")
-    private Set<Class> classes;
+    @OneToMany(mappedBy = "dayOfWeek")
+    private Set<Curriculum> curriculumSet;
 }

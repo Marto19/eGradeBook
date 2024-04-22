@@ -2,7 +2,10 @@ package com.egradebook.eGradeBook.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "subjects")
@@ -22,5 +25,16 @@ public class Subject
 
     private String description;
 
-    //private Qualifiacation qialifiaction
+    @OneToMany(mappedBy = "subjectId")
+    private Set<Curriculum> curriculumSet;
+
+    @OneToMany(mappedBy = "subjectId")
+    private Set<Grade> gradeSet;
+
+    @OneToMany(mappedBy = "subjectId")
+    private Set<Absences> absencesSet;
+
+    @ManyToOne
+    @NotNull
+    private Qualification qualification;
 }
