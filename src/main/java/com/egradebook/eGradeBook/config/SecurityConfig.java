@@ -14,45 +14,45 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+//
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeHttpRequests((authorize) -> authorize
+//                        .anyRequest().authenticated()
+//                )
+//                .oauth2ResourceServer((oauth2) -> oauth2
+//                        .jwt(Customizer.withDefaults())
+//                );
+//        return http.build();
+//    }
+//
+//    @Bean
+//    public JwtDecoder jwtDecoder(@Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}") String issuerUri) {
+//        return JwtDecoders.fromIssuerLocation(issuerUri);
+//    }
+
+
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer((oauth2) -> oauth2
-                        .jwt(Customizer.withDefaults())
-                );
+                .csrf(csrf -> csrf.disable())
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated();
+        http
+                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
+        http
+                .sessionManagement((sessionManagement) ->
+                        sessionManagement
+                                .sessionFixation().none()
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         return http.build();
     }
 
-    @Bean
-    public JwtDecoder jwtDecoder(@Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}") String issuerUri) {
-        return JwtDecoders.fromIssuerLocation(issuerUri);
-    }
-
-
-
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeRequests()
-//                .anyRequest()
-//                .authenticated();
-//        http
-//                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
-//        http
-//                .sessionManagement((sessionManagement) ->
-//                        sessionManagement
-//                                .sessionFixation().none()
-//                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//
-//        return http.build();
-//    }
-//
 //
 //
 //
