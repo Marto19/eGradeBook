@@ -37,6 +37,13 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
+	implementation 'org.keycloak:keycloak-spring-security-adapter:15.0.2'
+	implementation 'org.keycloak:keycloak-spring-boot-starter:15.0.2'
+
+	implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.2.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+
 }
 
 tasks.named('test') {
