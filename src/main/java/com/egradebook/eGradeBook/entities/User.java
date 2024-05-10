@@ -1,9 +1,9 @@
 package com.egradebook.eGradeBook.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@SuperBuilder
 public class User
 {
 
@@ -24,19 +24,23 @@ public class User
     @NotBlank(message = "First name cannot be blank!")
     @Size(max = 30, message = "First name has to be up to 30 characters!")
     @Column(name = "first_name")
+    //NEED TO ADD REGEX VALIDATION
     private String firstName;
 
     @NotBlank(message = "Last name cannot be blank!")
     @Size(max = 30, message = "Last name has to be up to 30 characters!")
     @Column(name = "last_name")
+    //NEED TO ADD REGEX VALIDATION
     private String lastName;
 
     @NotBlank(message = "Last name cannot be blank!")
     @Size(max = 30, message = "Last name has to be up to 30 characters!")
     @Column(name = "address")
+    //NEED TO ADD REGEX VALIDATION
     private String address;
 
     @NotBlank(message = "T1p lin si?")
+    //NEED TO ADD REGEX VALIDATION
     private String email;   //email associated with the user with the account
 
     @Size(max = 10, message = "Phone number has to be up to 10 digits!")
