@@ -48,4 +48,20 @@ public class UserController {
         Iterable<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateUser(@Valid @RequestBody User user)
+    {
+        //use find user by id to get the user
+        Optional<User> userOptional = userRepository.findUsersById(user.getId());
+        if(userOptional.isPresent())
+        {
+            userService.updateUser(user);
+            return ResponseEntity.ok("User updated successfully");
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
 }
