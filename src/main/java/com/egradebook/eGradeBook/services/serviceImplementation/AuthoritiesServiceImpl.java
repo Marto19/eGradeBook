@@ -28,7 +28,7 @@ public class AuthoritiesServiceImpl implements AuthoritiesService {
         if (authority == null) {
             throw new IllegalArgumentException("Authority cannot be null");
         }
-        if (authoritiesRepository.findByAuthority(authority.getRoleName()).isPresent()) {
+        if (authoritiesRepository.findByRoleName(authority.getRoleName()).isPresent()) {
             throw new IllegalArgumentException("Authority already exists");
         }
         //TODO: add more  checks in the future and review these
