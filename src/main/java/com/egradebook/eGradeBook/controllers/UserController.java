@@ -80,7 +80,6 @@ public class UserController {
 //        else if (!userOptional.getTeachers().isEmpty() || !userOptional.getPrincipals().isEmpty() || !user.getParents().isEmpty() || !user.getStudents().isEmpty()) {
 //            throw new ConflictException("Cannot delete user with id " + id + " because it has dependent entities");
 //        }
-
         else
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");

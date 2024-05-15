@@ -8,6 +8,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImplementation implements UserService {
@@ -18,12 +20,17 @@ public class UserServiceImplementation implements UserService {
     @Override
     public User registerUser(User user)
     {
+        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        if (user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty()) {
+            throw new IllegalArgumentException("Phone number is required");
+        }
         //if the id or the email or the phone number already exists in the database, then throw an exception
         if(userRepository.findById(user.getId()).isPresent() == true
                 || userRepository.findByEmail(user.getEmail()).isPresent() == true
                 || userRepository.findByPhoneNumber(user.getPhoneNumber()).isPresent() == true)
         {  //if exists in db, then say that it exists. need function in repository
-            //TODO: specify which field already exists
             throw new EntityAlreadyExistsException("User already exists " + user.getId() + " "+ user.getEmail() + " " + user.getPhoneNumber() + " " + user.getFirstName() + " " + user.getLastName() );
         }
         return userRepository.save(user); //TODO: needs refining
@@ -34,12 +41,32 @@ public class UserServiceImplementation implements UserService {
     //TODO: implement the rest of the methods
 
     @Override
-    public void updateUser(User user)
-    {
+    public void updateUser(User user) {
+        //if user is null, throw an exception
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        //if user does not exist, throw an exception
+        Optional<User> existingUser = userRepository.findById(user.getId());
+        if (!existingUser.isPresent()) {
+            throw new EntityNotFoundException("User not found with id " + user.getId());
+        }
+        // update fields
+        existingUser.get().setEmail(user.getEmail());
+        existingUser.get().setPhoneNumber(user.getPhoneNumber());
+        // add other fields that you want to update
+
+        // save and return the updated user
+        userRepository.save(existingUser.get());
     }
 
     @Override
     public void deleteUser(long id) {
-
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            throw new EntityNotFoundException("User not found with id " + id);
+        }
+        userRepository.delete(user.get());
     }
+
 }

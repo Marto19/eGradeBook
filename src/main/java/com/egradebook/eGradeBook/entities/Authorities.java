@@ -30,6 +30,30 @@ public class Authorities {
     @OneToMany(mappedBy = "authorities")    //todo: maybe make it many to many
     private Set<User> users;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(@NotBlank(message = "Role name cannot be blank!") @Size(max = 30, message = "Role name has to be up to 30 characters!") String roleName) {
+        this.roleName = roleName;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     @Override
     public String toString() {
         return "Authorities{" +

@@ -3,7 +3,6 @@ package com.egradebook.eGradeBook.services;
 import com.egradebook.eGradeBook.entities.User;
 import org.springframework.stereotype.Service;
 
-//javadoc
 /**
  * This interface is used to define the methods that will be used to interact with the User entity.
  */
