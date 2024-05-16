@@ -45,11 +45,18 @@ public class AuthoritiesController{
      * @param authority The authority object that will be updated.
      * @return The authority object that was updated.
      */
-    @PostMapping("/update")
-    public ResponseEntity<String> updateAuthority(@Valid @RequestBody Authorities authority) {
-        authoritiesService.updateAuthority(authority);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("Authority updated successfully with ID: " + authority.getId());
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateAuthority(@PathVariable Long id, @Valid @RequestBody Authorities authority) {
+        Optional<Authorities> existingAuthority = authoritiesRepository.findById(id);
+        if (existingAuthority.isPresent()) {
+            authority.setId(id); // set the id of the authority to be updated
+            authoritiesService.updateAuthority(authority);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Authority updated successfully with ID: " + id);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Authority with ID: " + id + " not found");
+        }
     }
 
     /**
