@@ -16,10 +16,8 @@ public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
 
-    //TODO: add more extensive logic or review logic
     @Override
-    public User registerUser(User user)
-    {
+    public User registerUser(User user) {
         if (user.getEmail() == null || user.getEmail().isEmpty()) {
             throw new IllegalArgumentException("Email is required");
         }
@@ -33,12 +31,14 @@ public class UserServiceImplementation implements UserService {
         {  //if exists in db, then say that it exists. need function in repository
             throw new EntityAlreadyExistsException("User already exists " + user.getId() + " "+ user.getEmail() + " " + user.getPhoneNumber() + " " + user.getFirstName() + " " + user.getLastName() );
         }
-        return userRepository.save(user); //TODO: needs refining
+        User savedUser = userRepository.save(user); //TODO: needs refining
         //set the id of the user to the id of the user that was saved
-
+        if (savedUser == null) {
+            throw new RuntimeException("User registration failed!");
+        }
+        return savedUser;
     }
 
-    //TODO: implement the rest of the methods
 
     @Override
     public void updateUser(User user) {

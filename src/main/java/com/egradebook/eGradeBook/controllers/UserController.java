@@ -31,8 +31,14 @@ public class UserController {
     {
         User registeredUser = userService.registerUser(user);// Adjust your service method accordingly
 
+        if (registeredUser == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("User registration failed!");
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("User registered successfully with ID: " + registeredUser.getId());
+        //if didnt register successfully, return bad request with message
 
     }
 
