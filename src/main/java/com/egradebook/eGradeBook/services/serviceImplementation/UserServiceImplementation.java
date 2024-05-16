@@ -10,12 +10,26 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
+/**
+ * This class is used to implement the methods that will be used to interact with the User entity.
+ * The methods include creating, updating, and deleting users.
+ */
 @Service
 @AllArgsConstructor
 public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
 
+    /**
+     * This method is used to create a new user.
+     * It checks if the email and phone number are not empty.
+     * It also checks if the id, email, and phone number do not already exist in the database.
+     * If the user is successfully created, it returns the user object.
+     * If the user is not created, it throws an exception.
+     * @param user The user object that will be created.
+     * @return The user object that was created.
+     */
     @Override
     public User registerUser(User user) {
         if (user.getEmail() == null || user.getEmail().isEmpty()) {
@@ -40,26 +54,38 @@ public class UserServiceImplementation implements UserService {
     }
 
 
+    /**
+     * This method is used to update a user.
+     * It checks if the user is not null.
+     * It also checks if the user exists in the database.
+     * If the user is successfully updated, it returns the user object.
+     * If the user is not updated, it throws an exception.
+     * @param user The user object that will be updated.
+     */
     @Override
     public void updateUser(User user) {
-        //if user is null, throw an exception
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
-        //if user does not exist, throw an exception
         Optional<User> existingUser = userRepository.findById(user.getId());
         if (!existingUser.isPresent()) {
-            throw new EntityNotFoundException("User not found with id " + user.getId());
+            throw new EntityNotFoundException("User does not exist");
         }
-        // update fields
+        existingUser.get().setFirstName(user.getFirstName());
+        existingUser.get().setLastName(user.getLastName());
         existingUser.get().setEmail(user.getEmail());
         existingUser.get().setPhoneNumber(user.getPhoneNumber());
-        // add other fields that you want to update
-
-        // save and return the updated user
+        existingUser.get().setPassword(user.getPassword());
         userRepository.save(existingUser.get());
     }
 
+    /**
+     * This method is used to delete a user.
+     * It checks if the user exists in the database.
+     * If the user is successfully deleted, it returns the user object.
+     * If the user is not deleted, it throws an exception.
+     * @param id The id of the user that will be deleted.
+     */
     @Override
     public void deleteUser(long id) {
         Optional<User> user = userRepository.findById(id);

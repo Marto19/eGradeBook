@@ -80,18 +80,22 @@ public class UserController {
      * @return The user object that was updated.
      */
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateUser(@Valid @RequestBody User user)
+    //use path variable long id
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @Valid @RequestBody User user)
     {
         //use find user by id to get the user
-        Optional<User> userOptional = userRepository.findUsersById(user.getId());
-        if(userOptional.isPresent())
+        Optional<User> existingUser = userRepository.findUsersById(id);
+        if(existingUser.isPresent())
         {
+            user.setId(id); // set the id of the user to be updated
             userService.updateUser(user);
-            return ResponseEntity.ok("User updated successfully");
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("User updated successfully with ID: " + id);
         }
         else
         {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User with ID: " + id + " not found");
         }
     }
 
