@@ -1,12 +1,17 @@
 package com.egradebook.eGradeBook.controllers;
 
+import com.egradebook.eGradeBook.DTOs.UserDTO;
+import com.egradebook.eGradeBook.entities.Authorities;
 import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.exceptions.ConflictException;
+import com.egradebook.eGradeBook.repositories.AuthoritiesRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,32 +29,44 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
+    private final AuthoritiesRepository authoritiesRepository;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService, UserRepository userRepository, AuthoritiesRepository authoritiesRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.authoritiesRepository = authoritiesRepository;
     }
 
     /**
      * This method is used to create a new user.
-     * @param user The user object that will be created.
+     * @param userDTO The user object that will be created.
      * @return The user object that was created.
      */
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody User user)
-    {
-        User registeredUser = userService.registerUser(user);// Adjust your service method accordingly
+    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
+        User user = new User();
 
-        if (registeredUser == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("User registration failed!");
-        }
+        // Set all the other fields...
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setAddress(userDTO.getAddress());
+        user.setEmail(userDTO.getEmail());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setPassword(userDTO.getPassword());
+        user.setEnabled(userDTO.isEnabled());
+//        user.setAuthorities(authoritiesRepository.findById(userDTO.getAuthorities_id())
+//                .orElseThrow(() -> new EntityNotFoundException("Authority not found")));
 
+        Authorities authorities = authoritiesRepository.findAuthoritiesById(userDTO.getAuthorities())
+                .orElseThrow(() -> new EntityNotFoundException("Authority not found"));
+        user.setAuthorities(authorities);
+
+        userService.registerUser(user);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body("User registered successfully with ID: " + registeredUser.getId());
-        //if didnt register successfully, return bad request with message
-
+                .body("User created successfully with ID: " + user.getId());
     }
+
+
 
     /**
      * This method is used to get a user by id.
