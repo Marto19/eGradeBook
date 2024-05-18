@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,7 +29,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
             new JwtGrantedAuthoritiesConverter();
 
     @Value("${jwt.auth.converter.resource-id.principle-attribute}") //we take the principle attribute from the application.properties file
-    private String pricipleAttribute;
+    private String principleAttribute;
 
     @Value("${jwt.auth.converter.resource-id}") //we extract the resource id from the application.properties file
     private String resourceId;
@@ -42,21 +41,26 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
      * @return the converted token
      */
     @Override
-    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
+    public AbstractAuthenticationToken convert(@NonNull Jwt jwt)
+    {
         Collection<GrantedAuthority> authorities = Stream.concat(
                 jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
                 extractResourceRoles(jwt).stream())
                 .collect(Collectors.toSet());
+
         return new JwtAuthenticationToken(
                 jwt,
                 authorities,
                 gerPrincipleClaimName(jwt));
     }
 
-    private String gerPrincipleClaimName(Jwt jwt) {     //we extract the "preferred_username" claim from the jwt token
+    private String gerPrincipleClaimName(Jwt jwt)
+    {     //we extract the "preferred_username" claim from the jwt token
         String claimName = JwtClaimNames.SUB; //we use the sub claim as the default claim, in case the preferred_username is not present
-        if(pricipleAttribute != null) {
-            claimName = pricipleAttribute;
+
+        if(principleAttribute != null)
+        {
+            claimName = principleAttribute;
         }
         return jwt.getClaim(claimName);
     }
@@ -68,19 +72,24 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
      * @param jwt the jwt token
      * @return the roles
      */
-    private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
+    private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt)
+    {
         Map<String, Object> resourceAccess;
+
         Map<String, Object> resource;
+
         Collection<String> resourceRoles;
         //if we don't have the resource_access claim, we return an empty collection
-        if(jwt.getClaim("resource_access") == null) {
+        if(jwt.getClaim("resource_access") == null)
+        {
             return Set.of(); //return empty collection
         }
         //if we have it, we extract it
         resourceAccess = jwt.getClaim("resource_access");
 
         //if we don't have the e-grade-book resource, we return an empty collection
-        if(resourceAccess.get(resourceId) == null) {    //resource id, which is the client id, TODO: make it so that its not embedded
+        if(resourceAccess.get(resourceId) == null)
+        {    //resource id, which is the client id, TODO: make it so that its not embedded
             return Set.of(); //return empty collection
         }
 

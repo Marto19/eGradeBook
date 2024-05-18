@@ -31,20 +31,25 @@ public class UserServiceImplementation implements UserService {
      * @return The user object that was created.
      */
     @Override
-    public User registerUser(User user) {
-        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+    public User registerUser(User user)
+    {
+        //Both checks might be redundant with validation provided from annotations
+        if (user.getEmail() == null || user.getEmail().isEmpty())
+        {
             throw new IllegalArgumentException("Email is required");
         }
-        if (user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty()) {
+        if (user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty())
+        {
             throw new IllegalArgumentException("Phone number is required");
         }
-        //if the id or the email or the phone number already exists in the database, then throw an exception
-        if(userRepository.findById(user.getId()).isPresent() == true
-                || userRepository.findByEmail(user.getEmail()).isPresent() == true
-                || userRepository.findByPhoneNumber(user.getPhoneNumber()).isPresent() == true)
-        {  //if exists in db, then say that it exists. need function in repository
+        //if the id, the email or the phone number already exist in the database, then throw an exception
+        if(userRepository.findById(user.getId()).isPresent() == true ||
+            userRepository.existsByEmail(user.getEmail()) ||
+            userRepository.existsByPhoneNumber(user.getPhoneNumber()))
+        {
             throw new EntityAlreadyExistsException("User already exists " + user.getId() + " "+ user.getEmail() + " " + user.getPhoneNumber() + " " + user.getFirstName() + " " + user.getLastName() );
         }
+
         User savedUser = userRepository.save(user); //TODO: needs refining
         //set the id of the user to the id of the user that was saved
         if (savedUser == null) {
@@ -67,15 +72,19 @@ public class UserServiceImplementation implements UserService {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
+
         Optional<User> existingUser = userRepository.findById(user.getId());
+
         if (!existingUser.isPresent()) {
             throw new EntityNotFoundException("User does not exist");
         }
+
         existingUser.get().setFirstName(user.getFirstName());
         existingUser.get().setLastName(user.getLastName());
         existingUser.get().setEmail(user.getEmail());
         existingUser.get().setPhoneNumber(user.getPhoneNumber());
         existingUser.get().setPassword(user.getPassword());
+
         userRepository.save(existingUser.get());
     }
 
@@ -87,11 +96,15 @@ public class UserServiceImplementation implements UserService {
      * @param id The id of the user that will be deleted.
      */
     @Override
-    public void deleteUser(long id) {
+    public void deleteUser(long id)
+    {
         Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
+
+        if (!user.isPresent())
+        {
             throw new EntityNotFoundException("User not found with id " + id);
         }
+
         userRepository.delete(user.get());
     }
 

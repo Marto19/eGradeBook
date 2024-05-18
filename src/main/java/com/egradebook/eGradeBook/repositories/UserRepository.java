@@ -2,19 +2,17 @@ package com.egradebook.eGradeBook.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.egradebook.eGradeBook.entities.User;
+
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long>
-{
-    Optional<User> findUsersById(long id);
+public interface UserRepository extends JpaRepository<User, Long> {
+    boolean existsById(long id);
 
-    Optional<User> findByFirstName(String username);
+    Optional<User> findById(Long id);
 
-    Optional<User> findByLastName(String username);
+    // Method to check if a user with a specific email exists
+    boolean existsByEmail(String email);
 
-    Optional<User> findByEmail(String email);
-
-    Optional<User> findByPhoneNumber(String phoneNumber);
-
-
+    // Method to check if a user with a specific phone number exists
+    boolean existsByPhoneNumber(String phoneNumber);
 }

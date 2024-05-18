@@ -9,6 +9,8 @@ import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,17 +27,16 @@ import java.util.Optional;
  */
 @Validated
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/users")
-public class UserController {
+public class UserController
+{
     private final UserService userService;
+
     private final UserRepository userRepository;
+
     private final AuthoritiesRepository authoritiesRepository;
 
-    public UserController(UserService userService, UserRepository userRepository, AuthoritiesRepository authoritiesRepository) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-        this.authoritiesRepository = authoritiesRepository;
-    }
 
     /**
      * This method is used to create a new user.
@@ -76,7 +77,8 @@ public class UserController {
     @GetMapping("/get/{id}")
     public ResponseEntity<Optional<User>> getUser(@PathVariable long id)
     {
-        Optional<User> user = userRepository.findUsersById(id);
+        Optional<User> user = userRepository.findById(id);
+
         return ResponseEntity.ok(user);
     }
 
@@ -101,7 +103,7 @@ public class UserController {
     public ResponseEntity<String> updateUser(@PathVariable Long id, @Valid @RequestBody User user)
     {
         //use find user by id to get the user
-        Optional<User> existingUser = userRepository.findUsersById(id);
+        Optional<User> existingUser = userRepository.findById(id);
         if(existingUser.isPresent())
         {
             user.setId(id); // set the id of the user to be updated
@@ -126,7 +128,7 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable long id)
     {
         //use find user by id to get the user
-        Optional<User> userOptional = userRepository.findUsersById(id);
+        Optional<User> userOptional = userRepository.findById(id);
         if(userOptional.isPresent())
         {
             userService.deleteUser(id);
