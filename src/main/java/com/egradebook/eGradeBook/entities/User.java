@@ -35,8 +35,8 @@ public class User
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Last name must contain only letters!")
     private String lastName;
 
-    @NotBlank(message = "Last name cannot be blank!")
-    @Size(max = 30, message = "Last name has to be up to 30 characters!")
+    @NotBlank(message = "Address cannot be blank!")
+    @Size(max = 30, message = "Address has to be up to 30 characters!")
     @Column(name = "address")
     @Pattern(regexp = "^[a-zA-Z0-9\\s,]+$", message = "Address must contain only letters, numbers, spaces, and commas!")
     private String address;
@@ -53,7 +53,6 @@ public class User
 
     @NotBlank(message = "Password cannot be blank!")
     @Column(name = "password")
-    @Size(max = 30, message = "Last name has to be up to 30 characters!")
     private String password;
 
     private boolean enabled;

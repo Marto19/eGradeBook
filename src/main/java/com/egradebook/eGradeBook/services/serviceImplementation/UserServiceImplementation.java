@@ -6,6 +6,8 @@ import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,6 +23,10 @@ public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     /**
      * This method is used to create a new user.
      * It checks if the email and phone number are not empty.
@@ -33,7 +39,6 @@ public class UserServiceImplementation implements UserService {
     @Override
     public User registerUser(User user)
     {
-        //Both checks might be redundant with validation provided from annotations
         if (user.getEmail() == null || user.getEmail().isEmpty())
         {
             throw new IllegalArgumentException("Email is required");
@@ -42,21 +47,23 @@ public class UserServiceImplementation implements UserService {
         {
             throw new IllegalArgumentException("Phone number is required");
         }
-        //if the id, the email or the phone number already exist in the database, then throw an exception
         if(userRepository.findById(user.getId()).isPresent() == true ||
-            userRepository.existsByEmail(user.getEmail()) ||
-            userRepository.existsByPhoneNumber(user.getPhoneNumber()))
+                userRepository.existsByEmail(user.getEmail()) ||
+                userRepository.existsByPhoneNumber(user.getPhoneNumber()))
         {
             throw new EntityAlreadyExistsException("User already exists " + user.getId() + " "+ user.getEmail() + " " + user.getPhoneNumber() + " " + user.getFirstName() + " " + user.getLastName() );
         }
 
-        User savedUser = userRepository.save(user); //TODO: needs refining
-        //set the id of the user to the id of the user that was saved
+        // Encode the password before saving the user
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        User savedUser = userRepository.save(user);
         if (savedUser == null) {
             throw new RuntimeException("User registration failed!");
         }
         return savedUser;
     }
+
 
 
     /**
