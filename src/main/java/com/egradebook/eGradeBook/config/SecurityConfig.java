@@ -41,6 +41,7 @@ public class SecurityConfig {
 //                .requestMatchers(HttpMethod.GET, "/").hasAuthority("client_user")
 //                .requestMatchers(HttpMethod.GET, "/").hasAuthority("client_admin")
                 .requestMatchers(HttpMethod.GET, "/users/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/home").permitAll()
                 .anyRequest().authenticated()
         ).oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwtCustomizer -> jwtCustomizer

@@ -1,9 +1,12 @@
 package com.egradebook.eGradeBook.controllers;
 
 import com.egradebook.eGradeBook.repositories.UserRepository;
+import com.egradebook.eGradeBook.services.KeyCloakService;
 import com.egradebook.eGradeBook.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,15 +26,27 @@ public class UserController
 
     private final UserRepository userRepository;
 
+    private final KeyCloakService keyCloakService;
+
     @GetMapping("/login")
-    public String login() {
+    public String getLoginPage() {
         return "login";
     }
 
     @PostMapping("/login")
-    public String loginProcess() {
-        return "login";
+    public String login(@RequestParam("username") String username,
+                        @RequestParam("password") String password,
+                        Model model)
+    {
+        try
+        {
+            String token = keyCloakService.authenticate(username, password);
+            model.addAttribute("token", token);
+            return "home";
+        } catch (Exception e)
+        {
+            model.addAttribute("loginError", true);
+            return "login";
+        }
     }
-
-
 }
