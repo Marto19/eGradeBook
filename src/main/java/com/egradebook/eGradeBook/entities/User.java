@@ -18,6 +18,7 @@ import lombok.experimental.SuperBuilder;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User
 {
+    // User details
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,16 +51,6 @@ public class User
     @Column(name = "phone_number")
     @Pattern(regexp = "^[0-9]+$", message = "Phone number must contain only digits!")
     private String phoneNumber;
-
-    @NotBlank(message = "Password cannot be blank!")
-    @Column(name = "password")
-    private String password;
-
-    private boolean enabled;
-
-    @ManyToOne
-    @JoinColumn(name = "authorities_id")
-    private Authorities authorities;
 
     @Override
     public String toString() {

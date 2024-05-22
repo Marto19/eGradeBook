@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/demo")
 public class DemoSecurityController {
-    @GetMapping
+
+    @GetMapping("/hello")
     @PreAuthorize("hasRole('client_user')") //IMPORTANT: This is the role that we have defined in the Keycloak server - the client roles
     public String hello() {
         return "Hello, security!";
@@ -19,6 +20,5 @@ public class DemoSecurityController {
     public String hello2() {
         return "Hello, security - ADMIN!";
     }
-
 
 }
