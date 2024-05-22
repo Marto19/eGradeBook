@@ -19,7 +19,7 @@ public class KeyCloakService
     @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
     private String tokenUri;
 
-    @Value("${jwt.auth.converter.resource-id= e-grade-boo}")
+    @Value("${spring.security.oauth2.client.registration.keycloak.client-id}")
     private String clientId;
 
     @Value("${spring.security.oauth2.client.registration.keycloak.client-secret}")

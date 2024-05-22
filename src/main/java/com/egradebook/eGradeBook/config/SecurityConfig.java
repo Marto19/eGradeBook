@@ -1,6 +1,5 @@
 package com.egradebook.eGradeBook.config;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity( securedEnabled = true )
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
@@ -26,7 +25,6 @@ public class SecurityConfig {
         return JwtDecoders.fromIssuerLocation(issuerUri);
     }
 
-
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
@@ -34,19 +32,15 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authz -> authz
-//                .requestMatchers(HttpMethod.GET, "/").hasAuthority("client_user")
-//                .requestMatchers(HttpMethod.GET, "/").hasAuthority("client_admin")
                 .requestMatchers(HttpMethod.GET, "/users/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/home").permitAll()
+                .requestMatchers(HttpMethod.GET, "/home").permitAll()
                 .anyRequest().authenticated()
         ).oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwtCustomizer -> jwtCustomizer
                         .jwtAuthenticationConverter(jwtAuthenticationConverter())));
-
         return http.build();
     }
 }
