@@ -4,7 +4,6 @@ import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.KeyCloakService;
 import com.egradebook.eGradeBook.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController
 {
+    /*
     private final UserService userService;
 
     private final UserRepository userRepository;
@@ -49,4 +49,6 @@ public class UserController
             return "login";
         }
     }
+
+     */
 }
