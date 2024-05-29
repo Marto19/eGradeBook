@@ -16,7 +16,7 @@ public class KeycloakAuthorityConverter implements Converter<Jwt, Collection<Gra
     @Override
     public Collection<GrantedAuthority> convert(Jwt source) {
 
-        Map<String, Object> realm = (Map<String, Object>) source.getClaim("realm_access");
+        Map<String, Object> realm = (Map<String, Object>) source.getClaims().get("realm_access");
         if (realm == null || realm.isEmpty()) {
             return new ArrayList();
         }
@@ -26,6 +26,5 @@ public class KeycloakAuthorityConverter implements Converter<Jwt, Collection<Gra
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
         return authorities;
-
     }
 }
