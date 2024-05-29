@@ -16,13 +16,14 @@ public class PageController
         return "home";
     }
 
+
+    // TODO Tova sme go komentirali pojene Jwt e NULL i Thymeleaf template ne se renderva
 //    @GetMapping("/")
 //    public String index(@AuthenticationPrincipal Jwt jwt, Model model) {
 //        model.addAttribute("jwt", jwt);
 //        return "home";
 //    }
 
-//    String.format("Hello, %s!", jwt.getSubject());
 
     @GetMapping("/external")
     public String users()
