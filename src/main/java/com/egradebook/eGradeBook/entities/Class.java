@@ -19,14 +19,14 @@ public class Class
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private School schoolId;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "class_number")
     private ClassGradeNumberCatalog classGradeNumber;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "class_letter")
     private ClassLetterCatalog classLetterCatalog;
 

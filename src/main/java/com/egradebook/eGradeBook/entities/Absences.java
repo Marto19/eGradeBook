@@ -24,10 +24,10 @@ public class Absences
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Student studentId;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Subject subjectId;
 
     @NotNull

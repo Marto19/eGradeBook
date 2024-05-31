@@ -16,15 +16,15 @@ public class Grade
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private GradeCatalog grade;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Subject subjectId;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Student studentId;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Teacher teacherId;
 }
