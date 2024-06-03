@@ -7,11 +7,13 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
-@Getter
-@Setter
+@Getter @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
@@ -21,18 +23,19 @@ public class User
     // User details
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank(message = "First name cannot be blank!")
     @Size(max = 30, message = "First name has to be up to 30 characters!")
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false, length = 50)
     @Pattern(regexp = "^[a-zA-Z]+$", message = "First name must contain only letters!")
     private String firstName;
 
     @NotBlank(message = "Last name cannot be blank!")
     @Size(max = 30, message = "Last name has to be up to 30 characters!")
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false, length = 50)
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Last name must contain only letters!")
     private String lastName;
 
@@ -47,19 +50,18 @@ public class User
     @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]{1,8}$", message = "Invalid email address!")
     private String email;   //email associated with the user with the account
 
+    @Column(name = "user_password_hash", nullable = false, length = 60)
+    private String passwordHash;
+
     @Size(max = 10, message = "Phone number has to be up to 10 digits!")
     @Column(name = "phone_number")
     @Pattern(regexp = "^[0-9]+$", message = "Phone number must contain only digits!")
     private String phoneNumber;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
+    @Column(name = "user_enabled", nullable = false, columnDefinition = "tinyint(1) default false")
+    private Boolean enabled;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Role> roles;
+
 }

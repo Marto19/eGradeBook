@@ -17,6 +17,7 @@ public class PageController
     }
 
 
+
     // TODO Tova sme go komentirali pojene Jwt e NULL i Thymeleaf template ne se renderva
 //    @GetMapping("/")
 //    public String index(@AuthenticationPrincipal Jwt jwt, Model model) {
