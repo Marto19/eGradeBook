@@ -1,6 +1,4 @@
 package com.egradebook.eGradeBook.controllers;
-
-import com.egradebook.eGradeBook.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -12,14 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HomeController {
 
-    private UserService userService;
-
-    // TODO Exception evaluating SpringEL expression: "user.username"
-    // TODO Currently using EMAIL as USERNAME
-
     @GetMapping("/home")
-    public String showHomePage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        model.addAttribute("user", userDetails);
+    public String showHomePage(@AuthenticationPrincipal UserDetails authUser, Model model) {
+        model.addAttribute("authUser", authUser);
         return "home";
     }
 
