@@ -17,24 +17,15 @@ public class HomeController {
     // TODO Exception evaluating SpringEL expression: "user.username"
     // TODO Currently using EMAIL as USERNAME
 
-    @GetMapping("/")
-    public String showHomePage()
-    {
-        return "home";
-    }
-
-    /*
     @GetMapping("/home")
     public String showHomePage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         model.addAttribute("user", userDetails);
         return "home";
     }
-     */
-    @GetMapping("/login")
-    public String showLoginPage()
-    {
-        return "login";
-    }
 
+    @GetMapping("/admin")
+    public String showAdminPage() {
+        return "admin";
+    }
 
 }
