@@ -2,6 +2,10 @@ package com.egradebook.eGradeBook.services.serviceImplementation;
 
 import com.egradebook.eGradeBook.DTOs.AuthUserDTO;
 import com.egradebook.eGradeBook.DTOs.RoleDTO;
+import com.egradebook.eGradeBook.DTOs.UserDTO;
+import com.egradebook.eGradeBook.entities.Role;
+import com.egradebook.eGradeBook.entities.User;
+import com.egradebook.eGradeBook.exceptions.InvalidRoleException;
 import com.egradebook.eGradeBook.repositories.RoleRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.UserService;
@@ -11,9 +15,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,31 +30,48 @@ import java.util.stream.Collectors;
  * The methods include creating, updating, and deleting users.
  */
 @Service
-public class UserServiceImpl implements UserService {
-
+@AllArgsConstructor
+public class UserServiceImpl implements UserService
+{
     private final UserRepository userRepository;
+
     private final RoleRepository roleRepository;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
-
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public AuthUserDTO findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public AuthUserDTO findByEmail(String email)
+    {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
     }
+
+    @Override
+    public void createUser(UserDTO userDto)
+    {
+        User newUser = User.builder()
+                .firstName(userDto.getFirstName())
+                .lastName(userDto.getLastName())
+                .email(userDto.getEmail())
+                .passwordHash(passwordEncoder.encode(userDto.getPasswordHash()))
+                .address(userDto.getAddress())
+                .phoneNumber(userDto.getPhoneNumber())
+                .enabled(true)
+                .build();
+
+        Role userRole = roleRepository.findByName("user")
+                .orElseThrow(() -> new InvalidRoleException("Role not found"));
+
+        newUser.setRoles(Set.of(userRole));
+
+        userRepository.save(newUser);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        AuthUserDTO authUserDTO = userRepository.findByEmail(email);
-
-        if (authUserDTO == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
+        AuthUserDTO authUserDTO = findByEmail(email);
 
         return new org.springframework.security.core.userdetails.User(
                 authUserDTO.getEmail(),

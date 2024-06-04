@@ -1,44 +1,43 @@
 package com.egradebook.eGradeBook.config;
 
-import com.egradebook.eGradeBook.services.UserService;
-import com.egradebook.eGradeBook.services.serviceImplementation.UserServiceImpl;
+
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-public class SecurityConfiguration {
+@EnableWebSecurity
+@AllArgsConstructor
+public class SecurityConfiguration
+{
+    private final DaoAuthenticationProvider authenticationProvider;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
+    {
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserService userService) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests((authorize) -> authorize
-
+         return http.authorizeRequests((authorize) -> authorize
+                        .requestMatchers(HttpMethod.GET, "/", "/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin").hasAuthority("admin")
-                        .requestMatchers(HttpMethod.GET, "/").hasAuthority("user")
                         .anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults());
-
-
-        return http.build();
+                .formLogin(form -> form
+                        .loginPage("/login").permitAll()
+                        .loginProcessingUrl("/perform_login")
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/login?error=true")
+                        .usernameParameter("email")
+                        .passwordParameter("password"))
+                .logout(logout -> logout
+                        .permitAll()
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login"))
+                 .authenticationProvider(authenticationProvider)
+                .build();
     }
-
 }
