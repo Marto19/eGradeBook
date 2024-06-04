@@ -10,22 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-public class HomeController {
+public class PageController {
 
     private UserService userService;
-
-    // TODO Exception evaluating SpringEL expression: "user.username"
-    // TODO Currently using EMAIL as USERNAME
-
-    @GetMapping("/home")
-    public String showHomePage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        model.addAttribute("user", userDetails);
+    @GetMapping("/")
+    public String showHomePage()
+    {
         return "home";
     }
 
-    @GetMapping("/admin")
-    public String showAdminPage() {
-        return "admin";
+    @GetMapping("/login")
+    public String showLoginPage()
+    {
+        return "login";
     }
+
 
 }
