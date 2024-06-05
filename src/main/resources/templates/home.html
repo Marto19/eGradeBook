@@ -1,14 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Home - eGradeBook</title>
+<html lang="en">
+<head th:insert="fragments/header-files.html :: header-files('Home Page')">
 </head>
 <body>
-<div>
-    <div>
-        <h2>Welcome to eGradeBook</h2>
-        <p>This is the home page content.</p>
-    </div>
-</div>
+<header th:insert="fragments/header.html :: header"></header>
 </body>
+<footer th:insert="fragments/footer.html :: footer"></footer>
 </html>
