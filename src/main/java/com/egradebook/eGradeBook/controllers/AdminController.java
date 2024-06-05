@@ -1,6 +1,6 @@
 package com.egradebook.eGradeBook.controllers;
 
-import com.egradebook.eGradeBook.DTOs.UserDTO;
+import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class AdminController
     @GetMapping("/create-user")
     public String showCreateUserPage(Model model) {
         model.addAttribute("user", new UserDTO());
-        return "create-user";
+        return "/sisu/create-user";
     }
 
     @PostMapping("/create-user")
@@ -35,6 +35,6 @@ public class AdminController
         {
             model.addAttribute("errorMessage", "Error creating user: " + e.getMessage());
         }
-        return "create-user";
+        return "/sisu/create-user";
     }
 }

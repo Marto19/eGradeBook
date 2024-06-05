@@ -1,6 +1,6 @@
 package com.egradebook.eGradeBook.repositories;
 
-import com.egradebook.eGradeBook.DTOs.AuthUserDTO;
+import com.egradebook.eGradeBook.DTOs.user.AuthUserDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.egradebook.eGradeBook.entities.User;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByPhoneNumber(String phoneNumber);
 
     // Returns AuthUserDTO without Roles<Set>
-    @Query("SELECT new com.egradebook.eGradeBook.DTOs.AuthUserDTO(u.id, u.email, u.firstName, u.lastName, u.passwordHash, u.enabled) FROM User u WHERE u.email = :email")
+    @Query("SELECT new com.egradebook.eGradeBook.DTOs.user.AuthUserDTO(u.id, u.email, u.firstName, u.lastName, u.passwordHash, u.enabled) FROM User u WHERE u.email = :email")
     Optional<AuthUserDTO> findByEmail(@Param("email") String email);
 }

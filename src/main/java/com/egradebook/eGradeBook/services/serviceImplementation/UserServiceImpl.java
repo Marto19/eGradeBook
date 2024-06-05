@@ -1,8 +1,8 @@
 package com.egradebook.eGradeBook.services.serviceImplementation;
 
-import com.egradebook.eGradeBook.DTOs.AuthUserDTO;
+import com.egradebook.eGradeBook.DTOs.user.AuthUserDTO;
 import com.egradebook.eGradeBook.DTOs.RoleDTO;
-import com.egradebook.eGradeBook.DTOs.UserDTO;
+import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.Role;
 import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.exceptions.InvalidRoleException;
@@ -10,17 +10,14 @@ import com.egradebook.eGradeBook.repositories.RoleRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -59,6 +56,8 @@ public class UserServiceImpl implements UserService
                 .enabled(true)
                 .build();
 
+
+        // TODO Roles are not being set
         Role userRole = roleRepository.findByName("user")
                 .orElseThrow(() -> new InvalidRoleException("Role not found"));
 

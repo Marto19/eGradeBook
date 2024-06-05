@@ -14,16 +14,19 @@ public class PageController {
 
     private UserService userService;
     @GetMapping("/")
-    public String showHomePage()
+    public String showHomePage(@AuthenticationPrincipal UserDetails user, Model model)
     {
+        model.addAttribute("user", user);
         return "home";
     }
 
     @GetMapping("/login")
     public String showLoginPage()
     {
-        return "login";
+        return "/sisu/login";
     }
 
+    @GetMapping("/admin")
+    public String showAdminpage() { return "admin"; }
 
 }

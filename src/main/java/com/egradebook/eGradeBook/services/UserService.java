@@ -1,7 +1,7 @@
 package com.egradebook.eGradeBook.services;
 
-import com.egradebook.eGradeBook.DTOs.AuthUserDTO;
-import com.egradebook.eGradeBook.DTOs.UserDTO;
+import com.egradebook.eGradeBook.DTOs.user.AuthUserDTO;
+import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 

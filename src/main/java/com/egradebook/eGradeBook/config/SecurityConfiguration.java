@@ -23,8 +23,7 @@ public class SecurityConfiguration
     {
 
          return http.authorizeRequests((authorize) -> authorize
-                        .requestMatchers(HttpMethod.GET, "/", "/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/admin").hasAuthority("admin")
+                        .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority("admin")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
