@@ -18,9 +18,6 @@ public class AdminController
     private final UserService userService;
 
 
-
-
-
     @GetMapping("/create-user")
     public String showCreateUserPage(Model model) {
         model.addAttribute("user", new UserDTO());
@@ -39,6 +36,6 @@ public class AdminController
         {
             model.addAttribute("errorMessage", "Error creating user: " + e.getMessage());
         }
-        return "sisu/create-user";
+        return "/admin";
     }
 }

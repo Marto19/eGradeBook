@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void createUser(UserDTO userDto)
+    public void createUser(UserDTO userDto) throws InvalidRoleException
     {
         User newUser = User.builder()
                 .firstName(userDto.getFirstName())
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService
                 .enabled(true)
                 .build();
 
-        Role userRole = roleRepository.findByName("user")
+        Role userRole = roleRepository.findByName("student")
                 .orElseThrow(() -> new InvalidRoleException("Role not found"));
 
         newUser.setRoles(Set.of(userRole));
