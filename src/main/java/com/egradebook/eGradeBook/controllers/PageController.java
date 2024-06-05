@@ -25,5 +25,11 @@ public class PageController {
         return "/sisu/login";
     }
 
+    @GetMapping("/admin")
+    public String showAdminPage()
+    {
+        return "admin";
+    }
+
 
 }
