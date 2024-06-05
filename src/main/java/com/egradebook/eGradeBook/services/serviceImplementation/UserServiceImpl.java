@@ -56,8 +56,6 @@ public class UserServiceImpl implements UserService
                 .enabled(true)
                 .build();
 
-
-        // TODO Roles are not being set
         Role userRole = roleRepository.findByName("user")
                 .orElseThrow(() -> new InvalidRoleException("Role not found"));
 

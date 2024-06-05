@@ -59,7 +59,11 @@ public class User
     @Column(name = "user_enabled", nullable = false, columnDefinition = "tinyint(1) default false")
     private Boolean enabled;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
+    @JoinTable(
+            name = "user_has_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
 }
