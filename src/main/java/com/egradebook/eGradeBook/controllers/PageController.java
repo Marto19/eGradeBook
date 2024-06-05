@@ -14,9 +14,8 @@ public class PageController {
 
     private UserService userService;
     @GetMapping("/")
-    public String showHomePage(@AuthenticationPrincipal UserDetails user, Model model)
+    public String showHomePage()
     {
-        model.addAttribute("user", user);
         return "home";
     }
 
@@ -26,7 +25,5 @@ public class PageController {
         return "/sisu/login";
     }
 
-    @GetMapping("/admin")
-    public String showAdminpage() { return "admin"; }
 
 }

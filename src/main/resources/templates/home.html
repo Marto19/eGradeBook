@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <title>Home - eGradeBook</title>
 </head>
 <body>
-        <h1>Hello</h1>
-
-        <h3 th:text="${user.username}"></h3>
-
-        <tr th:each="role: ${user.getAuthorities()}">
-            <td th:text="${role.authority}"></td>
-        </tr>
-
-<!--        <h1 th:text="${jwt.getSubject()}">Hello</h1>-->
-
-
+<div>
+    <div>
+        <h2>Welcome to eGradeBook</h2>
+        <p>This is the home page content.</p>
+    </div>
+</div>
 </body>
 </html>

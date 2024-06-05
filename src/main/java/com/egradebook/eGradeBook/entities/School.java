@@ -37,7 +37,6 @@ public class School
     @OneToMany
     private Set<Teacher> teachers;
 
-    //DA PITAME DALI E NUJNO IMAIKI PREDVID CHE IMAME VRUZKA PREZ STUDENT
     @OneToMany
     private Set<Class> classes;
 }
