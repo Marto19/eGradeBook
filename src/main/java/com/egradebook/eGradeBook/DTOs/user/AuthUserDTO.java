@@ -11,14 +11,21 @@ import java.util.Set;
 @ToString
 @Getter @Setter
 @AllArgsConstructor
-public class AuthUserDTO {
+public class AuthUserDTO
+{
 
     private Long id;
+
     private String email;
+
     private String firstName;
+
     private String lastName;
+
     private String passwordHash;
+
     private Boolean enabled;
+
     private Set<Role> authorities;
 
     public AuthUserDTO(Long id, String email, String firstName, String lastName, String passwordHash, Boolean enabled) {
