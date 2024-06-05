@@ -48,7 +48,7 @@ public class User
     @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]{1,8}$", message = "Invalid email address!")
     private String email;   //email associated with the user with the account
 
-    @Column(name = "user_password_hash", nullable = false, length = 60)
+    @Column(name = "user_password_hash", nullable = false, length = 62)
     private String passwordHash;
 
     @Size(max = 10, message = "Phone number has to be up to 10 digits!")
