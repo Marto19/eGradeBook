@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html lang="en" layout:decorate="~{fragments/main_layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head th:insert="~{fragments/header-files.html :: header-files('Create Class Grade Number Catalog')}"></head>
+<!-- ... rest of the HTML code ... -->
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container">
+    <div class="form-box">
+        <h2>Create New Class Grade Number Catalog</h2>
+        <form th:action="@{/class-grade-number-catalog/create}" method="post">
+            <div class="form-group">
+                <label for="cgNumber">Class Grade Number</label>
+                <input type="number" id="cgNumber" name="cgNumber" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Add Class Grade Number Catalog</button>
+        </form>
+        <a class="mt-2 mb-2" th:href="@{/class-grade-number-catalog}">Back to class grade number catalog</a>
+    </div>
+</div>
+</body>
+</html>
+```
