@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html lang="en" layout:decorate="~{fragments/main_layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
+<head th:insert="~{fragments/header-files.html :: header-files('Create Principal')}"></head>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #e5e5f7;
+            /*background-color: #e5e5f7;*/
             opacity: 0.8;
         }
 
@@ -42,7 +42,7 @@
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 10px;
         }
 
         .btn-primary {
@@ -50,7 +50,7 @@
             background-color: #318b21;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
         }
 
@@ -60,6 +60,7 @@
     </style>
 </head>
 <body>
+<header th:insert="~{fragments/header.html :: header}"></header>
 <div class="container">
     <div class="form-box">
         <h2>Edit School</h2>

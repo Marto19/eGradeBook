@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html lang="en" layout:decorate="~{fragments/main_layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
+<head th:insert="~{fragments/header-files.html :: header-files('Create Principal')}"></head>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #e5e5f7;
+            /*background-color: #e5e5f7;*/
+
             opacity: 0.8;
         }
 
@@ -63,7 +64,8 @@
 
         .btn-link {
             padding: 10px;
-            background-color: #318b21;
+            /*background-color: #318b21;*/
+            /*border-color:  #318b21;*/
             color: #fff;
             border: none;
             cursor: pointer;
@@ -74,23 +76,26 @@
         }
 
         .btn-link:hover{
-            background-color: #64ae57;
+            /*background-color: #64ae57;*/
+            border-color: #64ae57;
             text-decoration: none;
         }
 
         .btn-link2 {
             padding: 10px;
-            background-color: #b30a0a;
+            /*background-color: #b30a0a;*/
             color: #fff;
-            border: none;
+            border: 3px solid #b30a0a;
             cursor: pointer;
             border-radius: 10px;
             margin-right: 10px;
             text-decoration: none;
+            color: white;
         }
 
         .btn-link2:hover{
-            background-color: #c15c5c;
+            /*background-color: #c15c5c;*/
+            border: 3px solid #c15c5c;
             text-decoration: none;
         }
 
@@ -100,6 +105,7 @@
     </style>
 </head>
 <body>
+<header th:insert="~{fragments/header.html :: header}"></header>
 <div class="container">
     <h1 class="my-4">School Management</h1>
     <div class="row">
@@ -147,12 +153,5 @@
         </div>
     </div>
 </div>
-<script>
-    function confirmDelete(id) {
-        if (confirm("Are you sure you want to delete this record?")) {
-            window.location.href = '/school/delete/' + id;
-        }
-    }
-</script>
 </body>
 </html>
