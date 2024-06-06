@@ -28,22 +28,18 @@
                             <th>ID</th>
                             <th>First name</th>
                             <th>Last Name</th>
-                            <th>School</th>
                             <th>Phone number</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="principalDTO : ${principleDTOList}">
+                        <tr th:each="principalDTO : ${principalDTOList}">
                             <td th:text="${principalDTO.getId()}"></td>
                             <td th:text="${principalDTO.getFirstName()}"></td>
                             <td th:text="${principalDTO.getLastName()}"></td>
-                            <td th:text="${principalDTO.getSchool().getName()}"></td>
                             <td th:text="${principalDTO.getPhoneNumber()}"></td>
                             <td>
-                                <a type="button" th:href="@{/principal/edit/{schoolId}(schoolId=${principalDTO.getSchool().getId()})}" class="btn btn-link text-primary">
-                                    <i class="fas fa-edit"></i> Edit </a>
-                                <a type="button" th:href="@{/principal/delete/{schoolId}(schoolId=${principalDTO.getSchool().getId()})}" class="btn btn-link text-danger">Delete <i class="fas fa-trash"></i>
+                                <a type="button" th:href="@{/principal/delete/{principalId}(principalId=${principalDTO.getId()})}" class="btn btn-link text-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                         </tr>

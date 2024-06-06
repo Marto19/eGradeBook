@@ -1,4 +1,4 @@
-package com.egradebook.eGradeBook.DTOs.principle;
+package com.egradebook.eGradeBook.DTOs.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,10 +10,12 @@ import lombok.ToString;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrincipalDTO {
+public class UserDTO {
 
     private Long id;
     private String firstName;
     private String lastName;
+    private String email;
+    private String address;
     private String phoneNumber;
 }
