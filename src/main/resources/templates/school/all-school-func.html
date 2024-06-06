@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html lang="en" layout:decorate="~{fragments/main_layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e5e5f7;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card, .form-box {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: #f7f7f7;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card-title {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .btn-primary {
+            background-color: #318b21;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        .table th, .table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-box h2, .card h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card" th:if="${view == 'list'}">
+        <div class="card-header">
+            <h2>School Management</h2>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <a th:href="@{/school?view=create}" class="btn btn-primary mb-2">
+                <i class="fas fa-plus"></i> Add School </a>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="schoolDTO : ${schoolDTOList}">
+                    <td th:text="${schoolDTO.getId()}"></td>
+                    <td th:text="${schoolDTO.getName()}"></td>
+                    <td th:text="${schoolDTO.getAddress()}"></td>
+                    <td>
+                        <a type="button" th:href="@{/school?view=edit&id={id}(id=${schoolDTO.getId()})}" class="btn btn-link text-primary">
+                            <i class="fas fa-edit"></i> Edit </a>
+                        <a type="button" th:href="@{/school/delete/{id}(id=${schoolDTO.getId()})}" class="btn btn-link text-danger">
+                            Delete <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-box" th:if="${view == 'create'}">
+        <h2>Create New School</h2>
+        <form th:action="@{/school/save}" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Add School</button>
+        </form>
+    </div>
+
+    <div class="form-box" th:if="${view == 'edit'}">
+        <h2>Edit School</h2>
+        <form th:action="@{/school/edit}" method="post">
+            <input type="hidden" name="id" th:value="${schoolDTO.getId()}" />
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" th:value="${schoolDTO.getName()}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" th:value="${schoolDTO.getAddress()}" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Update</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -15,5 +15,4 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
             "s.id, s.name, s.address) " +
             "FROM School s")
     List<SchoolDTO> getAllSchools();
-
 }
