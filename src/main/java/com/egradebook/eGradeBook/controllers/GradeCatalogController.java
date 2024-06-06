@@ -68,8 +68,6 @@ public class GradeCatalogController {
 
         if (gradeCatalog != null) {
             gradeCatalogRepository.delete(gradeCatalog);
-        } else {
-            // TODO Handle null
         }
 
         return "redirect:/grade-catalog";

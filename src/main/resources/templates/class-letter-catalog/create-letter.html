@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Letter Catalog Administrator UI')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Create new letter</h2>
+    <form th:action="@{/letter-catalog/create}" method="post">
+        <div class="form-group">
+            <label for="catalog">Letter sign/number</label>
+            <input type="text" id="catalog" name="letterSign" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Add Letter</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/letter-catalog}">Back to grade catalog</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>
