@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Create Principal')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Create New Principal</h2>
+    <form th:action="@{/principal/save}" method="post">
+        <div class="form-group">
+            <label for="school">School</label>
+            <select class="form-control" id="school" name="schoolId" required>
+                <option value="" disabled selected>Select a school</option>
+                <option th:each="school : ${schoolDTOList}" th:value="${school.id}" th:text="${school.name}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="principal">Principal</label>
+            <select class="form-control" id="principal" name="principalId" required>
+                <option value="" disabled selected>Select a principal</option>
+                <option th:each="principalDTO : ${principalDTOList}" th:value="${principalDTO.id}" th:text="${principalDTO.firstName + ' ' + principalDTO.lastName}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Add Principal</button>
+    </form>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>
