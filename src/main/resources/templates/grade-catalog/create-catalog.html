@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Grade Catalog Administrator UI')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Create new grade</h2>
+    <form th:action="@{/grade-catalog/create}" method="post">
+        <div class="form-group">
+            <label for="catalog">Grade sign/number</label>
+            <input type="text" id="catalog" name="gradeSign" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Add Grade</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/grade-catalog}">Back to grade catalog</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{fragments/header-files.html :: header-files('Grade Catalog Administrator UI')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container">
+    <h1 class="my-4">Grade Catalog Management</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Grade Catalog</h5>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <a th:href="@{/grade-catalog/create}" class="btn btn-primary mb-2">
+                        <i class="fas fa-plus"></i>Add Grade</a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Sign</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="grade : ${gradeCatalogs}">
+                            <td th:text="${grade.getId()}"></td>
+                            <td th:text="${grade.getGradeNumber()}"></td>
+                            <td>
+                                <a type="button" th:href="@{/grade-catalog/edit/{gradeId}(gradeId=${grade.getId()})}" class="btn btn-link text-primary">
+                                    <i class="fas fa-edit"></i> Edit </a>
+                                <a type="button" th:href="@{/grade-catalog/delete/{gradeId}(gradeId=${grade.getId()})}" class="btn btn-link text-danger" onclick="return confirm('Are you sure you want to delete this school record?');">Delete <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</html>
