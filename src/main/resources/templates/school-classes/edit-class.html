@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Edit Class')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Edit school class</h2>
+    <form th:action="@{/school-classes/edit}" method="post">
+        <input type="hidden" name="classId" th:value="${editClass.getId()}" />
+        <div class="form-group">
+            <label for="school">School</label>
+            <input type="text" id="school" name="schoolId" th:value="${editClass.getSchoolId().getName()}" class="form-control" disabled>
+        </div>
+        <div class="form-group">
+            <label for="gradeCatalog">Grade</label>
+            <select class="form-control" id="gradeCatalog" name="gradeId" required>
+                <option value="" disabled selected>Select a grade</option>
+                <option th:each="grade : ${classGradeNumberCatalog}"
+                        th:value="${grade.getId()}"
+                        th:text="${grade.getCgNumber()}"
+                        th:selected="${grade.getCgNumber()}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="letterCatalog">Letter</label>
+            <select class="form-control" id="letterCatalog" name="letterId" required>
+                <option value="" disabled selected>Select a letter</option>
+                <option th:each="letter : ${classLetterCatalog}"
+                        th:value="${letter.getId()}"
+                        th:text="${letter.getCLetter()}"
+                        th:selected="${letter.getCLetter()}">
+                </option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Update</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/school-classes}">Back to classes list</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>

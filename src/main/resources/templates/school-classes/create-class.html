@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Create Class')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Create New Class</h2>
+    <form th:action="@{/school-classes/create}" method="post">
+        <div class="form-group">
+            <label for="schoolDTO">Schools</label>
+            <select class="form-control" id="schoolDTO" name="schoolId" required>
+                <option value="" disabled selected>Select a school</option>
+                <option th:each="school : ${schoolDTOList}" th:value="${school.getId()}" th:text="${school.getName()}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="classGrade">Class grade</label>
+            <select class="form-control" id="classGrade" name="gradeId" required>
+                <option value="" disabled selected>Select a grade</option>
+                <option th:each="grade : ${classGradeNumberCatalog}" th:value="${grade.getId()}" th:text="${grade.getCgNumber()}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="classLetter">Class letter</label>
+            <select class="form-control" id="classLetter" name="letterId" required>
+                <option value="" disabled selected>Select a letter</option>
+                <option th:each="letter : ${classLetterCatalog}" th:value="${letter.getId()}" th:text="${letter.getCLetter()}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Add Class</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/school-classes}">Back to class list</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>

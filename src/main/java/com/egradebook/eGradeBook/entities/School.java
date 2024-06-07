@@ -9,11 +9,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "schools")
-@Getter
-@Setter
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class School
 {
     @Id
@@ -39,4 +39,5 @@ public class School
 
     @OneToMany
     private Set<Class> classes;
+
 }
