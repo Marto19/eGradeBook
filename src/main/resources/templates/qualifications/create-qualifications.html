@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en" layout:decorate="~{fragments/main_layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head th:insert="~{fragments/header-files.html :: header-files('Create Qualification')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container">
+    <div class="form-box">
+        <h2>Create New Qualification</h2>
+        <form th:action="@{/qualifications/create}" method="post">
+            <div class="form-group">
+                <label for="signature">Signature</label>
+                <input type="text" id="signature" name="signature" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Add Qualification</button>
+        </form>
+        <a class="mt-2 mb-2" th:href="@{/qualifications}">Back to qualifications</a>
+    </div>
+</div>
+</body>
+</html>
