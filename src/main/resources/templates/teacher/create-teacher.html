@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Create Teacher')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Create New Teacher</h2>
+    <form th:action="@{/teacher/create}" method="post">
+        <div class="form-group">
+            <label for="userDTO">Users</label>
+            <select class="form-control" id="userDTO" name="userId" required>
+                <option value="" disabled selected>Select a user</option>
+                <option th:each="userDTO : ${userDTOList}" th:value="${userDTO.getId()}" th:text="${userDTO.getFirstName()} + ' ' + ${userDTO.getLastName()} + ', ' + ${userDTO.getPhoneNumber()}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Add Teacher</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/teacher}">Back to teacher list</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>
