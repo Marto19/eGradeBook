@@ -3,17 +3,15 @@ package com.egradebook.eGradeBook.controllers;
 import com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO;
 import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.Principal;
+import com.egradebook.eGradeBook.entities.Qualification;
 import com.egradebook.eGradeBook.entities.Teacher;
 import com.egradebook.eGradeBook.entities.User;
+import com.egradebook.eGradeBook.repositories.QualificationsRepository;
 import com.egradebook.eGradeBook.repositories.TeacherRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,10 +21,12 @@ public class TeacherController {
 
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
+    private final QualificationsRepository qualificationsRepository;
 
-    public TeacherController(TeacherRepository teacherRepository, UserRepository userRepository) {
+    public TeacherController(TeacherRepository teacherRepository, UserRepository userRepository, QualificationsRepository qualificationsRepository) {
         this.teacherRepository = teacherRepository;
         this.userRepository = userRepository;
+        this.qualificationsRepository = qualificationsRepository;
     }
 
     @GetMapping
@@ -75,4 +75,25 @@ public class TeacherController {
 
         return "redirect:/teacher";
     }
+
+    @GetMapping("/edit")
+    public String showEditTeacherForm(Model model) {
+        model.addAttribute("teachers", teacherRepository.findAll());
+        model.addAttribute("qualifications", qualificationsRepository.findAll());
+        return "teacher/edit-teacher";
+    }
+
+    @PostMapping("/save")
+    public String saveTeacher(@RequestParam Long teacherId, @RequestParam Long qualificationId) {
+        Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
+        Qualification qualification = qualificationsRepository.findById(qualificationId).orElse(null);
+
+        if (teacher != null && qualification != null) {
+            teacher.getQualificationSet().add(qualification);
+            teacherRepository.save(teacher);
+        }
+
+        return "redirect:/teacher";
+    }
+
 }
