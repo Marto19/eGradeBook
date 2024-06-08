@@ -4,6 +4,7 @@ import com.egradebook.eGradeBook.DTOs.user.AuthUserDTO;
 import com.egradebook.eGradeBook.DTOs.RoleDTO;
 import com.egradebook.eGradeBook.DTOs.user.CreateUserDTO;
 import com.egradebook.eGradeBook.DTOs.user.UpdateUserDTO;
+import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.Role;
 import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.exceptions.EntityAlreadyExistsException;
@@ -150,5 +151,10 @@ public class UserServiceImpl implements UserService
         return authorities.stream().map((authority) -> new
                 SimpleGrantedAuthority(authority.getName())).collect(Collectors.toSet());
 
+    }
+
+    @Override
+    public List<UserDTO> getAllUsersDto() {
+        return userRepository.findAllUserDTO();
     }
 }

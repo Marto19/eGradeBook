@@ -1,7 +1,6 @@
 package com.egradebook.eGradeBook.controllers;
 
 import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
-import com.egradebook.eGradeBook.entities.Principal;
 import com.egradebook.eGradeBook.entities.School;
 import com.egradebook.eGradeBook.repositories.PrincipalRepository;
 import com.egradebook.eGradeBook.repositories.SchoolRepository;
@@ -27,7 +26,7 @@ public class SchoolController {
 
     @GetMapping
     public String getAllSchools(Model model) {
-        List<SchoolDTO> schoolDTOList = schoolRepository.getAllSchools();
+        List<SchoolDTO> schoolDTOList = schoolRepository.getAllSchoolsDto();
         model.addAttribute("schoolDTOList", schoolDTOList);
         return "school/list-school";
     }

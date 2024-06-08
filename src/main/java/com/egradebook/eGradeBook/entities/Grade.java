@@ -3,13 +3,15 @@ package com.egradebook.eGradeBook.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "grades")
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
+@Entity
+@Table(name = "grades")
 public class Grade
 {
     @Id

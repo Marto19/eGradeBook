@@ -9,15 +9,17 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
+
 @Getter @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+
+@Entity
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User
 {
     @Id

@@ -101,7 +101,7 @@ public class PrincipalController {
 //    @GetMapping("/create")
 //    public String createPrincipal(Model model) {
 //
-//        List<SchoolDTO> schoolDTOList = schoolRepository.getAllSchools();
+//        List<SchoolDTO> schoolDTOList = schoolRepository.getAllSchoolsDto();
 //        List<PrincipalDTO> principalDTOList = principalRepository.getPrincipalDTOs();
 //
 //        model.addAttribute("schoolDTOList", schoolDTOList);

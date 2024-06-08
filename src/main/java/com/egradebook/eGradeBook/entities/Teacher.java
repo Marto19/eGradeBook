@@ -6,14 +6,16 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "teachers")
-@PrimaryKeyJoinColumn(name = "users_user_id")
-@Getter
-@Setter
+
+@ToString
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+
+@Entity
+@Table(name = "teachers")
+@PrimaryKeyJoinColumn(name = "users_user_id")
 public class Teacher extends User
 {
     @ManyToOne

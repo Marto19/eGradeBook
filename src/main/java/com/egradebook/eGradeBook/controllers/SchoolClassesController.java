@@ -9,7 +9,7 @@ import com.egradebook.eGradeBook.services.ClassGradeNumberCatalogService;
 import com.egradebook.eGradeBook.services.ClassLetterCatalogService;
 import com.egradebook.eGradeBook.services.ClassService;
 import com.egradebook.eGradeBook.services.SchoolClassService;
-import com.egradebook.eGradeBook.services.SchoolService;
+import com.egradebook.eGradeBook.services.serviceImplementation.SchoolServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +27,10 @@ public class SchoolClassesController {
     private final SchoolClassService schoolClassService;
     private final ClassLetterCatalogService classLetterCatalogService;
     private final ClassGradeNumberCatalogService classGradeNumberCatalogService;
-    private final SchoolService schoolService;
+    private final SchoolServiceImpl schoolService;
     private final ClassService classService;
 
-    public SchoolClassesController(SchoolClassService schoolClassesService, ClassLetterCatalogService classLetterCatalogService, ClassGradeNumberCatalogService classGradeNumberCatalogService, SchoolService schoolService, ClassService classService) {
+    public SchoolClassesController(SchoolClassService schoolClassesService, ClassLetterCatalogService classLetterCatalogService, ClassGradeNumberCatalogService classGradeNumberCatalogService, SchoolServiceImpl schoolService, ClassService classService) {
         this.schoolClassService = schoolClassesService;
         this.classLetterCatalogService = classLetterCatalogService;
         this.classGradeNumberCatalogService = classGradeNumberCatalogService;

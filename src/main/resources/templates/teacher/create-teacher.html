@@ -1,3 +1,40 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Create Teacher</title>-->
+<!--    <link rel="stylesheet" type="text/css" href="/css/styles.css"> &lt;!&ndash; Adjust the path as needed &ndash;&gt;-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Create Teacher</h1>-->
+<!--<form th:action="@{/teacher/create}" method="post">-->
+<!--    <div>-->
+<!--        <label for="userId">User ID:</label>-->
+<!--        <input type="text" id="userId" name="userId" required>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div>-->
+<!--        <label for="schoolId">School ID:</label>-->
+<!--        <input type="text" id="schoolId" name="schoolId" required>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div>-->
+<!--        <label for="qualificationIds">Qualification IDs (comma-separated):</label>-->
+<!--        <input type="text" id="qualificationIds" name="qualificationIds" required>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div>-->
+<!--        <button type="submit">Create Teacher</button>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div th:if="${error}">-->
+<!--        <p style="color: red;" th:text="${error}"></p>-->
+<!--    </div>-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="~{fragments/header-files.html :: header-files('Create Teacher')}"></head>
@@ -13,7 +50,20 @@
                 <option th:each="userDTO : ${userDTOList}" th:value="${userDTO.getId()}" th:text="${userDTO.getFirstName()} + ' ' + ${userDTO.getLastName()} + ', ' + ${userDTO.getPhoneNumber()}"></option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Add Teacher</button>
+        <div class="form-group">
+            <label for="schoolDTO">Schools</label>
+            <select class="form-control" id="schoolDTO" name="schoolId" required>
+                <option value="" disabled selected>Assign a school</option>
+                <option th:each="schoolDTO : ${schoolDTOList}" th:value="${schoolDTO.getId()}" th:text="${schoolDTO.getName()}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="qualifications">Qualifications</label>
+            <select class="form-control" id="qualifications" name="qualificationIds" multiple required>
+                <option th:each="qualification : ${qualificationList}" th:value="${qualification.getId()}" th:text="${qualification.getSignature()}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Create Teacher</button>
     </form>
     <a class="mt-2 mb-2" th:href="@{/teacher}">Back to teacher list</a>
 </div>

@@ -14,5 +14,5 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
     @Query("SELECT new com.egradebook.eGradeBook.DTOs.school.SchoolDTO(" +
             "s.id, s.name, s.address) " +
             "FROM School s")
-    List<SchoolDTO> getAllSchools();
+    List<SchoolDTO> getAllSchoolsDto();
 }
