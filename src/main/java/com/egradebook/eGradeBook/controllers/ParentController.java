@@ -43,7 +43,12 @@ public class ParentController {
     }
 
     @PostMapping("/create")
-    public String createParent(@RequestParam Long userId) {
+    public String createParent(@RequestParam Long userId, Model model) {
+
+        if (parentRepository.existsById(userId)) {
+            model.addAttribute("errorMessage", "Parent with this user ID already exists.");
+            return showCreateParentForm(model);
+        }
         User user = userRepository.findById(userId).orElse(null);
 
         if (user != null) {

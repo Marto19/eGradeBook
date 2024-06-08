@@ -13,6 +13,7 @@
                 <option th:each="userDTO : ${userDTOList}" th:value="${userDTO.getId()}" th:text="${userDTO.getFirstName()} + ' ' + ${userDTO.getLastName()} + ', ' + ${userDTO.getPhoneNumber()}"></option>
             </select>
         </div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
         <button type="submit" class="btn btn-primary w-100">Add Parent</button>
     </form>
     <a class="mt-2 mb-2" th:href="@{/parent}">Back to parent list</a>

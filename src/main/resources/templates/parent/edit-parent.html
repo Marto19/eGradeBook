@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head th:insert="~{fragments/header-files.html :: header-files('Create Teacher')}">
+    <title>Assign Qualifications to teacher</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container">
+    <h1>Edit Teacher</h1>
+    <form action="#" th:action="@{/teacher/save}" method="post">
+        <div class="form-group">
+            <label for="teacher">Teacher:</label>
+            <select id="teacher" name="teacherId" class="form-control">
+                <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.firstName} + ' ' + ${teacher.lastName}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Qualifications:</label>
+            <div th:each="qualification : ${qualifications}">
+                <input type="checkbox" th:value="${qualification.id}" name="qualificationIds" th:id="${'qual_' + qualification.id}" />
+                <label th:for="${'qual_' + qualification.id}" th:text="${qualification.signature}"></label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+
+<!-- Add Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
