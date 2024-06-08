@@ -18,10 +18,11 @@
         </div>
 
         <div class="form-group">
-            <label for="qualification">Qualification:</label>
-            <select id="qualification" name="qualificationId" class="form-control">
-                <option th:each="qualification : ${qualifications}" th:value="${qualification.id}" th:text="${qualification.signature}"></option>
-            </select>
+            <label>Qualifications:</label>
+            <div th:each="qualification : ${qualifications}">
+                <input type="checkbox" th:value="${qualification.id}" name="qualificationIds" th:id="${'qual_' + qualification.id}" />
+                <label th:for="${'qual_' + qualification.id}" th:text="${qualification.signature}"></label>
+            </div>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>

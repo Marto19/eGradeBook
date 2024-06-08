@@ -14,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/teacher")
@@ -84,16 +87,21 @@ public class TeacherController {
     }
 
     @PostMapping("/save")
-    public String saveTeacher(@RequestParam Long teacherId, @RequestParam Long qualificationId) {
+    public String saveTeacher(@RequestParam Long teacherId, @RequestParam List<Long> qualificationIds) {
         Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
-        Qualification qualification = qualificationsRepository.findById(qualificationId).orElse(null);
 
-        if (teacher != null && qualification != null) {
-            teacher.getQualificationSet().add(qualification);
+        if (teacher != null) {
+            Set<Qualification> qualifications = qualificationIds.stream()
+                    .map(id -> qualificationsRepository.findById(id).orElse(null))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            teacher.setQualificationSet(qualifications);
             teacherRepository.save(teacher);
         }
 
         return "redirect:/teacher";
     }
+
 
 }
