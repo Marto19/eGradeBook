@@ -10,6 +10,8 @@ import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.repositories.PrincipalRepository;
 import com.egradebook.eGradeBook.repositories.SchoolRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
+import com.egradebook.eGradeBook.services.PrincipalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,10 +34,13 @@ public class PrincipalController {
     private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
 
-    public PrincipalController(PrincipalRepository principleRepository, SchoolRepository schoolRepository, UserRepository userRepository) {
+    private final PrincipalService principalService;
+
+    public PrincipalController(PrincipalRepository principleRepository, SchoolRepository schoolRepository, UserRepository userRepository, PrincipalService principalService) {
         this.principalRepository = principleRepository;
         this.schoolRepository = schoolRepository;
         this.userRepository = userRepository;
+        this.principalService = principalService;
     }
 
     @GetMapping
@@ -68,7 +73,7 @@ public class PrincipalController {
                     .enabled(user.getEnabled())
                     .build();
 
-            principalRepository.save(principal);
+            principalService.saveOrUpdate(principal);
         }
 
         return "redirect:/principal";

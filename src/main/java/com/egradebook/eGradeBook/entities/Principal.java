@@ -13,5 +13,4 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Principal extends User
 {
-
 }
