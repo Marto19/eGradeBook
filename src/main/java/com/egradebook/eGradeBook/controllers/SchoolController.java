@@ -25,7 +25,7 @@ public class SchoolController {
         this.principalRepository = principalRepository;
     }
 
-    @GetMapping("/get-schools")
+    @GetMapping
     public String getAllSchools(Model model) {
         List<SchoolDTO> schoolDTOList = schoolRepository.getAllSchools();
         model.addAttribute("schoolDTOList", schoolDTOList);

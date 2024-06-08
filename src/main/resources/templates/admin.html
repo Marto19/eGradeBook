@@ -11,6 +11,21 @@
     <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
     <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
 
+
+    <div class="btn-group" role="group" aria-label="Controller Buttons" style="display: flex; justify-content: space-between;">
+        <a href="/admin/create-user" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">Users</a>
+        <a href="/class-grade-number-catalog" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">Class Grade Number Catalog</a>
+        <a href="/letter-catalog" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">Class Letter Catalog</a>
+        <a href="/parent" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">Parents</a>
+        <a href="/grade-catalog" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">Grade Catalog</a>
+        <a href="/principal" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">Principals</a>
+        <a href="/qualifications" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">Qualifications</a>
+        <a href="/school-classes" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">School Classes</a>
+        <a href="/school" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">Schools</a>
+        <a href="/teacher" class="btn btn-primary mb-2" style="border: 1px solid #ffffff;">Teachers</a>
+    </div>
+
+
     <h2>All Users</h2>
     <table class="table">
         <thead>
