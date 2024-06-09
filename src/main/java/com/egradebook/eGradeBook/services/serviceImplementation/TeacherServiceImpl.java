@@ -8,6 +8,7 @@ import com.egradebook.eGradeBook.entities.Teacher;
 import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.exceptions.QualificationNotFoundException;
 import com.egradebook.eGradeBook.exceptions.SchoolNotFoundException;
+import com.egradebook.eGradeBook.exceptions.TeacherNotFoundException;
 import com.egradebook.eGradeBook.exceptions.UserNotFoundException;
 import com.egradebook.eGradeBook.repositories.QualificationsRepository;
 import com.egradebook.eGradeBook.repositories.RoleRepository;
@@ -24,7 +25,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
-
 
     private final UserRepository userRepository;
     private final SchoolRepository schoolRepository;
@@ -52,7 +52,18 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Teacher createTeacher(Long userId, Long schoolId, List<Long> qualificationIds)
+    public void deleteTeacher(Long userId) throws TeacherNotFoundException {
+        Teacher teacher = teacherRepository.findById(userId)
+                .orElseThrow(() -> new TeacherNotFoundException("Teacher with ID:" + userId + " not found!"));
+
+//        teacher.setSchool(null);
+//        teacher.setQualificationSet(null);
+
+        teacherRepository.deleteById(teacher.getId());
+    }
+
+    @Override
+    public void createTeacher(Long userId, Long schoolId, List <Long> qualificationIds)
             throws UserNotFoundException, SchoolNotFoundException, QualificationNotFoundException, RoleNotFoundException {
 
         User user = userRepository.findById(userId)
@@ -66,7 +77,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         user.getRoles().add(role);
 
-        Set<Qualification> qualifications = qualificationIds.stream()
+        Set < Qualification > qualifications = qualificationIds.stream()
                 .map(id -> {
                     try {
                         return qualificationsRepository.findById(id)
@@ -91,6 +102,14 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setSchool(school);
         teacher.setQualificationSet(qualifications);
 
-        return teacherRepository.save(teacher);
+        teacherRepository.insertTeacher(teacher);
+
+//        teacherRepository.insertUserRole(user.getId(), role.getId());
+//
+//        for (Qualification q: qualifications) {
+//            teacherRepository.insertTeacherQualification(user.getId(), q.getId());
+//        }
     }
+
+
 }

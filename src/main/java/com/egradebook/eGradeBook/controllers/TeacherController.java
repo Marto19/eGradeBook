@@ -4,8 +4,10 @@ import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
 import com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO;
 import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.Qualification;
+import com.egradebook.eGradeBook.entities.Teacher;
 import com.egradebook.eGradeBook.exceptions.QualificationNotFoundException;
 import com.egradebook.eGradeBook.exceptions.SchoolNotFoundException;
+import com.egradebook.eGradeBook.exceptions.TeacherNotFoundException;
 import com.egradebook.eGradeBook.exceptions.UserNotFoundException;
 import com.egradebook.eGradeBook.services.QualificationService;
 import com.egradebook.eGradeBook.services.SchoolService;
@@ -74,7 +76,25 @@ public class TeacherController {
             return "redirect:/teacher";
 
         }
+
     }
+
+    // TODO Fix cascade deletion
+    @GetMapping("/delete/{teacherId}")
+    public String deleteTeacher(@PathVariable Long teacherId) {
+
+        try {
+            teacherService.deleteTeacher(teacherId);
+        } catch (TeacherNotFoundException e) {
+            // TODO Handle Properly, Create Error Page
+            throw new RuntimeException(e);
+        }
+
+        return "redirect:/teacher";
+    }
+}
+
+
 
 
     //
@@ -159,6 +179,3 @@ public class TeacherController {
 //
 //        return "redirect:/teacher";
 //    }
-
-
-}
