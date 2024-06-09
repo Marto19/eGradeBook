@@ -1,83 +1,39 @@
-<!DOCTYPE HTML>
-<html lang="en" layout:decorate="~{fragments/main_layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head th:insert="~{fragments/header-files.html :: header-files('Create Principal')}"></head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            /*background-color: #e5e5f7;*/
-            opacity: 0.8;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .form-box {
-            background-color: #fff;
-            border-radius: 20px;
-            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-            padding: 20px;
-        }
-
-        .form-box h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            width: 97.5%;
-            border-radius: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-        }
-
-        .btn-primary {
-            padding: 10px;
-            background-color: #318b21;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('School Administrator UI')}"></head>
 <body>
 <header th:insert="~{fragments/header.html :: header}"></header>
-<div class="container">
-    <div class="form-box">
-        <h2>Edit School</h2>
-        <form th:action="@{/school/edit}" method="post">
-            <input type="hidden" name="id" th:value="${schoolDTO.getId()}" />
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" th:value="${schoolDTO.getName()}" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" id="address" name="address" th:value="${schoolDTO.getAddress()}" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Update</button>
-        </form>
-        <a class="mt-2 mb-2" th:href="@{/school/get-schools}">Back to schools list</a>
-    </div>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Edit school</h2>
+    <form th:action="@{/school/save}" method="post">
+        <div class="form-group">
+            <label for="schoolId">ID</label>
+            <input type="text" id="schoolId" name="schoolId" th:value="${school.getId()}" class="form-control" disabled>
+            <input type="hidden" name="schoolId" th:value="${school.getId()}"> <!-- a disabled field does not send its value -->
+        </div>
+        <div class="form-group">
+            <label for="schoolName">School name</label>
+            <input type="text" id="schoolName" name="schoolName" th:value="${school.getName()}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="schoolAddress">School Address</label>
+            <input type="text" id="schoolAddress" name="schoolAddress" th:value="${school.getAddress()}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="principalDTO">Principal</label>
+            <select class="form-control" id="principalDTO" name="principalId" required>
+                <option value="" disabled selected>Select a principal</option>
+                <option th:each="principalDTO : ${principalDTOList}"
+                        th:value="${principalDTO.getId()}"
+                        th:text="${principalDTO.getFirstName()}"
+                        th:selected="${principalDTO.getId() == school.principal.id}">
+                </option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Save School</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/school}">Back to school list</a>
 </div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
 </body>
 </html>

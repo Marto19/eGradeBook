@@ -28,7 +28,7 @@ public class School
     //REGEX FOR VALIDATION
     private String address;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     private Principal principal;
 
     @OneToMany
