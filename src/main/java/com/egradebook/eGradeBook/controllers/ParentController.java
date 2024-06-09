@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/parent")
@@ -37,7 +39,10 @@ public class ParentController {
 
     @GetMapping("/create")
     public String showCreateParentForm(Model model) {
-        List<UserDTO> userDTOList = userRepository.findAllUserDTO();
+        List<Long> parentUserIds = parentRepository.getParentUserIds();
+        List<UserDTO> userDTOList = userRepository.findAllUserDTO().stream()
+                .filter(userDTO -> !parentUserIds.contains(userDTO.getId()))
+                .collect(Collectors.toList());
         model.addAttribute("userDTOList", userDTOList);
         return "parent/create-parent";
     }
@@ -45,26 +50,24 @@ public class ParentController {
     @PostMapping("/create")
     public String createParent(@RequestParam Long userId, Model model) {
 
-        if (parentRepository.existsById(userId)) {
-            model.addAttribute("errorMessage", "Parent with this user ID already exists.");
-            return showCreateParentForm(model);
-        }
-        User user = userRepository.findById(userId).orElse(null);
+        Optional<User> optionalUser = userRepository.findById(userId);
 
-        if (user != null) {
-            Parent parent = Parent.builder()
-                    .id(user.getId())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .address(user.getAddress())
-                    .email(user.getEmail())
-                    .passwordHash(user.getPasswordHash())
-                    .phoneNumber(user.getPhoneNumber())
-                    .enabled(user.getEnabled())
-                    .build();
-
-            parentRepository.save(parent);
+        if (!optionalUser.isPresent()) {
+            model.addAttribute("errorMessage", "User with id " + userId + " does not exist");
+            return "error";
         }
+
+        User user = optionalUser.get();
+        if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getAddress() == null) {
+            model.addAttribute("errorMessage", "User with id " + userId + " does not have all required fields populated");
+            return "error";
+        }
+
+        Parent parent = Parent.builder()
+                .user(user)
+                .build();
+
+        parentRepository.save(parent);
 
         return "redirect:/parent";
     }

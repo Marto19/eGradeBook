@@ -1,18 +1,23 @@
 package com.egradebook.eGradeBook.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "parents")
-@PrimaryKeyJoinColumn(name = "users_user_id")
 @Getter
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-public class Parent extends User
+public class Parent
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @OneToOne
+    @JoinColumn(name = "users_user_id", nullable = false)
+    private User user;
 }
