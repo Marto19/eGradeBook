@@ -5,10 +5,14 @@ import com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO;
 import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.Qualification;
 import com.egradebook.eGradeBook.entities.Teacher;
+import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.exceptions.QualificationNotFoundException;
 import com.egradebook.eGradeBook.exceptions.SchoolNotFoundException;
 import com.egradebook.eGradeBook.exceptions.TeacherNotFoundException;
 import com.egradebook.eGradeBook.exceptions.UserNotFoundException;
+import com.egradebook.eGradeBook.repositories.QualificationsRepository;
+import com.egradebook.eGradeBook.repositories.TeacherRepository;
+import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.QualificationService;
 import com.egradebook.eGradeBook.services.SchoolService;
 import com.egradebook.eGradeBook.services.TeacherService;
@@ -19,21 +23,30 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RoleNotFoundException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
 
     private final TeacherService teacherService;
+    private final TeacherRepository teacherRepository;
     private final SchoolService schoolService;
     private final UserService userService;
     private final QualificationService qualificationService;
+    private final QualificationsRepository qualificationsRepository;
+    private final UserRepository userRepository;
 
-    public TeacherController(TeacherService teacherService, SchoolService schoolService, UserService userService, QualificationService qualificationService) {
+    public TeacherController(TeacherService teacherService, TeacherRepository teacherRepository, SchoolService schoolService, UserService userService, QualificationService qualificationService, QualificationsRepository qualificationsRepository, UserRepository userRepository) {
         this.teacherService = teacherService;
+        this.teacherRepository = teacherRepository;
         this.schoolService = schoolService;
         this.userService = userService;
         this.qualificationService = qualificationService;
+        this.qualificationsRepository = qualificationsRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -57,27 +70,50 @@ public class TeacherController {
         return "teacher/create-teacher";
     }
 
-    @PostMapping("/create")
-    public String createTeacher(@RequestParam Long userId,
-                                @RequestParam Long schoolId,
-                                @RequestParam List<Long> qualificationIds,
-                                Model model) {
+//    @PostMapping("/create")   //TODO: NEEDS FIXING, CAUSE IT DOESNT INSERT INTO DB, IT ONLY SELECTS
+//    public String createTeacher(@RequestParam Long userId,
+//                                @RequestParam Long schoolId,
+//                                @RequestParam List<Long> qualificationIds,
+//                                Model model) {
+//
+//        try {
+//            teacherService.createTeacher(userId, schoolId, qualificationIds);
+//            return "redirect:/teacher";
+//
+//        } catch (UserNotFoundException | QualificationNotFoundException | RoleNotFoundException |
+//                 SchoolNotFoundException e) {
+//
+//            model.addAttribute("error", e.getMessage());
+//
+//            // TODO Handle Correctly, Create Error Page
+//            return "redirect:/teacher";
+//
+//        }
+//
+//    }
 
-        try {
-            teacherService.createTeacher(userId, schoolId, qualificationIds);
-            return "redirect:/teacher";
-
-        } catch (UserNotFoundException | QualificationNotFoundException | RoleNotFoundException |
-                 SchoolNotFoundException e) {
-
-            model.addAttribute("error", e.getMessage());
-
-            // TODO Handle Correctly, Create Error Page
-            return "redirect:/teacher";
-
-        }
-
-    }
+//    @PostMapping("/create")       //TODO: NEEDS FIXING, BECAUSE IT CREATES THE SAME USER AGAIN IN THE DB
+//    public String createTeacher(@RequestParam Long userId) {
+//
+//        User user = userRepository.findById(userId).orElse(null);
+//
+//        if (user != null) {
+//            Teacher teacher = Teacher.builder()
+//                    .id(user.getId())
+//                    .firstName(user.getFirstName())
+//                    .lastName(user.getLastName())
+//                    .address(user.getAddress())
+//                    .email(user.getEmail())
+//                    .passwordHash(user.getPasswordHash())
+//                    .phoneNumber(user.getPhoneNumber())
+//                    .enabled(user.getEnabled())
+//                    .build();
+//
+//            teacherRepository.save(teacher);
+//        }
+//
+//        return "redirect:/teacher";
+//    }
 
     // TODO Fix cascade deletion
     @GetMapping("/delete/{teacherId}")
@@ -92,9 +128,31 @@ public class TeacherController {
 
         return "redirect:/teacher";
     }
+
+    @GetMapping("/edit")
+    public String showEditTeacherForm(Model model) {
+        model.addAttribute("teachers", teacherRepository.findAll());
+        model.addAttribute("qualifications", qualificationsRepository.findAll());
+        return "teacher/edit-teacher";
+    }
+
+    @PostMapping("/save")
+    public String saveTeacher(@RequestParam Long teacherId, @RequestParam List<Long> qualificationIds) {
+        Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
+
+        if (teacher != null) {
+            Set<Qualification> qualifications = qualificationIds.stream()
+                    .map(id -> qualificationsRepository.findById(id).orElse(null))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            teacher.setQualificationSet(qualifications);
+            teacherRepository.save(teacher);
+        }
+
+        return "redirect:/teacher";
+    }
 }
-
-
 
 
     //
