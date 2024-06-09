@@ -33,7 +33,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO teachers_qualifications (users_user_id, qualifications_id) VALUES (:userId, :qualificationId)", nativeQuery = true)
+    @Query(value = "INSERT INTO teachers_qualficiations (users_id, qualifications_id) VALUES (:userId, :qualificationId)", nativeQuery = true)
     void insertTeacherQualification(Long userId, Long qualificationId);
 
 }

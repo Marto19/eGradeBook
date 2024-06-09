@@ -100,15 +100,13 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setEnabled(user.getEnabled());
         teacher.setRoles(user.getRoles());
         teacher.setSchool(school);
-        teacher.setQualificationSet(qualifications);
+        teacher.setQualificationSet(null);
 
         teacherRepository.insertTeacher(teacher);
 
-//        teacherRepository.insertUserRole(user.getId(), role.getId());
-//
-//        for (Qualification q: qualifications) {
-//            teacherRepository.insertTeacherQualification(user.getId(), q.getId());
-//        }
+        for (Qualification q: qualifications) {
+            teacherRepository.insertTeacherQualification(user.getId(), q.getId());
+        }
     }
 
 
