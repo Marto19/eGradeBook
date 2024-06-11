@@ -10,6 +10,7 @@ import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.exceptions.EntityAlreadyExistsException;
 import com.egradebook.eGradeBook.exceptions.InvalidRoleException;
 import com.egradebook.eGradeBook.exceptions.InvalidUserException;
+import com.egradebook.eGradeBook.exceptions.UserNotFoundException;
 import com.egradebook.eGradeBook.repositories.RoleRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.UserService;
@@ -103,12 +104,11 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void deleteUser(String email)
-    {
-        User user = userRepository.findUserByEmail(email)
-                .orElseThrow(() -> new InvalidUserException("User Not Found with email: " + email));
+    public void deleteUser(Long id) throws UserNotFoundException {
 
-        userRepository.delete(user);
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("User Not Found with email: " + id));
+            userRepository.delete(user);
     }
 
     @Override
@@ -156,5 +156,11 @@ public class UserServiceImpl implements UserService
     @Override
     public List<UserDTO> getAllUsersDto() {
         return userRepository.findAllUserDTO();
+    }
+
+    @Override
+    public User findById(Long id) throws UserNotFoundException{
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
     }
 }

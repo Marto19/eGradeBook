@@ -34,9 +34,9 @@ public class SchoolServiceImpl implements SchoolService {
         return schoolRepository.findById(id).orElse(null);
     }
 
-    public void delete(School school) {
-        schoolRepository.delete(school);
-    }
+//    public void delete(School school) {
+//        schoolRepository.delete(school);
+//    }
 
     @Override
     public School findSchoolById(Long schoolId) throws SchoolNotFoundException {
@@ -87,7 +87,4 @@ public class SchoolServiceImpl implements SchoolService {
 
         schoolRepository.save(school);
     }
-
-
-
 }

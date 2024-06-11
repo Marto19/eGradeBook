@@ -2,16 +2,15 @@ package com.egradebook.eGradeBook.controllers;
 
 import com.egradebook.eGradeBook.DTOs.user.CreateUserDTO;
 import com.egradebook.eGradeBook.DTOs.user.UpdateUserDTO;
+import com.egradebook.eGradeBook.entities.User;
+import com.egradebook.eGradeBook.exceptions.UserNotFoundException;
 import com.egradebook.eGradeBook.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,8 +36,6 @@ public class AdminController
         {
             return "sisu/create-user";
         }
-
-
         try
         {
             userService.createUser(createUserDto);
@@ -51,6 +48,48 @@ public class AdminController
         }
         return "/admin";
     }
+
+
+    @GetMapping("/edit-user/{id}")
+    public String showEditUserPage(@PathVariable("id") long id, Model model) {
+        User user = null;
+        try {
+            user = userService.findById(id);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if (user == null) {
+            return "error";
+        }
+        model.addAttribute("user", user);
+        return "admin/edit-user";
+    }
+
+    @PostMapping("/edit-user")
+    public String editUser(@Valid @ModelAttribute("user") UpdateUserDTO updateUserDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "admin/edit-user";
+        }
+        try {
+            userService.updateUser(updateUserDto);
+            model.addAttribute("successMessage", "User updated successfully!");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Error updating user: " + e.getMessage());
+        }
+        return "redirect:/admin";
+    }
+
+
+    @GetMapping("/delete-user/{userId}")
+    public String deleteUser(@PathVariable Long userId) {
+        try {
+            userService.deleteUser(userId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting user: " + e.getMessage());
+        }
+        return "redirect:/admin";
+    }
+
 
 /*
     @GetMapping("/edit-user/{email}")
