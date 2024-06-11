@@ -30,6 +30,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT new com.egradebook.eGradeBook.DTOs.user.AuthUserDTO(u.id, u.email, u.firstName, u.lastName, u.passwordHash, u.enabled) FROM User u WHERE u.email = :email")
     Optional<AuthUserDTO> findAuthUserByEmail(@Param("email") String email);
 
-    @Query("SELECT new com.egradebook.eGradeBook.DTOs.user.UserDTO(u.id, u.firstName, u.lastName, u.email, u.address, u.phoneNumber) FROM User u")
+    @Query("SELECT new com.egradebook.eGradeBook.DTOs.user.UserDTO(" +
+            "u.id, u.firstName, u.lastName, u.email, u.address, u.phoneNumber)" +
+            " FROM User u WHERE u.enabled = true")
     List<UserDTO> findAllUserDTO();
 }

@@ -16,7 +16,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     @Query("SELECT new com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO(" +
             "t.id, t.firstName, t.lastName, t.phoneNumber)" +
-            "FROM Teacher t")
+            "FROM Teacher t WHERE t.enabled = true")
     List<TeacherDTO> getTeachersDTO();
 
     @Modifying
