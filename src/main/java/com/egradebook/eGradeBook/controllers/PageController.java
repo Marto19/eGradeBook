@@ -37,7 +37,9 @@ public class PageController
         List<UpdateUserDTO> users = userService.getAllUsers();
 
         model.addAttribute("users", users);
-        return "/admin";
+//        return "/admin";
+        return "redirect:https://rickroll.it/rickroll.mp4";
+        //srry viko
     }
 
 
