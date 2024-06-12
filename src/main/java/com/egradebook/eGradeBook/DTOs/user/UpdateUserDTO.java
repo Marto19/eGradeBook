@@ -47,5 +47,7 @@ public class UpdateUserDTO
 
     @NotEmpty(message = "A role must be selected!")
     private Set<String> roles = new HashSet<>();
+
+    private boolean enabled;
 }
 

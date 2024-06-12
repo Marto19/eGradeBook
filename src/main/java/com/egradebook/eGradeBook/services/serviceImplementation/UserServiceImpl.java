@@ -103,7 +103,6 @@ public class UserServiceImpl implements UserService
         userRepository.save(existingUser);
     }
 
-    //REFACTOR FOR SOFTDELETE
     @Override
     public void deleteUser(String email) throws UserNotFoundException
     {
@@ -130,7 +129,8 @@ public class UserServiceImpl implements UserService
                         user.getPhoneNumber(),
                         user.getRoles().stream()
                                 .map(Role::getName)  // map roles to Set<String>
-                                .collect(Collectors.toSet())))
+                                .collect(Collectors.toSet()),
+                        user.getEnabled()))
                 .collect(Collectors.toList());
     }
 
@@ -148,7 +148,8 @@ public class UserServiceImpl implements UserService
                 user.getPhoneNumber(),
                 user.getRoles().stream()
                         .map(Role::getName)  // map roles to Set<String>
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toSet()),
+                user.getEnabled()
         ));
     }
 
