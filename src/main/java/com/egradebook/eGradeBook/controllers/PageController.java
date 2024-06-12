@@ -30,15 +30,4 @@ public class PageController
     {
         return "/sisu/login";
     }
-
-    @GetMapping("/admin")
-    public String showAdminPage(Model model)
-    {
-        List<UpdateUserDTO> users = userService.getAllUsers();
-
-        model.addAttribute("users", users);
-        return "/admin";
-    }
-
-
 }

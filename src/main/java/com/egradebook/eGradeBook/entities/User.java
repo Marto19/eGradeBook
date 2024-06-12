@@ -11,7 +11,6 @@ import java.util.Set;
 
 
 @Getter @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
@@ -42,7 +41,7 @@ public class User
     @NotBlank(message = "Address cannot be blank!")
     @Size(max = 30, message = "Address has to be up to 30 characters!")
     @Column(name = "address")
-    @Pattern(regexp = "^[a-zA-Z0-9\\s,]+$", message = "Address must contain only letters, numbers, spaces, and commas!")
+    @Pattern(regexp = "^[a-zA-Z0-9\\s,\\.]+$", message = "Address must contain only letters, numbers, spaces, commas, and periods!")
     private String address;
 
     @NotBlank(message = "Email cannot be blank!")

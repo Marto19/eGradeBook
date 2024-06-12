@@ -1,12 +1,16 @@
 package com.egradebook.eGradeBook.DTOs.user;
 
+import com.egradebook.eGradeBook.DTOs.RoleDTO;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,12 +35,15 @@ public class CreateUserDTO
 
     @NotBlank(message = "Email cannot be blank!")
     @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]{1,8}$", message = "Invalid email address!")
-    private String email;   //email associated with the user with the account
+    private String email;
 
     @NotBlank(message = "Password cannot be blank!")
-    private String passwordHash;
+    private String password;
 
     @Size(max = 10, message = "Phone number has to be up to 10 digits!")
     @Pattern(regexp = "^[0-9]+$", message = "Phone number must contain only digits!")
     private String phoneNumber;
+
+    @NotEmpty
+    private String role;
 }

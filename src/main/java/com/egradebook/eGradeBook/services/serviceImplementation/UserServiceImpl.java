@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,12 +43,7 @@ public class UserServiceImpl implements UserService
 
     private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public AuthUserDTO findByEmail(String email)
-    {
-        return userRepository.findAuthUserByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
-    }
+
 
     @Override
     public void createUser(CreateUserDTO createUserDto) throws InvalidRoleException
@@ -59,14 +55,14 @@ public class UserServiceImpl implements UserService
                     .firstName(createUserDto.getFirstName())
                     .lastName(createUserDto.getLastName())
                     .email(createUserDto.getEmail())
-                    .passwordHash(passwordEncoder.encode(createUserDto.getPasswordHash()))
+                    .passwordHash(passwordEncoder.encode(createUserDto.getPassword()))
                     .address(createUserDto.getAddress())
                     .phoneNumber(createUserDto.getPhoneNumber())
                     .enabled(true)
                     .build();
 
-            Role userRole = roleRepository.findByName("student")
-                    .orElseThrow(() -> new InvalidRoleException("Role not found"));
+            Role userRole = roleRepository.findByName(createUserDto.getRole())
+                    .orElseThrow(() -> new InvalidRoleException("Role not found: " + createUserDto.getRole()));
 
             newUser.setRoles(Set.of(userRole));
 
@@ -85,17 +81,21 @@ public class UserServiceImpl implements UserService
                 .orElseThrow(() -> new InvalidUserException("User does not exists"));
 
         existingUser.setFirstName(updateUserDTO.getFirstName());
+
         existingUser.setLastName(updateUserDTO.getLastName());
+
         existingUser.setAddress(updateUserDTO.getAddress());
+
         existingUser.setPhoneNumber(updateUserDTO.getPhoneNumber());
 
-        if (updateUserDTO.getPasswordHash() != null && !updateUserDTO.getPasswordHash().isEmpty()) {
-            existingUser.setPasswordHash(passwordEncoder.encode(updateUserDTO.getPasswordHash()));
+        if (updateUserDTO.getPassword() != null && !updateUserDTO.getPassword().isEmpty())
+        {
+            existingUser.setPasswordHash(passwordEncoder.encode(updateUserDTO.getPassword()));
         }
 
         Set<Role> roles = updateUserDTO.getRoles().stream()
-                .map(roleDTO -> roleRepository.findByName(roleDTO.getName())
-                        .orElseThrow(() -> new InvalidRoleException("Role not found: " + roleDTO.getName())))
+                .map(roleName -> roleRepository.findByName(roleName)
+                        .orElseThrow(() -> new InvalidRoleException("Role not found: " + roleName)))
                 .collect(Collectors.toSet());
 
         existingUser.setRoles(roles);
@@ -103,12 +103,16 @@ public class UserServiceImpl implements UserService
         userRepository.save(existingUser);
     }
 
+    //REFACTOR FOR SOFTDELETE
     @Override
-    public void deleteUser(Long id) throws UserNotFoundException {
+    public void deleteUser(String email) throws UserNotFoundException
+    {
+            User user = userRepository.findUserByEmail(email)
+                    .orElseThrow(() -> new UserNotFoundException("User Not Found with email: " + email));
 
-            User user = userRepository.findById(id)
-                    .orElseThrow(() -> new UserNotFoundException("User Not Found with email: " + id));
-            userRepository.delete(user);
+            user.setEnabled(false);
+
+            userRepository.save(user);
     }
 
     @Override
@@ -120,16 +124,41 @@ public class UserServiceImpl implements UserService
                 .map(user -> new UpdateUserDTO(
                         user.getFirstName(),
                         user.getLastName(),
+                        user.getAddress(),
                         user.getEmail(),
                         user.getPasswordHash(),
-                        user.getAddress(),
                         user.getPhoneNumber(),
                         user.getRoles().stream()
-                                .map(role -> new RoleDTO(role.getId(), role.getName()))
+                                .map(Role::getName)  // map roles to Set<String>
                                 .collect(Collectors.toSet())))
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<UpdateUserDTO> findUpdateUserDTOByEmail(String email)
+    {
+        Optional<User> extractedUser = userRepository.findUserByEmail(email);
+
+        return extractedUser.map(user -> new UpdateUserDTO(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAddress(),
+                user.getEmail(),
+                user.getPasswordHash(),
+                user.getPhoneNumber(),
+                user.getRoles().stream()
+                        .map(Role::getName)  // map roles to Set<String>
+                        .collect(Collectors.toSet())
+        ));
+    }
+
+
+    @Override
+    public AuthUserDTO findByEmail(String email)
+    {
+        return userRepository.findAuthUserByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -154,7 +183,8 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public List<UserDTO> getAllUsersDto() {
+    public List<UserDTO> getAllUsersDto()
+    {
         return userRepository.findAllUserDTO();
     }
 
@@ -163,4 +193,6 @@ public class UserServiceImpl implements UserService
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
     }
+
+
 }

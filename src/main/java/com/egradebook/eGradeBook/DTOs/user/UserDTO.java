@@ -10,7 +10,8 @@ import lombok.ToString;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class UserDTO
+{
 
     private Long id;
     private String firstName;

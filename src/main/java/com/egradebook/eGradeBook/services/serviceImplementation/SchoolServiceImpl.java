@@ -9,22 +9,22 @@ import com.egradebook.eGradeBook.repositories.PrincipalRepository;
 import com.egradebook.eGradeBook.repositories.SchoolClassesRepository;
 import com.egradebook.eGradeBook.repositories.SchoolRepository;
 import com.egradebook.eGradeBook.services.SchoolService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SchoolServiceImpl implements SchoolService {
+@AllArgsConstructor
+public class SchoolServiceImpl implements SchoolService
+{
 
     private final SchoolRepository schoolRepository;
+
     private final SchoolClassesRepository schoolClassesRepository;
+
     private final PrincipalRepository principalRepository;
 
-    public SchoolServiceImpl(SchoolRepository schoolRepository, SchoolClassesRepository schoolClassesRepository, PrincipalRepository principalRepository) {
-        this.schoolRepository = schoolRepository;
-        this.schoolClassesRepository = schoolClassesRepository;
-        this.principalRepository = principalRepository;
-    }
 
     public List<SchoolDTO> getAllSchools() {
         return schoolRepository.getAllSchoolsDto();

@@ -27,8 +27,8 @@
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" th:field="*{passwordHash}" class="form-control" />
-                <div th:if="${#fields.hasErrors('passwordHash')}" th:errors="*{passwordHash}" class="error text-danger"></div>
+                <input type="password" id="password" th:field="*{password}" class="form-control" />
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error text-danger"></div>
             </div>
             <div class="form-group">
                 <label for="address">Address:</label>
@@ -41,10 +41,18 @@
                 <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error text-danger"></div>
             </div>
             <div class="form-group">
+                <label for="role">Role:</label>
+                <select id="role" th:field="*{role}" class="form-control">
+                    <option th:each="role : ${roles}" th:value="${role.name}" th:text="${role.name}"></option>
+                </select>
+                <div th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="error text-danger"></div>
+            </div>
+            <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block">Create</button>
             </div>
         </form>
     </div>
 </div>
+<footer th:insert="fragments/footer.html :: footer"></footer>
 </body>
 </html>
