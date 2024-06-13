@@ -48,4 +48,13 @@ public class PrincipalServiceImpl implements PrincipalService {
             }
         }
     }
+
+    @Override
+    public void softDeletePrincipal(Principal principal) {
+        Principal existingPrincipal = principalRepository.findById(principal.getId()).orElse(null);
+        if (existingPrincipal != null) {
+            existingPrincipal.setEnabled(false);
+            principalRepository.save(existingPrincipal);
+        }
+    }
 }

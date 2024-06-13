@@ -16,7 +16,7 @@
     </div>
     <div class="form-group">
       <label for="principalDTO">Users</label>
-      <select class="form-control" id="principalDTO" name="principalId" required>
+      <select class="form-control" id="principalDTO" name="principalId">
         <option value="" disabled selected>Select a principal</option>
         <option th:each="principalDTO : ${principalDTOList}" th:value="${principalDTO.getId()}" th:text="${principalDTO.getFirstName()} + ' ' + ${principalDTO.getLastName()} + ', ' + ${principalDTO.getPhoneNumber()}"></option>
       </select>

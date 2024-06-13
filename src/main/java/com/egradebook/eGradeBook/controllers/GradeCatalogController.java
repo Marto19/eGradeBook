@@ -1,8 +1,9 @@
 package com.egradebook.eGradeBook.controllers;
 
 import com.egradebook.eGradeBook.entities.GradeCatalog;
-import com.egradebook.eGradeBook.entities.School;
-import com.egradebook.eGradeBook.repositories.GradeCatalogRepository;
+import com.egradebook.eGradeBook.exceptions.GradeCatalogNotFoundException;
+import com.egradebook.eGradeBook.services.GradeService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,23 +12,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
+
+@AllArgsConstructor
 
 @Controller
 @RequestMapping("/grade-catalog")
 public class GradeCatalogController {
 
-    private final GradeCatalogRepository gradeCatalogRepository;
-
-    public GradeCatalogController(GradeCatalogRepository gradeCatalogRepository) {
-        this.gradeCatalogRepository = gradeCatalogRepository;
-    }
+    private final GradeService gradeService;
 
     @GetMapping
     public String showGradeCatalog(Model model) {
-        List<GradeCatalog> gradeCatalogs = gradeCatalogRepository.findAll();
+        List<GradeCatalog> gradeCatalogs = gradeService.getAll();
         model.addAttribute("gradeCatalogs", gradeCatalogs);
         return "grade-catalog/list-catalog";
     }
@@ -39,35 +36,49 @@ public class GradeCatalogController {
 
     @PostMapping("/create")
     public String createGradeCatalog(@RequestParam Double gradeSign) {
-        GradeCatalog gradeCatalog = new GradeCatalog();
-        gradeCatalog.setGradeNumber(gradeSign);
-        gradeCatalogRepository.save(gradeCatalog);
+
+        gradeService.save(gradeSign);
+
         return "redirect:/grade-catalog";
     }
 
     @GetMapping("/edit/{gradeId}")
     public String showEditGradeCatalogForm(@PathVariable Long gradeId, Model model) {
-        GradeCatalog gradeCatalog = gradeCatalogRepository.findById(gradeId).orElse(null);
+
+        GradeCatalog gradeCatalog;
+
+        try {
+            gradeCatalog = gradeService.getById(gradeId);
+        } catch (GradeCatalogNotFoundException e) {
+            // TODO Handle properly
+            throw new RuntimeException(e);
+        }
+
         model.addAttribute("grade", gradeCatalog);
         return "grade-catalog/edit-catalog";
     }
 
     @PostMapping("/update")
     public String updateGradeCatalog(@RequestParam Long gradeId, @RequestParam Double gradeSign) {
-        GradeCatalog gradeCatalog = gradeCatalogRepository.findById(gradeId).orElse(null);
-        if (gradeCatalog != null) {
-            gradeCatalog.setGradeNumber(gradeSign);
-            gradeCatalogRepository.save(gradeCatalog);
+
+        try {
+            gradeService.update(gradeId, gradeSign);
+        } catch (GradeCatalogNotFoundException e) {
+            // TODO Handle properly
+            throw new RuntimeException(e);
         }
+
         return "redirect:/grade-catalog";
     }
 
     @GetMapping("/delete/{gradeId}")
     public String deleteGradeCatalog(@PathVariable Long gradeId) {
-        GradeCatalog gradeCatalog = gradeCatalogRepository.findById(gradeId).orElse(null);
 
-        if (gradeCatalog != null) {
-            gradeCatalogRepository.delete(gradeCatalog);
+        try {
+            gradeService.delete(gradeId);
+        } catch (GradeCatalogNotFoundException e) {
+            // TODO Handle properly
+            throw new RuntimeException(e);
         }
 
         return "redirect:/grade-catalog";

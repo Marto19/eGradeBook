@@ -11,7 +11,10 @@ import com.egradebook.eGradeBook.repositories.PrincipalRepository;
 import com.egradebook.eGradeBook.repositories.SchoolRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.PrincipalService;
+import com.egradebook.eGradeBook.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@AllArgsConstructor
+
 @Controller
 @RequestMapping("/principal")
 public class PrincipalController {
@@ -30,29 +35,22 @@ public class PrincipalController {
     // TODO do not show them on the drop down list
     // TODO Implement the search functionality
 
-    private final PrincipalRepository principalRepository;
-    private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
 
     private final PrincipalService principalService;
+    private final UserService userService;
 
-    public PrincipalController(PrincipalRepository principleRepository, SchoolRepository schoolRepository, UserRepository userRepository, PrincipalService principalService) {
-        this.principalRepository = principleRepository;
-        this.schoolRepository = schoolRepository;
-        this.userRepository = userRepository;
-        this.principalService = principalService;
-    }
 
     @GetMapping
     public String showPrincipal(Model model) {
-        List<PrincipalDTO> principalDTOList = principalRepository.getPrincipalDTOs();
+        List<PrincipalDTO> principalDTOList = principalService.getPrincipalDTOList();
         model.addAttribute("principalDTOList", principalDTOList);
         return "principal/list-principal";
     }
 
     @GetMapping("/create")
     public String showCreatePrincipalForm(Model model) {
-        List<UserDTO> userDTOList = userRepository.findAllUserDTO();
+        List<UserDTO> userDTOList = userService.getAllUsersDto();
         model.addAttribute("userDTOList", userDTOList);
         return "principal/create-principal";
     }
@@ -82,10 +80,10 @@ public class PrincipalController {
 
     @GetMapping("/delete/{principalId}")
     public String deletePrincipal(@PathVariable Long principalId) {
-        Principal principal = principalRepository.findById(principalId).orElse(null);
+        Principal principal = principalService.getPrincipalById(principalId);
 
         if (principal != null) {
-            principalRepository.deleteById(principalId);
+            principalService.softDeletePrincipal(principal);
         }
 
         return "redirect:/principal";

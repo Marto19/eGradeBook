@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:insert="fragments/header-files.html :: header-files('Admin')">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Admin Panel')}"></head>
 <body>
-<header th:insert="fragments/header.html :: header"></header>
+<header th:insert="~{fragments/header.html :: header}"></header>
 <div class="container">
     <h1>Admin Page</h1>
 
@@ -58,6 +56,6 @@
         </tbody>
     </table>
 </div>
-<footer th:insert="fragments/footer.html :: footer"></footer>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
 </body>
 </html>
