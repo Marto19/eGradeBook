@@ -5,6 +5,7 @@ import com.egradebook.eGradeBook.entities.Class;
 import com.egradebook.eGradeBook.entities.ClassGradeNumberCatalog;
 import com.egradebook.eGradeBook.entities.ClassLetterCatalog;
 import com.egradebook.eGradeBook.entities.School;
+import com.egradebook.eGradeBook.exceptions.ClassGradeNumberCatalogNotFoundException;
 import com.egradebook.eGradeBook.services.ClassGradeNumberCatalogService;
 import com.egradebook.eGradeBook.services.ClassLetterCatalogService;
 import com.egradebook.eGradeBook.services.ClassService;
@@ -61,7 +62,7 @@ public class SchoolClassesController {
     @PostMapping("/create")
     public String createClass(@RequestParam Long schoolId,
                               @RequestParam Long gradeId,
-                              @RequestParam Long letterId) {
+                              @RequestParam Long letterId) throws ClassGradeNumberCatalogNotFoundException {
 
             School school = schoolService.getSchoolById(schoolId);
             ClassGradeNumberCatalog classGradeNumber = classGradeNumberCatalogService.getClassGradeNumberById(gradeId);
@@ -94,7 +95,7 @@ public class SchoolClassesController {
     public String updateSchoolClass(
             @RequestParam Long classId,
             @RequestParam Long gradeId,
-            @RequestParam Long letterId) {
+            @RequestParam Long letterId) throws ClassGradeNumberCatalogNotFoundException {
 
         ClassGradeNumberCatalog classGradeNumber = classGradeNumberCatalogService.getClassGradeNumberById(gradeId);
         ClassLetterCatalog classLetter = classLetterCatalogService.getClassLetterById(letterId);

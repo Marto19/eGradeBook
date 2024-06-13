@@ -1,26 +1,28 @@
 package com.egradebook.eGradeBook.controllers;
 
 import com.egradebook.eGradeBook.entities.ClassGradeNumberCatalog;
+import com.egradebook.eGradeBook.exceptions.ClassGradeNumberCatalogNotFoundException;
 import com.egradebook.eGradeBook.repositories.ClassGradeNumberCatalogRepository;
+import com.egradebook.eGradeBook.services.ClassGradeNumberCatalogService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
+
 @Controller
 @RequestMapping("/class-grade-number-catalog")
 public class ClassGradeNumberCatalogController {
 
-    private final ClassGradeNumberCatalogRepository classGradeNumberCatalogRepository;
-
-    public ClassGradeNumberCatalogController(ClassGradeNumberCatalogRepository classGradeNumberCatalogRepository) {
-        this.classGradeNumberCatalogRepository = classGradeNumberCatalogRepository;
-    }
+//    private final ClassGradeNumberCatalogRepository classGradeNumberCatalogRepository;
+    private final ClassGradeNumberCatalogService classGradeNumberCatalogService;
 
     @GetMapping
     public String showClassGradeNumberCatalog(Model model) {
-        List<ClassGradeNumberCatalog> classGradeNumberCatalogs = classGradeNumberCatalogRepository.findAll();
+        List<ClassGradeNumberCatalog> classGradeNumberCatalogs = classGradeNumberCatalogService.getAllClassGradeNumberCatalog();
         model.addAttribute("classGradeNumberCatalogs", classGradeNumberCatalogs);
         return "class-grade-number-catalog/list-catalog";
     }
@@ -32,39 +34,48 @@ public class ClassGradeNumberCatalogController {
 
     @PostMapping("/create")
     public String createClassGradeNumberCatalog(@RequestParam int cgNumber) {
-        ClassGradeNumberCatalog classGradeNumberCatalog = new ClassGradeNumberCatalog();
-        classGradeNumberCatalog.setCgNumber(cgNumber);
-        classGradeNumberCatalogRepository.save(classGradeNumberCatalog);
+        classGradeNumberCatalogService.create(cgNumber);
         return "redirect:/class-grade-number-catalog";
     }
 
     @GetMapping("/edit/{cgId}")
     public String showEditClassGradeNumberCatalogForm(@PathVariable Long cgId, Model model) {
-        ClassGradeNumberCatalog classGradeNumberCatalog = classGradeNumberCatalogRepository.findById(cgId).orElse(null);
+        ClassGradeNumberCatalog classGradeNumberCatalog = null;
+
+        try {
+            classGradeNumberCatalog = classGradeNumberCatalogService.getClassGradeNumberById(cgId);
+        } catch (ClassGradeNumberCatalogNotFoundException e) {
+            // TODO Handle properly
+            throw new RuntimeException(e);
+        }
+
         model.addAttribute("classGradeNumberCatalog", classGradeNumberCatalog);
         return "class-grade-number-catalog/edit-catalog";
     }
 
     @PostMapping("/update")
-    public String updateClassGradeNumberCatalog(@RequestParam Long cgId, @RequestParam int cgNumber) {
-        ClassGradeNumberCatalog classGradeNumberCatalog = classGradeNumberCatalogRepository.findById(cgId).orElse(null);
-        if (classGradeNumberCatalog != null) {
-            classGradeNumberCatalog.setCgNumber(cgNumber);
-            classGradeNumberCatalogRepository.save(classGradeNumberCatalog);
+    public String updateClassGradeNumberCatalog(@RequestParam int cgId, @RequestParam int cgNumber) {
+
+        try {
+            classGradeNumberCatalogService.update(cgId, cgNumber);
+        } catch (ClassGradeNumberCatalogNotFoundException e) {
+            // TODO Handle properly
+            throw new RuntimeException(e);
         }
+
         return "redirect:/class-grade-number-catalog";
     }
 
     @GetMapping("/delete/{cgId}")
-    public String deleteClassGradeNumberCatalog(@PathVariable Long cgId) {
-        ClassGradeNumberCatalog classGradeNumberCatalog = classGradeNumberCatalogRepository.findById(cgId).orElse(null);
+    public String deleteClassGradeNumberCatalog(@PathVariable int cgId) {
 
-        if (classGradeNumberCatalog != null) {
-            classGradeNumberCatalogRepository.delete(classGradeNumberCatalog);
-        } else {
-            // TODO Handle null
+        try {
+            classGradeNumberCatalogService.delete(cgId);
+        } catch (ClassGradeNumberCatalogNotFoundException e) {
+            // TODO Handle properly
+            throw new RuntimeException(e);
         }
-
+        
         return "redirect:/class-grade-number-catalog";
     }
 }

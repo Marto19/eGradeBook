@@ -43,43 +43,28 @@ public class GradeCatalogController {
     }
 
     @GetMapping("/edit/{gradeId}")
-    public String showEditGradeCatalogForm(@PathVariable Long gradeId, Model model) {
+    public String showEditGradeCatalogForm(@PathVariable Long gradeId, Model model) throws GradeCatalogNotFoundException {
 
         GradeCatalog gradeCatalog;
 
-        try {
-            gradeCatalog = gradeService.getById(gradeId);
-        } catch (GradeCatalogNotFoundException e) {
-            // TODO Handle properly
-            throw new RuntimeException(e);
-        }
+        gradeCatalog = gradeService.getById(gradeId);
 
         model.addAttribute("grade", gradeCatalog);
         return "grade-catalog/edit-catalog";
     }
 
     @PostMapping("/update")
-    public String updateGradeCatalog(@RequestParam Long gradeId, @RequestParam Double gradeSign) {
+    public String updateGradeCatalog(@RequestParam Long gradeId, @RequestParam Double gradeSign) throws GradeCatalogNotFoundException {
 
-        try {
-            gradeService.update(gradeId, gradeSign);
-        } catch (GradeCatalogNotFoundException e) {
-            // TODO Handle properly
-            throw new RuntimeException(e);
-        }
+        gradeService.update(gradeId, gradeSign);
 
         return "redirect:/grade-catalog";
     }
 
     @GetMapping("/delete/{gradeId}")
-    public String deleteGradeCatalog(@PathVariable Long gradeId) {
+    public String deleteGradeCatalog(@PathVariable Long gradeId) throws GradeCatalogNotFoundException {
 
-        try {
-            gradeService.delete(gradeId);
-        } catch (GradeCatalogNotFoundException e) {
-            // TODO Handle properly
-            throw new RuntimeException(e);
-        }
+        gradeService.delete(gradeId);
 
         return "redirect:/grade-catalog";
     }
