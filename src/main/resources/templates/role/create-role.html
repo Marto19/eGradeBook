@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="fragments/header-files.html :: header-files('Create Role')">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="fragments/header.html :: header"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Create New Role</h2>
+    <form th:action="@{/roles/create-role}" th:object="${role}" method="post">
+        <div class="form-group">
+            <label for="name">Role Name</label>
+            <input type="text" id="name" name="name" th:field="*{name}" class="form-control" required>
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error text-danger"></div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Create Role</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/roles}">Back to role list</a>
+</div>
+<footer th:insert="fragments/footer.html :: footer"></footer>
+</body>
+</html>

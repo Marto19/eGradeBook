@@ -26,6 +26,8 @@ public interface UserRepository extends JpaRepository<User, Long>
     // Method to check if a user with a specific phone number exists
     boolean existsByPhoneNumber(String phoneNumber);
 
+    List<User> findByRoles_Id(Long roleId);
+
 
     // Returns AuthUserDTO without Roles<Set>
     @Query("SELECT new com.egradebook.eGradeBook.DTOs.user.AuthUserDTO(u.id, u.email, u.firstName, u.lastName, u.passwordHash, u.enabled) FROM User u WHERE u.email = :email")

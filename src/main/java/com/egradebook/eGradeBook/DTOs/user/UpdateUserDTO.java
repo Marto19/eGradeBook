@@ -1,14 +1,11 @@
 package com.egradebook.eGradeBook.DTOs.user;
 
-import com.egradebook.eGradeBook.DTOs.RoleDTO;
-import com.egradebook.eGradeBook.entities.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;

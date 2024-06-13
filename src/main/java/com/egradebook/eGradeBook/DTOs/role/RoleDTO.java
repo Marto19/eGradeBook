@@ -1,4 +1,4 @@
-package com.egradebook.eGradeBook.DTOs;
+package com.egradebook.eGradeBook.DTOs.role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.egradebook.eGradeBook.repositories;
 
-import com.egradebook.eGradeBook.DTOs.RoleDTO;
+import com.egradebook.eGradeBook.DTOs.role.RoleDTO;
 import com.egradebook.eGradeBook.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +15,6 @@ public interface RoleRepository extends JpaRepository<Role, Long>
 {
     Optional<Role> findByName(String name);
 
-    @Query("SELECT new com.egradebook.eGradeBook.DTOs.RoleDTO(r.id, r.name) FROM User u JOIN u.roles r WHERE u.id = :userID")
+    @Query("SELECT new com.egradebook.eGradeBook.DTOs.role.RoleDTO(r.id, r.name) FROM User u JOIN u.roles r WHERE u.id = :userID")
     Set<RoleDTO> findRolesByUser(@Param("userID") Long id);
 }

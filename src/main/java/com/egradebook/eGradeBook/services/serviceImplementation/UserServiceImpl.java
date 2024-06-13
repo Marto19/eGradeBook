@@ -1,7 +1,7 @@
 package com.egradebook.eGradeBook.services.serviceImplementation;
 
 import com.egradebook.eGradeBook.DTOs.user.AuthUserDTO;
-import com.egradebook.eGradeBook.DTOs.RoleDTO;
+import com.egradebook.eGradeBook.DTOs.role.RoleDTO;
 import com.egradebook.eGradeBook.DTOs.user.CreateUserDTO;
 import com.egradebook.eGradeBook.DTOs.user.UpdateUserDTO;
 import com.egradebook.eGradeBook.DTOs.user.UserDTO;

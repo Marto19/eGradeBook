@@ -2,7 +2,6 @@ package com.egradebook.eGradeBook.controllers;
 
 import com.egradebook.eGradeBook.DTOs.user.CreateUserDTO;
 import com.egradebook.eGradeBook.DTOs.user.UpdateUserDTO;
-import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.exceptions.UserNotFoundException;
 import com.egradebook.eGradeBook.services.RoleService;
 import com.egradebook.eGradeBook.services.UserService;
@@ -12,9 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -109,4 +105,5 @@ public class AdminController
         }
         return "redirect:/admin";
     }
+
 }

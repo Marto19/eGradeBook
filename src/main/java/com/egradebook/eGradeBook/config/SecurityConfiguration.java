@@ -25,6 +25,7 @@ public class SecurityConfiguration
          return http.authorizeRequests((authorize) -> authorize
                          .requestMatchers(HttpMethod.GET, "/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority("admin")
+                         .requestMatchers(HttpMethod.GET, "/roles").hasAuthority("admin")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
