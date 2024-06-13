@@ -19,11 +19,8 @@ public class AuthenticationProviderConfiguration
     public DaoAuthenticationProvider authenticationProvider()
     {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-
         provider.setUserDetailsService(userService);
-
         provider.setPasswordEncoder(passwordEncoder);
-
         return provider;
     }
 }
