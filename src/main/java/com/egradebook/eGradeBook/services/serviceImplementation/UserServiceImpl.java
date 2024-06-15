@@ -44,7 +44,14 @@ public class UserServiceImpl implements UserService
     private final PasswordEncoder passwordEncoder;
 
 
-
+    /**
+     * This method is used to create a new user.
+     * It checks if the user already exists in the database by checking the email and phone number.
+     * If the user does not exist, it creates a new user with the given details.
+     * If the user already exists, it throws an EntityAlreadyExistsException.
+     * @param createUserDto The CreateUserDTO object that contains the details of the user to be created.
+     * @throws InvalidRoleException If the role does not exist in the database.
+     */
     @Override
     public void createUser(CreateUserDTO createUserDto) throws InvalidRoleException
     {
@@ -74,6 +81,15 @@ public class UserServiceImpl implements UserService
         }
     }
 
+    /**
+     * This method is used to update an existing user.
+     * It checks if the user exists in the database by checking the email.
+     * If the user does not exist, it throws an InvalidUserException.
+     * If the user exists, it updates the user with the given details.
+     * @param updateUserDTO The UpdateUserDTO object that contains the details of the user to be updated.
+     * @throws InvalidUserException If the user does not exist in the database.
+     * @throws InvalidRoleException If the role does not exist in the database.
+     */
     @Override
     public void updateUser(UpdateUserDTO updateUserDTO) throws InvalidUserException
     {
@@ -103,6 +119,14 @@ public class UserServiceImpl implements UserService
         userRepository.save(existingUser);
     }
 
+    /**
+     * This method is used to delete an existing user.
+     * It checks if the user exists in the database by checking the email.
+     * If the user does not exist, it throws a UserNotFoundException.
+     * If the user exists, it sets the enabled field to false.
+     * @param email The email of the user to be deleted.
+     * @throws UserNotFoundException If the user does not exist in the database.
+     */
     @Override
     public void deleteUser(String email) throws UserNotFoundException
     {
@@ -114,6 +138,11 @@ public class UserServiceImpl implements UserService
             userRepository.save(user);
     }
 
+    /**
+     * This method is used to get all the users in the database.
+     * It returns a list of UpdateUserDTO objects that contain the details of the users.
+     * @return List of UpdateUserDTO objects that contain the details of the users.
+     */
     @Override
     public List<UpdateUserDTO> getAllUsers()
     {
@@ -134,6 +163,12 @@ public class UserServiceImpl implements UserService
                 .collect(Collectors.toList());
     }
 
+    /**
+     * This method is used to get the details of a user by email.
+     * It returns an Optional object that contains the UpdateUserDTO object with the details of the user.
+     * @param email The email of the user to be found.
+     * @return Optional object that contains the UpdateUserDTO object with the details of the user.
+     */
     @Override
     public Optional<UpdateUserDTO> findUpdateUserDTOByEmail(String email)
     {
@@ -154,6 +189,13 @@ public class UserServiceImpl implements UserService
     }
 
 
+    /**
+     * This method is used to get the details of a user by email.
+     * It returns an AuthUserDTO object that contains the details of the user.
+     * @param email The email of the user to be found.
+     * @return AuthUserDTO object that contains the details of the user.
+     * @throws UsernameNotFoundException If the user does not exist in the database.
+     */
     @Override
     public AuthUserDTO findByEmail(String email)
     {
@@ -161,6 +203,13 @@ public class UserServiceImpl implements UserService
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
     }
 
+    /**
+     * This method is used to load the user by email.
+     * It returns a UserDetails object that contains the details of the user.
+     * @param email The email of the user to be found.
+     * @return UserDetails object that contains the details of the user.
+     * @throws UsernameNotFoundException If the user does not exist in the database.
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
@@ -174,6 +223,12 @@ public class UserServiceImpl implements UserService
 
     }
 
+    /**
+     * This method is used to extract the roles from the user.
+     * It returns a Collection of GrantedAuthority objects that contain the roles of the user.
+     * @param authUserDTO The AuthUserDTO object that contains the details of the user.
+     * @return Collection of GrantedAuthority objects that contain the roles of the user.
+     */
     private Collection<? extends GrantedAuthority> extractRolesFromUser(AuthUserDTO authUserDTO) {
 
         Set<RoleDTO> authorities = roleRepository.findRolesByUser(authUserDTO.getId());
@@ -183,6 +238,11 @@ public class UserServiceImpl implements UserService
 
     }
 
+    /**
+     * This method is used to get all the users in the database.
+     * It returns a list of UserDTO objects that contain the details of the users.
+     * @return List of UserDTO objects that contain the details of the users.
+     */
     @Override
     public List<UserDTO> getAllUsersDto()
     {
@@ -194,6 +254,4 @@ public class UserServiceImpl implements UserService
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
     }
-
-
 }
