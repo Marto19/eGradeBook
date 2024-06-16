@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Subject UI')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Edit subject</h2>
+    <form th:action="@{/subject/update}" method="post">
+        <div class="form-group">
+            <label for="subjectId">ID</label>
+            <input type="text" id="subjectId" name="subjectId" th:value="${subject.getId()}" class="form-control" disabled>
+            <input type="hidden" name="subjectId" th:value="${subject.getId()}"> <!-- a disabled field does not send its value -->
+        </div>
+        <div class="form-group">
+            <label for="subjectName"></label>
+            <input type="text" id="subjectName" name="subjectName" th:value="${subject.getName()}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="qualification">Required qualification</label>
+            <select class="form-control" id="qualification" name="qualificationId" required>
+                <option value="" disabled selected>Required qualification</option>
+                <option th:each="qualification : ${qualificationList}"
+                        th:value="${qualification.getId()}"
+                        th:text="${qualification.getSignature()}"
+                        th:selected="${subject.getQualification().getId() == qualification.getId()}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="subjectDescription"></label>
+            <input type="text" id="subjectDescription" name="subjectDescription" th:value="${subject.getDescription()}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Update Subject</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/subject}">Back to subject catalog</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>
