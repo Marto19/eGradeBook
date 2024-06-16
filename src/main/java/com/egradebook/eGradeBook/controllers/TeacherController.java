@@ -70,50 +70,18 @@ public class TeacherController {
         return "teacher/create-teacher";
     }
 
-//    @PostMapping("/create")   //TODO: NEEDS FIXING, CAUSE IT DOESNT INSERT INTO DB, IT ONLY SELECTS
-//    public String createTeacher(@RequestParam Long userId,
-//                                @RequestParam Long schoolId,
-//                                @RequestParam List<Long> qualificationIds,
-//                                Model model) {
-//
-//        try {
-//            teacherService.createTeacher(userId, schoolId, qualificationIds);
-//            return "redirect:/teacher";
-//
-//        } catch (UserNotFoundException | QualificationNotFoundException | RoleNotFoundException |
-//                 SchoolNotFoundException e) {
-//
-//            model.addAttribute("error", e.getMessage());
-//
-//            // TODO Handle Correctly, Create Error Page
-//            return "redirect:/teacher";
-//
-//        }
-//
-//    }
-
-//    @PostMapping("/create")       //TODO: NEEDS FIXING, BECAUSE IT CREATES THE SAME USER AGAIN IN THE DB
-//    public String createTeacher(@RequestParam Long userId) {
-//
-//        User user = userRepository.findById(userId).orElse(null);
-//
-//        if (user != null) {
-//            Teacher teacher = Teacher.builder()
-//                    .id(user.getId())
-//                    .firstName(user.getFirstName())
-//                    .lastName(user.getLastName())
-//                    .address(user.getAddress())
-//                    .email(user.getEmail())
-//                    .passwordHash(user.getPasswordHash())
-//                    .phoneNumber(user.getPhoneNumber())
-//                    .enabled(user.getEnabled())
-//                    .build();
-//
-//            teacherRepository.save(teacher);
-//        }
-//
-//        return "redirect:/teacher";
-//    }
+    @PostMapping("/create")
+    public String createTeacher(@ModelAttribute TeacherDTO teacherDTO, Model model) {
+        try {
+            teacherService.createTeacher(teacherDTO);
+            return "redirect:/teacher";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            // TODO Handle Correctly, Create Error Page
+            return "redirect:/teacher";
+        }
+    }
+    
 
     // TODO Fix cascade deletion
     @GetMapping("/delete/{teacherId}")

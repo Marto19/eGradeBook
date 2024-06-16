@@ -17,8 +17,6 @@ public interface TeacherService {
 
     List<TeacherDTO> getAllTeachersDto();
 
-    void createTeacher(Long userId, Long schoolId, List<Long> qualificationIds)
-            throws UserNotFoundException, SchoolNotFoundException, QualificationNotFoundException, RoleNotFoundException;
-
+    void createTeacher(TeacherDTO teacherDTO);
     void deleteTeacher(Long userId) throws TeacherNotFoundException;
 }

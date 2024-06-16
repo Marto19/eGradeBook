@@ -63,50 +63,14 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void createTeacher(Long userId, Long schoolId, List <Long> qualificationIds)
-            throws UserNotFoundException, SchoolNotFoundException, QualificationNotFoundException, RoleNotFoundException {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User with ID:" + userId + " not found"));
-
-        School school = schoolRepository.findById(schoolId)
-                .orElseThrow(() -> new SchoolNotFoundException("School with ID:" + schoolId + " not found"));
-
-        Role role = roleRepository.findByName("teacher")
-                .orElseThrow(() -> new RoleNotFoundException("Role with name `teacher` not found"));
-
-        user.getRoles().add(role);
-
-        Set < Qualification > qualifications = qualificationIds.stream()
-                .map(id -> {
-                    try {
-                        return qualificationsRepository.findById(id)
-                                .orElseThrow(() -> new QualificationNotFoundException("Qualification with ID:" + id + " not found"));
-                    } catch (QualificationNotFoundException qe) {
-                        // TODO Handle properly
-                        throw new RuntimeException(qe);
-                    }
-                })
-                .collect(Collectors.toSet());
-
+    public void createTeacher(TeacherDTO teacherDTO) {
         Teacher teacher = new Teacher();
-        teacher.setId(user.getId());
-        teacher.setFirstName(user.getFirstName());
-        teacher.setLastName(user.getLastName());
-        teacher.setAddress(user.getAddress());
-        teacher.setEmail(user.getEmail());
-        teacher.setPhoneNumber(user.getPhoneNumber());
-        teacher.setPasswordHash(user.getPasswordHash());
-        teacher.setEnabled(user.getEnabled());
-        teacher.setRoles(user.getRoles());
-        teacher.setSchool(school);
-        teacher.setQualificationSet(null);
-
-        teacherRepository.insertTeacher(teacher);
-
-        for (Qualification q: qualifications) {
-            teacherRepository.insertTeacherQualification(user.getId(), q.getId());
-        }
+        teacher.setId(teacherDTO.getId());
+        teacher.setFirstName(teacherDTO.getFirstName());
+        teacher.setLastName(teacherDTO.getLastName());
+        teacher.setPhoneNumber(teacherDTO.getPhoneNumber());
+        // Set other fields as necessary
+        teacherRepository.save(teacher);
     }
 
 
