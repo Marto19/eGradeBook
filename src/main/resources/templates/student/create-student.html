@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Create Student')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Create New Student</h2>
+    <form th:action="@{/student/create}" method="post">
+        <div class="form-group">
+            <label for="userDTO">Users</label>
+            <select class="form-control" id="userDTO" name="userId" required>
+                <option value="" disabled selected>Select a user</option>
+                <option th:each="userDTO : ${userDTOList}" th:value="${userDTO.getId()}" th:text="${userDTO.getFirstName()} + ' ' + ${userDTO.getLastName()} + ', ' + ${userDTO.getPhoneNumber()}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="userDTO">Parent</label>
+                <select class="form-control" id="ParentDTO" name="parentId" required>
+                <option value="" disabled selected>Select a parent</option>
+                <option th:each="parentDTO : ${parentDTOList}" th:value="${parentDTO.getId()}" th:text="${parentDTO.getFirstName()} + ' ' + ${parentDTO.getLastName()} + ', ' + ${parentDTO.getPhoneNumber()}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="userDTO">School</label>
+            <select class="form-control" id="schoolDTO" name="schoolId" required>
+                <option value="" disabled selected>Select a school</option>
+                <option th:each="schoolDTO : ${schoolDTOList}" th:value="${schoolDTO.getId()}" th:text="${schoolDTO.getName()} + ' ' + ${schoolDTO.getAddress()}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="classDTO">Class</label>
+            <select class="form-control" id="classDTO" name="classId" required>
+                <option value="" disabled selected>Select a class</option>
+                <option th:each="classDTO : ${classList}" th:value="${classDTO.id}" th:text="${classDTO.schoolName} + ' ' + ${classDTO.classLetter} + ${classDTO.classGrade}"></option>
+            </select>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+        <button type="submit" class="btn btn-primary w-100">Add Student</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/student}">Back to student list</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>

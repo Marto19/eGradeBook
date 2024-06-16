@@ -15,5 +15,5 @@ public class SchoolClassDTO {
     private Long schoolId;
     private String schoolName;
     private String classLetter;
-    private String classGrade;
+    private int classGrade; //change to string if problems
 }

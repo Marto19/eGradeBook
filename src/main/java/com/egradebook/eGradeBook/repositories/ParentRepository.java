@@ -1,6 +1,7 @@
 package com.egradebook.eGradeBook.repositories;
 
 import com.egradebook.eGradeBook.DTOs.parent.ParentDTO;
+import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.Parent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,11 @@ public interface ParentRepository extends JpaRepository<Parent, Long> {
     List<Long> getParentUserIds();
 
     boolean existsByUserId(Long userId);
+
+    @Query("SELECT new com.egradebook.eGradeBook.DTOs.parent.ParentDTO(" +
+            "p.id, p.user.firstName, p.user.lastName, p.user.phoneNumber)" +
+            "FROM Parent p")
+    List<ParentDTO> findAllParentDTO();
+
+
 }

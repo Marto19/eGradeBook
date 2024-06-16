@@ -122,7 +122,6 @@ public class UserServiceImplTest {
         });
     }
 
-    ///////////////
     @Test
     void testGetAllUsers() {
         List<User> users = new ArrayList<>();
