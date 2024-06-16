@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Day of Week Catalog Administrator UI')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Create new day of week</h2>
+    <form th:action="@{/day-of-week/create}" method="post">
+        <div class="form-group">
+            <label for="dayOfWeek">Name</label>
+            <input type="text" id="dayOfWeek" name="dayOfWeekName" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Add day of week</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/day-of-week}">Back to day catalog</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>

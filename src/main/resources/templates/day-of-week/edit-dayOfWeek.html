@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Day of Week Catalog Administrator UI')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Edit Day</h2>
+    <form th:action="@{/day-of-week/update}" method="post">
+        <div class="form-group">
+            <label for="dayId">ID</label>
+            <input type="text" id="dayId" name="dayId" th:value="${dayOfWeek.getId()}" class="form-control" disabled>
+            <input type="hidden" name="dayId" th:value="${dayOfWeek.getId()}"> <!-- a disabled field does not send its value -->
+        </div>
+        <div class="form-group">
+            <label for="dayOfWeekName">Day of week</label>
+            <input type="text" id="dayOfWeekName" name="dayOfWeekName" th:value="${dayOfWeek.getDay()}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Save day</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/day-of-week}">Back to day catalog</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>
