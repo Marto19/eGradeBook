@@ -18,16 +18,18 @@ TODO SLOJI @NOTNULL NAVSQKUDE
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Absences
+public class Absence
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne
+    @NotNull
     private Student studentId;
 
     @ManyToOne
+    @NotNull
     private Subject subjectId;
 
     @NotNull

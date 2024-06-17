@@ -1,6 +1,5 @@
-package com.egradebook.eGradeBook.DTOs.principle;
+package com.egradebook.eGradeBook.DTOs.principal;
 
-import com.egradebook.eGradeBook.entities.School;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,16 +7,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrincipalSchoolDTO {
+public class PrincipalDTO {
 
     private Long id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private School school;
-
 }

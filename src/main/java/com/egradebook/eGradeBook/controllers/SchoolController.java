@@ -1,17 +1,12 @@
 package com.egradebook.eGradeBook.controllers;
 
-import com.egradebook.eGradeBook.DTOs.principle.PrincipalDTO;
+import com.egradebook.eGradeBook.DTOs.principal.PrincipalDTO;
 import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
-import com.egradebook.eGradeBook.entities.Principal;
 import com.egradebook.eGradeBook.entities.School;
 import com.egradebook.eGradeBook.exceptions.PrincipalNotFoundException;
 import com.egradebook.eGradeBook.exceptions.SchoolNotFoundException;
-import com.egradebook.eGradeBook.exceptions.TeacherNotFoundException;
-import com.egradebook.eGradeBook.repositories.PrincipalRepository;
-import com.egradebook.eGradeBook.repositories.SchoolRepository;
 import com.egradebook.eGradeBook.services.PrincipalService;
 import com.egradebook.eGradeBook.services.SchoolService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

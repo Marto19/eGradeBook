@@ -32,7 +32,7 @@ public class Subject
     private Set<Grade> gradeSet;
 
     @OneToMany(mappedBy = "subjectId")
-    private Set<Absences> absencesSet;
+    private Set<Absence> absenceSet;
 
     @ManyToOne
     @NotNull

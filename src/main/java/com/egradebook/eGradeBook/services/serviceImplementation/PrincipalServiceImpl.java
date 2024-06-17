@@ -1,6 +1,6 @@
 package com.egradebook.eGradeBook.services.serviceImplementation;
 
-import com.egradebook.eGradeBook.DTOs.principle.PrincipalDTO;
+import com.egradebook.eGradeBook.DTOs.principal.PrincipalDTO;
 import com.egradebook.eGradeBook.entities.Principal;
 import com.egradebook.eGradeBook.repositories.PrincipalRepository;
 import com.egradebook.eGradeBook.services.PrincipalService;

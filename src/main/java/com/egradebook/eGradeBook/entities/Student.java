@@ -32,5 +32,5 @@ public class Student extends User
     private Set<Grade> gradeSet;
 
     @OneToMany(mappedBy = "studentId")
-    private Set<Absences> absencesSet;
+    private Set<Absence> absenceSet;
 }
