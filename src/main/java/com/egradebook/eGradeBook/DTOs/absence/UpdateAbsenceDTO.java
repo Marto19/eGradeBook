@@ -1,21 +1,27 @@
 package com.egradebook.eGradeBook.DTOs.absence;
 
-import com.egradebook.eGradeBook.entities.Student;
-import com.egradebook.eGradeBook.entities.Subject;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class UpdateAbsenceDTO
 {
     @NotNull
     private long id;
 
     @NotNull
-    private Student studentId;
+    private Long studentId;
 
     @NotNull
-    private Subject subjectId;
+    private Long subjectId;
 
     @NotNull
     private LocalDate absenceDate;
