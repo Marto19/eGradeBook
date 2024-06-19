@@ -31,7 +31,7 @@ public class Subject
     @OneToMany(mappedBy = "subjectId")
     private Set<Grade> gradeSet;
 
-    @OneToMany(mappedBy = "subjectId")
+    @OneToMany(mappedBy = "subject")
     private Set<Absence> absenceSet;
 
     @ManyToOne
