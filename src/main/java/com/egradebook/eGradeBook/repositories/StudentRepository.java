@@ -18,5 +18,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             "FROM Student s")
     List<StudentDTO> getStudentsDTO();
 
+
+
+
     boolean existsByEmail(String email);
 }

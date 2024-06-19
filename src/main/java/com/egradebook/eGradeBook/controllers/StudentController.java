@@ -4,6 +4,9 @@ import com.egradebook.eGradeBook.DTOs.classes.SchoolClassDTO;
 import com.egradebook.eGradeBook.DTOs.classes.SchoolClassesNoId;
 import com.egradebook.eGradeBook.DTOs.parent.ParentDTO;
 import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentPNDTO;
+import com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO;
 import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.*;
 import com.egradebook.eGradeBook.entities.Class;
@@ -35,8 +38,8 @@ public class StudentController {
 
     @GetMapping
     public String showStudentList(Model model) {
-        List<Student> studentList = studentService.listAllStudents();
-        model.addAttribute("studentList", studentList);
+        List<StudentDTO> studentDTOList = studentService.getAllStudentsDto();
+        model.addAttribute("studentDTOList", studentDTOList);
         return "student/list-students";
     }
 
@@ -56,7 +59,7 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public String createPrincipal(@RequestParam Long userId, @RequestParam Parent parentId, @RequestParam Class classId, @RequestParam School schoolId) {
+    public String createStudent(@RequestParam Long userId, @RequestParam Parent parentId, @RequestParam Class classId, @RequestParam School schoolId) {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user != null) {

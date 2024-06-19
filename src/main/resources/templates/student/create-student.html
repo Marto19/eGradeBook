@@ -10,28 +10,28 @@
             <label for="userDTO">Users</label>
             <select class="form-control" id="userDTO" name="userId" required>
                 <option value="" disabled selected>Select a user</option>
-                <option th:each="userDTO : ${userDTOList}" th:value="${userDTO.getId()}" th:text="${userDTO.getFirstName()} + ' ' + ${userDTO.getLastName()} + ', ' + ${userDTO.getPhoneNumber()}"></option>
+                <option th:each="userDTO : ${userDTOList}" th:value="${userDTO.id}" th:text="${userDTO.firstName} + ' ' + ${userDTO.lastName} + ', ' + ${userDTO.phoneNumber}"></option>
             </select>
         </div>
         <div class="form-group">
-            <label for="userDTO">Parent</label>
-                <select class="form-control" id="ParentDTO" name="parentId" required>
+            <label for="parentDTO">Parent</label>
+            <select class="form-control" id="parentDTO" name="parentId" required>
                 <option value="" disabled selected>Select a parent</option>
-                <option th:each="parentDTO : ${parentDTOList}" th:value="${parentDTO.getId()}" th:text="${parentDTO.getFirstName()} + ' ' + ${parentDTO.getLastName()} + ', ' + ${parentDTO.getPhoneNumber()}"></option>
+                <option th:each="parentDTO : ${parentDTOList}" th:value="${parentDTO.id}" th:text="${parentDTO.firstName} + ' ' + ${parentDTO.lastName} + ', ' + ${parentDTO.phoneNumber}"></option>
             </select>
         </div>
         <div class="form-group">
-            <label for="userDTO">School</label>
+            <label for="schoolDTO">School</label>
             <select class="form-control" id="schoolDTO" name="schoolId" required>
                 <option value="" disabled selected>Select a school</option>
-                <option th:each="schoolDTO : ${schoolDTOList}" th:value="${schoolDTO.getId()}" th:text="${schoolDTO.getName()} + ' ' + ${schoolDTO.getAddress()}"></option>
+                <option th:each="schoolDTO : ${schoolDTOList}" th:value="${schoolDTO.id}" th:text="${schoolDTO.name} + ' ' + ${schoolDTO.address}"></option>
             </select>
         </div>
         <div class="form-group">
             <label for="classDTO">Class</label>
             <select class="form-control" id="classDTO" name="classId" required>
                 <option value="" disabled selected>Select a class</option>
-                <option th:each="classDTO : ${classList}" th:value="${classDTO.id}" th:text="${classDTO.schoolName} + ' ' + ${classDTO.classLetter} + ${classDTO.classGrade}"></option>
+                <option th:each="classDTO : ${classList}" th:value="${classDTO.schoolId}" th:text="${classDTO.schoolName} + ' ' + ${classDTO.classLetter} + ${classDTO.classGrade}"></option>
             </select>
         </div>
         <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
