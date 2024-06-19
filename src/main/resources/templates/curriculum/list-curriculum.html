@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{fragments/header-files.html :: header-files('Curriculum UI')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container">
+    <h1 class="my-4">Curriculum management</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Curriculum catalog</h5>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <a th:href="@{/curriculum/create}" class="btn btn-primary mb-2">
+                        <i class="fas fa-plus"></i>Add curriculum</a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Class</th>
+                            <th>Day of week</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Period</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="curriculum : ${curriculumList}">
+                            <td th:text="${curriculum.getId()}"></td>
+                            <td th:text="${curriculum.getClassId().getId()}"></td>
+                            <td th:text="${curriculum.getDayOfWeek().getDay()}"></td>
+                            <td th:text="${curriculum.getSubjectId().getName()}"></td>
+                            <td th:text="${curriculum.getTeacherId().firstName}"></td>
+                            <td th:text="${curriculum.getPeriodTime()}"></td>
+                            <td>
+                                <a type="button" th:href="@{/curriculum/edit/{curriculumId}(curriculumId=${curriculum.getId()})}" class="btn btn-link text-primary">
+                                    <i class="fas fa-edit"></i> Edit </a>
+                                <a type="button" th:href="@{/curriculum/delete/{curriculumId}(curriculumId=${curriculum.getId()})}" class="btn btn-link text-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</html>

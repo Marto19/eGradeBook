@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Curriculum UI')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Edit curriculum</h2>
+    <form th:action="@{/curriculum/update}" method="post">
+        <div class="form-group">
+            <label for="curriculumId">ID</label>
+            <input type="text" id="curriculumId" name="curriculumId" th:value="${curriculum.getId()}" class="form-control" disabled>
+            <input type="hidden" name="curriculumId" th:value="${curriculum.getId()}"> <!-- a disabled field does not send its value -->
+        </div>
+        <div class="form-group">
+            <label for="classId">Select Class</label>
+            <select class="form-control" id="classId" name="classId" required>
+                <option value="" disabled selected>Select class</option>
+                <option th:each="class : ${classList}"
+                        th:value="${class.getId()}"
+                        th:text="${class.getClassGradeNumber() + ' ' + class.getClassLetterCatalog()}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="dayOfWeekId">Select day of week</label>
+            <select class="form-control" id="dayOfWeekId" name="dayOfWeekId" required>
+                <option value="" disabled selected>Select day of week</option>
+                <option th:each="dayOfWeek : ${dayOfWeekList}"
+                        th:value="${dayOfWeek.getId()}"
+                        th:text="${dayOfWeek.getDay()}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="subjectId">Select subject</label>
+            <select class="form-control" id="subjectId" name="subjectId" required>
+                <option value="" disabled selected>Select subject</option>
+                <option th:each="subject : ${subjectList}"
+                        th:value="${subject.getId()}"
+                        th:text="${subject.getName()}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="teacherId">Select teacher</label>
+            <select class="form-control" id="teacherId" name="teacherId" required>
+                <option value="" disabled selected>Select teacher</option>
+                <option th:each="teacher : ${teacherList}"
+                        th:value="${teacher.getId()}"
+                        th:text="${teacher.getFirstName() + ' ' + teacher.getLastName()}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="period">Period Time</label>
+            <input type="date" id="period" name="period" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Update curriculum</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/curriculum}">Back to class catalog</a>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>

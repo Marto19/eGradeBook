@@ -23,12 +23,12 @@ public class DayOfWeekServiceImpl implements DayOfWeekService {
 
     @Override
     public DayOfWeekCatalog createDayOfWeek(DayOfWeekCatalog dayOfWeek) {
-        return null;
+        return dayOfWeekRepository.save(dayOfWeek);
     }
 
     @Override
     public DayOfWeekCatalog updateDayOfWeek(DayOfWeekCatalog dayOfWeek) {
-        return null;
+        return dayOfWeekRepository.save(dayOfWeek);
     }
 
     @Override

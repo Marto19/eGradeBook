@@ -4,6 +4,8 @@ import com.egradebook.eGradeBook.entities.Class;
 import com.egradebook.eGradeBook.repositories.ClassRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClassService {
 
@@ -20,4 +22,6 @@ public class ClassService {
     public void delete(Class deleteClass) {
         classRepository.delete(deleteClass);
     }
+
+    public List<Class> getAllClasses() { return classRepository.findAll(); }
 }
