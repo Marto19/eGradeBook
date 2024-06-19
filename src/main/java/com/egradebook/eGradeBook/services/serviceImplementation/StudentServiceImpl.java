@@ -4,16 +4,28 @@ import com.egradebook.eGradeBook.DTOs.AbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.GradeDTO;
 import com.egradebook.eGradeBook.DTOs.classes.SchoolClassDTO;
 import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
+import com.egradebook.eGradeBook.entities.Class;
+import com.egradebook.eGradeBook.entities.Parent;
+import com.egradebook.eGradeBook.entities.Role;
+import com.egradebook.eGradeBook.entities.School;
 import com.egradebook.eGradeBook.entities.Student;
+import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.exceptions.StudentNotFoundException;
 import com.egradebook.eGradeBook.exceptions.EntityAlreadyExistsException;
 import com.egradebook.eGradeBook.repositories.ClassRepository;
+import com.egradebook.eGradeBook.repositories.ParentRepository;
+import com.egradebook.eGradeBook.repositories.RoleRepository;
 import com.egradebook.eGradeBook.repositories.SchoolClassesRepository;
+import com.egradebook.eGradeBook.repositories.SchoolRepository;
 import com.egradebook.eGradeBook.repositories.StudentRepository;
+import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.StudentService;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +36,10 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final ClassRepository classRepository;
     private final SchoolClassesRepository schoolClassesRepository;
+    private final ParentRepository parentRepository;
+    private final SchoolRepository schoolRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public Student getStudentById(Long id) throws StudentNotFoundException {
@@ -118,5 +134,40 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<SchoolClassDTO> getAllClassesDto() {
         return schoolClassesRepository.findAllClassesDTO();
+    }
+
+
+    @Override
+    @Transactional
+    public Student createStudent(Long userId, Long classId, Long parentId, Long schoolId) throws RoleNotFoundException {
+
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        Class currClass = classRepository.findById(classId).orElseThrow(EntityNotFoundException::new);
+        Parent parent = parentRepository.findById(parentId).orElseThrow(EntityNotFoundException::new);
+        School school = schoolRepository.findById(schoolId).orElseThrow(EntityNotFoundException::new);
+
+        Role studentRole = roleRepository.findByName("student")
+                .orElseThrow(() -> new RoleNotFoundException("Role student was not found"));
+
+        user.getRoles().add(studentRole);
+
+        Student student = new Student();
+        student.setId(userId);
+        student.setFirstName(user.getFirstName());
+        student.setLastName(user.getLastName());
+        student.setAddress(user.getAddress());
+        student.setEmail(user.getEmail());
+        student.setPasswordHash(user.getPasswordHash());
+        student.setPhoneNumber(user.getPhoneNumber());
+        student.setEnabled(user.getEnabled());
+        student.setRoles(user.getRoles());
+
+        student.setClassID(currClass);
+        student.setParentId(parent);
+        student.setSchoolId(school);
+
+        studentRepository.insertStudent(userId, classId, parentId, schoolId);
+
+        return student;
     }
 }

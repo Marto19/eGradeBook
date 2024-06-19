@@ -2,8 +2,11 @@ package com.egradebook.eGradeBook.repositories;
 
 import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
 import com.egradebook.eGradeBook.entities.Student;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,7 +22,15 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<StudentDTO> getStudentsDTO();
 
 
-
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO students (id, classid_id, parent_id_id, school_id_id) " +
+            "VALUES (:id, :classId, :parentId, :schoolId)",
+            nativeQuery = true)
+    void insertStudent(@Param("id") Long id,
+                       @Param("classId") Long classId,
+                       @Param("parentId") Long parentId,
+                       @Param("schoolId") Long schoolId);
 
     boolean existsByEmail(String email);
 }

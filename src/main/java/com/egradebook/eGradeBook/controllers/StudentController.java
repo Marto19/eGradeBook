@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 import java.util.ListResourceBundle;
 
@@ -59,26 +60,12 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public String createStudent(@RequestParam Long userId, @RequestParam Parent parentId, @RequestParam Class classId, @RequestParam School schoolId) {
-        User user = userRepository.findById(userId).orElse(null);
+    public String createStudent(@RequestParam Long userId,
+                                @RequestParam Long parentId,
+                                @RequestParam Long classId,
+                                @RequestParam Long schoolId) throws RoleNotFoundException {
 
-        if (user != null) {
-            Student student = Student.builder()
-                    .id(user.getId())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .address(user.getAddress())
-                    .email(user.getEmail())
-                    .passwordHash(user.getPasswordHash())
-                    .phoneNumber(user.getPhoneNumber())
-                    .enabled(user.getEnabled())
-                    .parentId(parentId)
-                    .classID(classId)
-                    .schoolId(schoolId)
-                    .build();
-
-            studentService.saveOrUpdate(student);
-        }
+        studentService.createStudent(userId, classId, parentId, schoolId);
 
         return "redirect:/student";
     }

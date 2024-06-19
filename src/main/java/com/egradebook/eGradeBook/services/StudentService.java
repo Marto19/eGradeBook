@@ -5,6 +5,7 @@ import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
 import com.egradebook.eGradeBook.entities.Student;
 import com.egradebook.eGradeBook.exceptions.StudentNotFoundException;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 
 public interface StudentService {
@@ -21,4 +22,6 @@ public interface StudentService {
     void saveOrUpdate(Student student);
 
     List<SchoolClassDTO> getAllClassesDto();
+
+    Student createStudent(Long studentId, Long classId, Long parentId, Long schoolId) throws RoleNotFoundException;
 }
