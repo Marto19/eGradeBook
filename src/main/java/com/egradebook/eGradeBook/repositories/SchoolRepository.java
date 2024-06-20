@@ -1,6 +1,7 @@
 package com.egradebook.eGradeBook.repositories;
 
 import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
+import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.School;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,10 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
             "s.id, s.name, s.address) " +
             "FROM School s")
     List<SchoolDTO> getAllSchoolsDto();
+
+    @Query("SELECT new com.egradebook.eGradeBook.DTOs.school.SchoolDTO(" +
+            "s.id, s.name, s.address) " +
+            "FROM School s")
+    List<SchoolDTO> findAllSchoolDTO();
+
 }

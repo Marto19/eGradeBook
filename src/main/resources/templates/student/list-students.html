@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{fragments/header-files.html :: header-files('Student Management')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container">
+    <h1 class="my-4">Student Management</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Student List</h5>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <a th:href="@{/student/create}" class="btn btn-primary mb-2">
+                        <i class="fas fa-plus"></i> Add Student
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="student : ${studentDTOList}">
+                            <td th:text="${student.id}"></td>
+                            <td th:text="${student.firstName}"></td>
+                            <td th:text="${student.lastName}"></td>
+                            <td th:text="${student.email}"></td>
+                            <td>
+                                <a th:href="@{/student/delete/{studentId}(studentId=${student.id})}" class="btn btn-link text-danger" onclick="return confirm('Are you sure you want to delete this record?');">
+                                    Delete <i class="fas fa-trash"></i>
+                                </a>
+                                <a th:href="@{/student/edit}" class="btn btn-link">
+                                    Edit <i class="fas fa-edit"></i>
+                                </a> <!-- Fixed the closing tag here -->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>
