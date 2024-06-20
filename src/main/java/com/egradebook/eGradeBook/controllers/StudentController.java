@@ -5,7 +5,6 @@ import com.egradebook.eGradeBook.DTOs.classes.SchoolClassesNoId;
 import com.egradebook.eGradeBook.DTOs.parent.ParentDTO;
 import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
 import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
-import com.egradebook.eGradeBook.DTOs.student.StudentPNDTO;
 import com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO;
 import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.*;
