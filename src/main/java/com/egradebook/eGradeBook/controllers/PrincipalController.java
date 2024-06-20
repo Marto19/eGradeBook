@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -56,23 +57,9 @@ public class PrincipalController {
     }
 
     @PostMapping("/create")
-    public String createPrincipal(@RequestParam Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
+    public String createPrincipal(@RequestParam Long userId) throws RoleNotFoundException {
 
-        if (user != null) {
-            Principal principal = Principal.builder()
-                    .id(user.getId())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .address(user.getAddress())
-                    .email(user.getEmail())
-                    .passwordHash(user.getPasswordHash())
-                    .phoneNumber(user.getPhoneNumber())
-                    .enabled(user.getEnabled())
-                    .build();
-
-            principalService.saveOrUpdate(principal);
-        }
+            principalService.createPrincipal(userId);
 
         return "redirect:/principal";
     }
