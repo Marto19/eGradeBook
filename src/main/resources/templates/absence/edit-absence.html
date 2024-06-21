@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="fragments/header-files.html :: header-files('Edit Absence')">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Edit Absence</title>
+</head>
+<body>
+<header th:insert="fragments/header.html :: header"></header>
+<div class="container mt-5" style="max-width: 600px">
+    <h2>Edit Absence</h2>
+    <form th:action="@{/absences/edit}" th:object="${absence}" method="post">
+        <div class="form-group">
+            <label for="student">Student</label>
+            <select id="student" name="studentId" th:field="*{studentId}" class="form-control">
+                <option th:each="student : ${students}" th:value="${student.id}" th:text="${student.firstName + ' ' + student.lastName}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}" class="error text-danger"></div>
+        </div>
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <select id="subject" name="subjectId" th:field="*{subjectId}" class="form-control">
+                <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('subjectId')}" th:errors="*{subjectId}" class="error text-danger"></div>
+        </div>
+        <div class="form-group">
+            <label for="absenceDate">Absence Date</label>
+            <input type="date" id="absenceDate" name="absenceDate" th:field="*{absenceDate}" class="form-control" required>
+            <div th:if="${#fields.hasErrors('absenceDate')}" th:errors="*{absenceDate}" class="error text-danger"></div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Save Absence</button>
+    </form>
+    <a class="mt-2 mb-2" th:href="@{/absences}">Back to absence list</a>
+</div>
+<footer th:insert="fragments/footer.html :: footer"></footer>
+</body>
+</html>

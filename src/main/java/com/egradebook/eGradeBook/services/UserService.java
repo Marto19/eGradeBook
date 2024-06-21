@@ -2,6 +2,7 @@ package com.egradebook.eGradeBook.services;
 
 import com.egradebook.eGradeBook.DTOs.parent.ParentDTO;
 import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
 import com.egradebook.eGradeBook.DTOs.user.AuthUserDTO;
 import com.egradebook.eGradeBook.DTOs.user.CreateUserDTO;
 import com.egradebook.eGradeBook.DTOs.user.UpdateUserDTO;
@@ -36,4 +37,6 @@ public interface UserService extends UserDetailsService
     List<ParentDTO> getAllParentsDto();
 
     List<SchoolDTO> getAllSchoolsDto();
+
+    List<StudentDTO> getAllStudentsDto();
 }

@@ -4,10 +4,11 @@ import com.egradebook.eGradeBook.DTOs.absence.AbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.absence.CreateAbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.absence.UpdateAbsenceDTO;
 import com.egradebook.eGradeBook.entities.Absence;
+import com.egradebook.eGradeBook.entities.Student;
 import com.egradebook.eGradeBook.entities.Subject;
-import com.egradebook.eGradeBook.exceptions.InvalidAbsenceException;
-import com.egradebook.eGradeBook.exceptions.InvalidSubjectException;
+import com.egradebook.eGradeBook.exceptions.StudentNotFoundException;
 import com.egradebook.eGradeBook.repositories.AbsenceRepository;
+import com.egradebook.eGradeBook.repositories.StudentRepository;
 import com.egradebook.eGradeBook.repositories.SubjectRepository;
 import com.egradebook.eGradeBook.services.AbsenceService;
 import lombok.AllArgsConstructor;
@@ -25,69 +26,25 @@ public class AbsenceServiceImpl implements AbsenceService
 
     private final SubjectRepository subjectRepository;
 
+    private final StudentRepository studentRepository;
+
     @Override
-    public void createAbsence(CreateAbsenceDTO absenceDTO)
+    public void createAbsence(CreateAbsenceDTO absenceDTO) throws StudentNotFoundException
     {
-        if(!subjectRepository.existsById(absenceDTO.getSubjectId()))
-        {
-            throw new InvalidSubjectException("Subject does not exist");
-        }
-        else if (absenceDTO.getSubjectId() == null /*add check for student when functionality is present*/)
-        {
-            //Throw new INVALID STUDENT
-        }
-        else
-        {
-            //Student student = studentRepository...
+        //CREATE ABSENCE DTO
 
-            Subject subject = subjectRepository.findById(absenceDTO.getSubjectId()).orElseThrow(() -> new InvalidSubjectException("Invalid subject."));
-
-            Absence absence = Absence.builder()
-                    .student(null) //CHANGE WHEN STUDENT FUNCTIONALITY IS PRESENT
-                    .subject(subject)
-                    .absenceDate(LocalDate.now())
-                    .build();
-
-            absenceRepository.save(absence);
-        }
     }
 
     @Override
-    public void updateAbsence(UpdateAbsenceDTO updateAbsenceDTO)
+    public void updateAbsence(UpdateAbsenceDTO updateAbsenceDTO) throws StudentNotFoundException
     {
-        if(!subjectRepository.existsById(updateAbsenceDTO.getSubjectId()))
-        {
-            throw new InvalidSubjectException("Subject does not exist");
-        }
-        else if (updateAbsenceDTO.getSubjectId() == null /*add check for student when functionality is present*/)
-        {
-            //Throw new INVALID STUDENT
-        }
-        else
-        {
-            Absence existingAbsence = absenceRepository.findById(updateAbsenceDTO.getId())
-                    .orElseThrow(() -> new InvalidAbsenceException("Invalid absence."));
-
-            existingAbsence.setStudent(null); //complete when student is implemented
-
-            existingAbsence.setSubject(subjectRepository.findById(updateAbsenceDTO.getSubjectId())
-                    .orElseThrow(() -> new InvalidSubjectException("Invalid subject.")));
-
-            existingAbsence.setAbsenceDate(updateAbsenceDTO.getAbsenceDate());
-
-            absenceRepository.save(existingAbsence);
-        }
+        //UPDATE ABSENCE DTO
     }
 
     @Override
     public void deleteAbsence(Long id)
     {
-        //CHECK IF DELETE AS IS WON'T DELETE THE CONNECTED STUDENT AND SUBJECT
 
-        Absence existinAbsence = absenceRepository.findById(id)
-                .orElseThrow(() -> new InvalidAbsenceException("Invalid Absence"));
-
-            absenceRepository.delete(existinAbsence);
     }
 
     @Override
@@ -98,9 +55,21 @@ public class AbsenceServiceImpl implements AbsenceService
         return absences.stream()
                 .map(absence -> new AbsenceDTO(
                         absence.getId(),
-                        absence.getStudent(),
-                        absence.getSubject(),
+                        absence.getStudentId(),
+                        absence.getSubjectId(),
                         absence.getAbsenceDate()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Student> getAllStudents()
+    {
+        return null;
+    }
+
+    @Override
+    public List<Subject> getAllSubjects() {
+        return null;
+    }
+
 }

@@ -26,11 +26,11 @@ public class Absence
 
     @ManyToOne
     @NotNull
-    private Student student;
+    private Student studentId;
 
     @ManyToOne
     @NotNull
-    private Subject subject;
+    private Subject subjectId;
 
     @NotNull
     private LocalDate absenceDate;

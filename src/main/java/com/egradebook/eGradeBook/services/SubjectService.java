@@ -16,6 +16,4 @@ public interface SubjectService {
 
     Subject createSubject(String name, Long qualificationId, String description) throws QualificationNotFoundException;
     Subject updateSubject(Long subjectId, String subjectName, Long qualificationId, String subjectDescription) throws SubjectNotFoundException, QualificationNotFoundException;
-
-
 }

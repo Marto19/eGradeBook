@@ -1,23 +1,20 @@
-package com.egradebook.eGradeBook.entities;
+package com.egradebook.eGradeBook.DTOs.subject;
 
-import jakarta.persistence.*;
+import com.egradebook.eGradeBook.entities.Absence;
+import com.egradebook.eGradeBook.entities.Curriculum;
+import com.egradebook.eGradeBook.entities.Grade;
+import com.egradebook.eGradeBook.entities.Qualification;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Set;
-
-@Entity
-@Table(name = "subjects")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Subject
+public class SubjectDTO
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank(message = "Subject name cannot be blank")
@@ -25,16 +22,12 @@ public class Subject
 
     private String description;
 
-    @OneToMany(mappedBy = "subjectId")
     private Set<Curriculum> curriculumSet;
 
-    @OneToMany(mappedBy = "subjectId")
     private Set<Grade> gradeSet;
 
-    @OneToMany(mappedBy = "subjectId")
     private Set<Absence> absenceSet;
 
-    @ManyToOne
     @NotNull
     private Qualification qualification;
 }

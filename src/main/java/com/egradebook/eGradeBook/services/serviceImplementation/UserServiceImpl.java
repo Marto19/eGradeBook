@@ -2,6 +2,7 @@ package com.egradebook.eGradeBook.services.serviceImplementation;
 
 import com.egradebook.eGradeBook.DTOs.parent.ParentDTO;
 import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
 import com.egradebook.eGradeBook.DTOs.user.AuthUserDTO;
 import com.egradebook.eGradeBook.DTOs.role.RoleDTO;
 import com.egradebook.eGradeBook.DTOs.user.CreateUserDTO;
@@ -13,10 +14,7 @@ import com.egradebook.eGradeBook.exceptions.EntityAlreadyExistsException;
 import com.egradebook.eGradeBook.exceptions.InvalidRoleException;
 import com.egradebook.eGradeBook.exceptions.InvalidUserException;
 import com.egradebook.eGradeBook.exceptions.UserNotFoundException;
-import com.egradebook.eGradeBook.repositories.ParentRepository;
-import com.egradebook.eGradeBook.repositories.RoleRepository;
-import com.egradebook.eGradeBook.repositories.SchoolRepository;
-import com.egradebook.eGradeBook.repositories.UserRepository;
+import com.egradebook.eGradeBook.repositories.*;
 import com.egradebook.eGradeBook.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -46,8 +44,12 @@ public class UserServiceImpl implements UserService
     private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
+
     private final ParentRepository parentRepository;
+
     private final SchoolRepository schoolRepository;
+
+    private final StudentRepository studentRepository;
 
 
     /**
@@ -269,5 +271,11 @@ public class UserServiceImpl implements UserService
     @Override
     public List<SchoolDTO> getAllSchoolsDto() {
         return schoolRepository.findAllSchoolDTO();
+    }
+
+    @Override
+    public List<StudentDTO> getAllStudentsDto()
+    {
+        return studentRepository.getStudentsDTO();
     }
 }

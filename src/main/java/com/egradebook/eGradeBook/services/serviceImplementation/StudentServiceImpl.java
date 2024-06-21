@@ -103,7 +103,7 @@ public class StudentServiceImpl implements StudentService {
                                 new GradeDTO(grade.getId(), grade.getGrade().getId(), grade.getSubjectId().getId(), grade.getStudentId().getId(), grade.getTeacherId().getId()))
                         .collect(Collectors.toSet()),
                 student.getAbsenceSet().stream().map(absence ->
-                                new AbsenceDTO(absence.getId(), absence.getStudent().getId(), absence.getSubject().getId(), absence.getAbsenceDate()))
+                                new AbsenceDTO(absence.getId(), absence.getStudentId().getId(), absence.getSubjectId().getId(), absence.getAbsenceDate()))
                         .collect(Collectors.toSet())
         );
     }

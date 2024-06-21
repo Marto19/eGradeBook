@@ -26,6 +26,7 @@ public class SecurityConfiguration
                          .requestMatchers(HttpMethod.GET, "/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority("admin")
                          .requestMatchers(HttpMethod.GET, "/roles").hasAuthority("admin")
+                         .requestMatchers(HttpMethod.GET, "/absences").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()

@@ -13,7 +13,7 @@ public interface AbsenceRepository extends JpaRepository<Absence, Long>
 {
     Optional<Absence> findById(Long id);
 
-    Optional<Absence> findByStudentId(Long studentId);
+   // Optional<Absence> findAllByStudentId(Long studentId);
 
     List<Absence> findAll();
 
