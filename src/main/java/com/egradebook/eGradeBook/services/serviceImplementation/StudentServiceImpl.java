@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -92,19 +93,38 @@ public class StudentServiceImpl implements StudentService {
     }
 
     // Helper method to convert Student entity to StudentDTO
+//    private StudentDTO convertToDto(Student student) {
+//        return new StudentDTO(
+//                student.getId(),
+//                student.getFirstName(),
+//                student.getLastName(),
+//                student.getAddress(),
+//                student.getEmail(),
+//                student.getGradeSet().stream().map(grade ->
+//                                new GradeDTO(grade.getId(), grade.getGrade().getId(), grade.getSubjectId().getId(), grade.getStudentId().getId(), grade.getTeacherId().getId()))
+//                        .collect(Collectors.toSet()),
+//                student.getAbsenceSet().stream().map(absence ->
+//                                new AbsenceDTO(absence.getId(), absence.getStudentId().getId(), absence.getSubjectId().getId(), absence.getAbsenceDate()))
+//                        .collect(Collectors.toSet())
+//        );
+//    }
     private StudentDTO convertToDto(Student student) {
+        Set<GradeDTO> gradeDTOs = student.getGradeSet().stream()
+                .map(grade -> new GradeDTO(grade.getId(), grade.getGrade().getId(), grade.getSubjectId().getId(), grade.getStudentId().getId(), grade.getTeacherId().getId()))
+                .collect(Collectors.toSet());
+
+        Set<AbsenceDTO> absenceDTOs = student.getAbsenceSet().stream()
+                .map(absence -> new AbsenceDTO(absence.getId(), absence.getStudentId().getId(), absence.getSubjectId().getId(), absence.getAbsenceDate()))
+                .collect(Collectors.toSet());
+
         return new StudentDTO(
                 student.getId(),
                 student.getFirstName(),
                 student.getLastName(),
                 student.getAddress(),
                 student.getEmail(),
-                student.getGradeSet().stream().map(grade ->
-                                new GradeDTO(grade.getId(), grade.getGrade().getId(), grade.getSubjectId().getId(), grade.getStudentId().getId(), grade.getTeacherId().getId()))
-                        .collect(Collectors.toSet()),
-                student.getAbsenceSet().stream().map(absence ->
-                                new AbsenceDTO(absence.getId(), absence.getStudentId().getId(), absence.getSubjectId().getId(), absence.getAbsenceDate()))
-                        .collect(Collectors.toSet())
+                gradeDTOs,
+                absenceDTOs
         );
     }
 

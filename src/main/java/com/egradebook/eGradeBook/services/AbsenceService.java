@@ -3,6 +3,8 @@ package com.egradebook.eGradeBook.services;
 import com.egradebook.eGradeBook.DTOs.absence.AbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.absence.CreateAbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.absence.UpdateAbsenceDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
+import com.egradebook.eGradeBook.DTOs.subject.SubjectDTO;
 import com.egradebook.eGradeBook.entities.Student;
 import com.egradebook.eGradeBook.entities.Subject;
 import com.egradebook.eGradeBook.exceptions.StudentNotFoundException;
@@ -21,7 +23,7 @@ public interface AbsenceService
 
     List<AbsenceDTO> getAllAbsenceDTOs();
 
-    List<Student> getAllStudents();
+    List<StudentDTO> getAllStudents();
 
-    List<Subject> getAllSubjects();
+    List<SubjectDTO> getAllSubjects();
 }

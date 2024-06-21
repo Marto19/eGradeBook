@@ -1,5 +1,7 @@
 package com.egradebook.eGradeBook.services.serviceImplementation;
 
+import com.egradebook.eGradeBook.DTOs.AbsenceDTO;
+import com.egradebook.eGradeBook.DTOs.GradeDTO;
 import com.egradebook.eGradeBook.DTOs.parent.ParentDTO;
 import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
 import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
@@ -9,6 +11,7 @@ import com.egradebook.eGradeBook.DTOs.user.CreateUserDTO;
 import com.egradebook.eGradeBook.DTOs.user.UpdateUserDTO;
 import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.Role;
+import com.egradebook.eGradeBook.entities.Student;
 import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.exceptions.EntityAlreadyExistsException;
 import com.egradebook.eGradeBook.exceptions.InvalidRoleException;
@@ -24,10 +27,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -276,6 +276,30 @@ public class UserServiceImpl implements UserService
     @Override
     public List<StudentDTO> getAllStudentsDto()
     {
-        return studentRepository.getStudentsDTO();
+        List<Student> students = studentRepository.findAllWithGradesAndAbsences();
+        List<StudentDTO> studentDTOs = new ArrayList<>();
+
+        for (Student student : students) {
+            Set<GradeDTO> gradeDTOs = student.getGradeSet().stream()
+                    .map(grade -> new GradeDTO(grade.getId(), grade.getGrade().getId(), grade.getSubjectId().getId(), grade.getStudentId().getId(), grade.getTeacherId().getId()))
+                    .collect(Collectors.toSet());
+
+            Set<AbsenceDTO> absenceDTOs = student.getAbsenceSet().stream()
+                    .map(absence -> new AbsenceDTO(absence.getId(), absence.getStudentId().getId(), absence.getSubjectId().getId(), absence.getAbsenceDate()))
+                    .collect(Collectors.toSet());
+
+            StudentDTO studentDTO = new StudentDTO(
+                    student.getId(),
+                    student.getFirstName(),
+                    student.getLastName(),
+                    student.getAddress(),
+                    student.getEmail(),
+                    gradeDTOs,
+                    absenceDTOs
+            );
+
+            studentDTOs.add(studentDTO);
+        }
+        return studentDTOs;
     }
 }

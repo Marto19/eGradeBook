@@ -3,6 +3,8 @@ package com.egradebook.eGradeBook.services.serviceImplementation;
 import com.egradebook.eGradeBook.DTOs.absence.AbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.absence.CreateAbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.absence.UpdateAbsenceDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
+import com.egradebook.eGradeBook.DTOs.subject.SubjectDTO;
 import com.egradebook.eGradeBook.entities.Absence;
 import com.egradebook.eGradeBook.entities.Student;
 import com.egradebook.eGradeBook.entities.Subject;
@@ -27,6 +29,10 @@ public class AbsenceServiceImpl implements AbsenceService
     private final SubjectRepository subjectRepository;
 
     private final StudentRepository studentRepository;
+
+    private final StudentServiceImpl studentService;
+
+    private final SubjectServiceImpl subjectService;
 
     @Override
     public void createAbsence(CreateAbsenceDTO absenceDTO) throws StudentNotFoundException
@@ -61,15 +67,23 @@ public class AbsenceServiceImpl implements AbsenceService
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<Student> getAllStudents()
-    {
-        return null;
+//    @Override
+//    public List<Student> getAllStudents()
+//    {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Subject> getAllSubjects() {
+//        return null;
+//    }
+
+    public List<StudentDTO> getAllStudents() {
+        return studentService.getAllStudentsDto();
     }
 
-    @Override
-    public List<Subject> getAllSubjects() {
-        return null;
+    public List<SubjectDTO> getAllSubjects() {
+        return subjectService.getAllSubjectsDto();
     }
 
 }

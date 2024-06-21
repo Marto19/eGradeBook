@@ -1,5 +1,6 @@
 package com.egradebook.eGradeBook.services.serviceImplementation;
 
+import com.egradebook.eGradeBook.DTOs.subject.SubjectDTO;
 import com.egradebook.eGradeBook.entities.Qualification;
 import com.egradebook.eGradeBook.entities.Subject;
 import com.egradebook.eGradeBook.exceptions.QualificationNotFoundException;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 
@@ -76,5 +78,23 @@ public class SubjectServiceImpl implements SubjectService {
         subject.setDescription(subjectDescription);
 
         return subjectRepository.save(subject);
+    }
+
+    public List<SubjectDTO> getAllSubjectsDto() {
+        return subjectRepository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private SubjectDTO convertToDto(Subject subject) {
+        return new SubjectDTO(
+                subject.getId(),
+                subject.getName(),
+                subject.getDescription(),
+                subject.getCurriculumSet(),
+                subject.getGradeSet(),
+                subject.getAbsenceSet(),
+                subject.getQualification()
+        );
     }
 }
