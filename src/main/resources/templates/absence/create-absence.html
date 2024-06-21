@@ -23,6 +23,11 @@
             </select>
             <div th:if="${#fields.hasErrors('subjectId')}" th:errors="*{subjectId}" class="error text-danger"></div>
         </div>
+        <div class="form-group">
+            <label for="absenceDate">Absence Date</label>
+            <input type="date" id="absenceDate" name="absenceDate" th:field="*{absenceDate}" class="form-control"/>
+            <div th:if="${#fields.hasErrors('absenceDate')}" th:errors="*{absenceDate}" class="error text-danger"></div>
+        </div>
         <button type="submit" class="btn btn-primary w-100">Create Absence</button>
     </form>
     <a class="mt-2 mb-2" th:href="@{/absences}">Back to absence list</a>
