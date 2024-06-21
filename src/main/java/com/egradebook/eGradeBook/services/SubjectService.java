@@ -1,5 +1,6 @@
 package com.egradebook.eGradeBook.services;
 
+import com.egradebook.eGradeBook.DTOs.subject.SubjectDTO;
 import com.egradebook.eGradeBook.entities.Subject;
 import com.egradebook.eGradeBook.exceptions.QualificationNotFoundException;
 import com.egradebook.eGradeBook.exceptions.SubjectNotFoundException;
@@ -13,7 +14,7 @@ public interface SubjectService {
     Subject updateSubject(Subject subject);
     void deleteSubject(Long id) throws SubjectNotFoundException;
     List<Subject> listAllSubjects();
-
+    List<SubjectDTO> getAllSubjectsDto();
     Subject createSubject(String name, Long qualificationId, String description) throws QualificationNotFoundException;
     Subject updateSubject(Long subjectId, String subjectName, Long qualificationId, String subjectDescription) throws SubjectNotFoundException, QualificationNotFoundException;
 }

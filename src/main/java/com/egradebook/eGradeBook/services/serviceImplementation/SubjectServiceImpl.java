@@ -80,6 +80,7 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectRepository.save(subject);
     }
 
+    @Override
     public List<SubjectDTO> getAllSubjectsDto() {
         return subjectRepository.findAll().stream()
                 .map(this::convertToDto)

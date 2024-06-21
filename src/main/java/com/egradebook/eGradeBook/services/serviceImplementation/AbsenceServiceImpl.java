@@ -35,10 +35,13 @@ public class AbsenceServiceImpl implements AbsenceService
     private final SubjectServiceImpl subjectService;
 
     @Override
-    public void createAbsence(CreateAbsenceDTO absenceDTO) throws StudentNotFoundException
+    public void createAbsence(AbsenceDTO absenceDTO) throws StudentNotFoundException
     {
-        //CREATE ABSENCE DTO
-
+        Absence absence = new Absence();
+        absence.setStudentId(studentRepository.findById(absenceDTO.getStudentId().getId()).orElseThrow(() -> new RuntimeException("Student not found")));
+        absence.setSubjectId(subjectRepository.findById(absenceDTO.getSubjectId().getId()).orElseThrow(() -> new RuntimeException("Subject not found")));
+        absence.setAbsenceDate(absenceDTO.getAbsenceDate());
+        absenceRepository.save(absence);
     }
 
     @Override

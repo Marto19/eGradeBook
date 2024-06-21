@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public interface AbsenceService
 {
-    void createAbsence(CreateAbsenceDTO absenceDTO) throws StudentNotFoundException;
+    void createAbsence(AbsenceDTO absenceDTO) throws StudentNotFoundException;
 
     void updateAbsence(UpdateAbsenceDTO updateAbsenceDTO) throws StudentNotFoundException;
 

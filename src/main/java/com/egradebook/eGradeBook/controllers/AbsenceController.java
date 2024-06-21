@@ -1,7 +1,9 @@
 package com.egradebook.eGradeBook.controllers;
 
 import com.egradebook.eGradeBook.DTOs.absence.AbsenceDTO;
+import com.egradebook.eGradeBook.exceptions.StudentNotFoundException;
 import com.egradebook.eGradeBook.services.AbsenceService;
+import com.egradebook.eGradeBook.services.StudentService;
 import com.egradebook.eGradeBook.services.SubjectService;
 import com.egradebook.eGradeBook.services.UserService;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,8 @@ public class AbsenceController
 
     private final UserService userService;
 
+    private final StudentService studentService;
+
     @GetMapping
     public String showAbsencesPage(Model model)
     {
@@ -32,17 +36,18 @@ public class AbsenceController
     @GetMapping("/create")
     public String createAbsence(Model model) {
         model.addAttribute("absence", new AbsenceDTO());
-        model.addAttribute("students", absenceService.getAllStudents());
-        model.addAttribute("subjects", absenceService.getAllSubjects());
+        model.addAttribute("students", userService.getAllStudentsDto());
+        model.addAttribute("subjects", subjectService.getAllSubjectsDto());
         return "absence/create-absence";
     }
 
     @PostMapping("/create")
-    public String createAbsence(@ModelAttribute("absence") AbsenceDTO absenceDTO, BindingResult result) {
+    public String createAbsence(@ModelAttribute("absence") AbsenceDTO absenceDTO, BindingResult result) throws StudentNotFoundException {
         if (result.hasErrors()) {
             return "absence/create-absence";
         }
         // Save the absence here using your service
+        absenceService.createAbsence(absenceDTO);
         return "redirect:/absences";
     }
 

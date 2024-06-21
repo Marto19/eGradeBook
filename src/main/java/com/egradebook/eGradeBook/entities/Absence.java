@@ -25,10 +25,12 @@ public class Absence
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "student_id_id")
     @NotNull
     private Student studentId;
 
     @ManyToOne
+    @JoinColumn(name = "subject_id_id")
     @NotNull
     private Subject subjectId;
 
