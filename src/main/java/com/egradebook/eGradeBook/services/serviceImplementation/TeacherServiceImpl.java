@@ -1,5 +1,6 @@
 package com.egradebook.eGradeBook.services.serviceImplementation;
 
+import com.egradebook.eGradeBook.DTOs.teacher.TeacherCreateDTO;
 import com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO;
 import com.egradebook.eGradeBook.entities.Qualification;
 import com.egradebook.eGradeBook.entities.Role;
@@ -16,9 +17,13 @@ import com.egradebook.eGradeBook.repositories.SchoolRepository;
 import com.egradebook.eGradeBook.repositories.TeacherRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.TeacherService;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -63,14 +68,50 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void createTeacher(TeacherDTO teacherDTO) {
+    @Transactional
+    public void createTeacher(Long userId, Long schoolId, Collection<Long> qualificationIds) {
+
+        User user = userRepository.findById(userId).orElseThrow();
+        School school = schoolRepository.findById(schoolId).orElseThrow();
+
+        Set<Qualification> qualifications = qualificationIds.stream()
+                .map(id -> qualificationsRepository.findById(id).orElseThrow())
+                .collect(Collectors.toSet());
+
+        Role teacherRole = roleRepository.findByName("teacher").orElseThrow();
+        user.getRoles().add(teacherRole);
+
         Teacher teacher = new Teacher();
-        teacher.setId(teacherDTO.getId());
-        teacher.setFirstName(teacherDTO.getFirstName());
-        teacher.setLastName(teacherDTO.getLastName());
-        teacher.setPhoneNumber(teacherDTO.getPhoneNumber());
-        // Set other fields as necessary
-        teacherRepository.save(teacher);
+        teacher.setId(userId);
+        teacher.setFirstName(user.getFirstName());
+        teacher.setLastName(user.getLastName());
+        teacher.setAddress(user.getAddress());
+        teacher.setEmail(user.getEmail());
+        teacher.setPasswordHash(user.getPasswordHash());
+        teacher.setPhoneNumber(user.getPhoneNumber());
+        teacher.setEnabled(user.getEnabled());
+        teacher.setRoles(user.getRoles());
+
+        teacher.setSchool(school);
+
+        teacherRepository.insertTeacher(userId, schoolId);
+
+        for (Long qualificationId : qualificationIds) {
+            teacherRepository.insertTeacherQualification(userId, qualificationId);
+        }
+
+    }
+
+
+    @Override
+    public Teacher findById(Long id) throws TeacherNotFoundException {
+        return teacherRepository.findById(id)
+                .orElseThrow(() -> new TeacherNotFoundException("Teacher with ID:" + id + " not found!"));
+    }
+
+    @Override
+    public TeacherDTO findTeacherDTOById(Long id) {
+        return teacherRepository.findTeacherDTOById(id);
     }
 
 

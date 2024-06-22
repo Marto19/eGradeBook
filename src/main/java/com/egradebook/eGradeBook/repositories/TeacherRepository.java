@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,12 +20,13 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             "FROM Teacher t WHERE t.enabled = true")
     List<TeacherDTO> getTeachersDTO();
 
+    @Query("SELECT new com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO(t.id, t.firstName, t.lastName, t.phoneNumber) FROM Teacher t WHERE t.id = :id ")
+    TeacherDTO findTeacherDTOById(Long id);
+
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO teachers (users_user_id, school_id) " +
-            "VALUES (:#{#teacher.id}, :#{#teacher.school.id})",
-            nativeQuery = true)
-    void insertTeacher(Teacher teacher);
+    @Query(value = "INSERT INTO teachers (users_user_id, school_id) VALUES (:userId, :schoolId)", nativeQuery = true)
+    void insertTeacher(@Param("userId") Long userId, @Param("schoolId") Long schoolId);
 
     @Modifying
     @Transactional
@@ -34,6 +36,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO teachers_qualficiations (users_id, qualifications_id) VALUES (:userId, :qualificationId)", nativeQuery = true)
-    void insertTeacherQualification(Long userId, Long qualificationId);
+    void insertTeacherQualification(@Param("userId") Long userId, @Param("qualificationId") Long qualificationId);
 
 }

@@ -71,15 +71,12 @@ public class TeacherController {
     }
 
     @PostMapping("/create")
-    public String createTeacher(@ModelAttribute TeacherDTO teacherDTO, Model model) {
-        try {
-            teacherService.createTeacher(teacherDTO);
-            return "redirect:/teacher";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            // TODO Handle Correctly, Create Error Page
-            return "redirect:/teacher";
-        }
+    public String createTeacher(@RequestParam Long userId,
+                                @RequestParam Long schoolId,
+                                @RequestParam List<Long> qualificationIds) {
+
+        teacherService.createTeacher(userId, schoolId, qualificationIds);
+        return "redirect:/teacher";
     }
     
 
