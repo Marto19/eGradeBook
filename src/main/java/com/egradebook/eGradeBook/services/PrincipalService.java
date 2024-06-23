@@ -11,4 +11,6 @@ public interface PrincipalService
     Principal getPrincipalById(Long id);
     List<PrincipalDTO> getPrincipalDTOList();
     void softDeletePrincipal(Principal principal);
+
+    void createPrincipal(Long userId);
 }

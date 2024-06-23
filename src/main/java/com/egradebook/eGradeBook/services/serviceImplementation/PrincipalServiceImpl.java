@@ -2,8 +2,12 @@ package com.egradebook.eGradeBook.services.serviceImplementation;
 
 import com.egradebook.eGradeBook.DTOs.principal.PrincipalDTO;
 import com.egradebook.eGradeBook.entities.Principal;
+import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.repositories.PrincipalRepository;
+import com.egradebook.eGradeBook.repositories.TeacherRepository;
+import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.PrincipalService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,15 @@ public class PrincipalServiceImpl implements PrincipalService {
 
     @Autowired
     private PrincipalRepository principalRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
+
+    @Override
+    public void saveOrUpdate(Principal principal) {
+
+    }
 
     @Override
     public Principal getPrincipalById(Long id) {
@@ -28,26 +41,26 @@ public class PrincipalServiceImpl implements PrincipalService {
         return principalRepository.getPrincipalDTOs();
     }
 
-    @Override
-    public void saveOrUpdate(Principal principal) {
-        if (principal != null) {
-            Principal existingPrincipal = principalRepository.findById(principal.getId()).orElse(null);
-            if (existingPrincipal != null) {
-                existingPrincipal.setFirstName(principal.getFirstName());
-                existingPrincipal.setLastName(principal.getLastName());
-                existingPrincipal.setAddress(principal.getAddress());
-                existingPrincipal.setEmail(principal.getEmail());
-                existingPrincipal.setPasswordHash(principal.getPasswordHash());
-                existingPrincipal.setPhoneNumber(principal.getPhoneNumber());
-                existingPrincipal.setEnabled(principal.getEnabled());
-                existingPrincipal.setRoles(principal.getRoles());
-                principalRepository.save(existingPrincipal);
-            } else {
-                // Save the new principal
-                principalRepository.save(principal);
-            }
-        }
-    }
+//    @Override
+//    public void saveOrUpdate(Principal principal) {
+//        if (principal != null) {
+//            Principal existingPrincipal = principalRepository.findById(principal.getId()).orElse(null);
+//            if (existingPrincipal != null) {
+//                existingPrincipal.setFirstName(principal.getFirstName());
+//                existingPrincipal.setLastName(principal.getLastName());
+//                existingPrincipal.setAddress(principal.getAddress());
+//                existingPrincipal.setEmail(principal.getEmail());
+//                existingPrincipal.setPasswordHash(principal.getPasswordHash());
+//                existingPrincipal.setPhoneNumber(principal.getPhoneNumber());
+//                existingPrincipal.setEnabled(principal.getEnabled());
+//                existingPrincipal.setRoles(principal.getRoles());
+//                principalRepository.save(existingPrincipal);
+//            } else {
+//                // Save the new principal
+//                principalRepository.save(principal);
+//            }
+//        }
+//    }
 
     @Override
     public void softDeletePrincipal(Principal principal) {
@@ -56,5 +69,25 @@ public class PrincipalServiceImpl implements PrincipalService {
             existingPrincipal.setEnabled(false);
             principalRepository.save(existingPrincipal);
         }
+    }
+
+    @Override
+    @Transactional
+    public void createPrincipal(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+
+        Principal principal = new Principal();
+        principal.setId(userId);
+        principal.setFirstName(user.getFirstName());
+        principal.setLastName(user.getLastName());
+        principal.setAddress(user.getAddress());
+        principal.setEmail(user.getEmail());
+        principal.setPasswordHash(user.getPasswordHash());
+        principal.setPhoneNumber(user.getPhoneNumber());
+        principal.setEnabled(user.getEnabled());
+        principal.setRoles(user.getRoles());
+
+        principalRepository.insertPrincipal(userId);
+
     }
 }

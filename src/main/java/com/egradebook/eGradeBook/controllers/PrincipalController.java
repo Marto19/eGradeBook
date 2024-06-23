@@ -48,24 +48,32 @@ public class PrincipalController {
         return "principal/create-principal";
     }
 
+//    @PostMapping("/create")
+//    public String createPrincipal(@RequestParam Long userId) {
+//        User user = userRepository.findById(userId).orElse(null);
+//
+//        if (user != null) {
+//            Principal principal = Principal.builder()
+//                    .id(user.getId())
+//                    .firstName(user.getFirstName())
+//                    .lastName(user.getLastName())
+//                    .address(user.getAddress())
+//                    .email(user.getEmail())
+//                    .passwordHash(user.getPasswordHash())
+//                    .phoneNumber(user.getPhoneNumber())
+//                    .enabled(user.getEnabled())
+//                    .build();
+//
+//            principalService.saveOrUpdate(principal);
+//        }
+//
+//        return "redirect:/principal";
+//    }
+
     @PostMapping("/create")
     public String createPrincipal(@RequestParam Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
 
-        if (user != null) {
-            Principal principal = Principal.builder()
-                    .id(user.getId())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .address(user.getAddress())
-                    .email(user.getEmail())
-                    .passwordHash(user.getPasswordHash())
-                    .phoneNumber(user.getPhoneNumber())
-                    .enabled(user.getEnabled())
-                    .build();
-
-            principalService.saveOrUpdate(principal);
-        }
+        principalService.createPrincipal(userId);
 
         return "redirect:/principal";
     }
