@@ -29,4 +29,13 @@ public class Qualification
 
     @ManyToMany(mappedBy = "qualificationSet")
     private Set<Teacher> teacherSet;
+
+    public Qualification(String signature) {
+        this.signature = signature;
+    }
+
+    public Qualification(String signature, String description) {
+        this.signature = signature;
+        this.description = description;
+    }
 }

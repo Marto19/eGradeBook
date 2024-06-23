@@ -39,4 +39,8 @@ public class Teacher extends User
     // Prevent cascade deletion
     @OneToMany(mappedBy = "teacherId", cascade = CascadeType.DETACH)
     private Set<Grade> gradeSet;
+
+    public Teacher(String firstName, String lastName, String address, String email, String passwordHash, String phoneNumber, Boolean enabled, Set<Role> roles) {
+        super(firstName, lastName, address, email, passwordHash, phoneNumber, enabled, roles);
+    }
 }

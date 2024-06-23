@@ -40,4 +40,9 @@ public class School
     @OneToMany
     private Set<Class> classes;
 
+    public School(String name, String address, Principal principal) {
+        this.name = name;
+        this.address = address;
+        this.principal = principal;
+    }
 }

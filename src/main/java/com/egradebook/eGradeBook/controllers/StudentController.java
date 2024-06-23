@@ -80,4 +80,9 @@ public class StudentController {
             return "error"; // Redirect to error page or handle as required
         }
     }
+
+    @GetMapping("/student-view")
+    public String showStudentView() {
+        return "student/student-view";
+    }
 }
