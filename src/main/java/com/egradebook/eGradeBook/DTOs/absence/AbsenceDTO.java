@@ -1,7 +1,5 @@
 package com.egradebook.eGradeBook.DTOs.absence;
 
-import com.egradebook.eGradeBook.entities.Student;
-import com.egradebook.eGradeBook.entities.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +11,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AbsenceDTO
-{
+public class AbsenceDTO {
     private long id;
-
-    private Student studentId;
-
-    private Subject subjectId;
-
+    private Long studentId;
+    private String studentName; // Add this field
+    private Long subjectId;
+    private String subjectName; // Add this field
     private LocalDate absenceDate;
 }

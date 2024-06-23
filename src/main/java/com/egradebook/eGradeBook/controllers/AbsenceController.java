@@ -46,7 +46,6 @@ public class AbsenceController
         if (result.hasErrors()) {
             return "absence/create-absence";
         }
-        // Save the absence here using your service
         absenceService.createAbsence(absenceDTO);
         return "redirect:/absences";
     }

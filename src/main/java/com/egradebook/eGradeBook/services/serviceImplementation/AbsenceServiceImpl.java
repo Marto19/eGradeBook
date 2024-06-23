@@ -35,11 +35,10 @@ public class AbsenceServiceImpl implements AbsenceService
     private final SubjectServiceImpl subjectService;
 
     @Override
-    public void createAbsence(AbsenceDTO absenceDTO) throws StudentNotFoundException
-    {
+    public void createAbsence(AbsenceDTO absenceDTO) throws StudentNotFoundException {
         Absence absence = new Absence();
-        absence.setStudentId(studentRepository.findById(absenceDTO.getStudentId().getId()).orElseThrow(() -> new RuntimeException("Student not found")));
-        absence.setSubjectId(subjectRepository.findById(absenceDTO.getSubjectId().getId()).orElseThrow(() -> new RuntimeException("Subject not found")));
+        absence.setStudentId(studentRepository.findById(absenceDTO.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found")));
+        absence.setSubjectId(subjectRepository.findById(absenceDTO.getSubjectId()).orElseThrow(() -> new RuntimeException("Subject not found")));
         absence.setAbsenceDate(absenceDTO.getAbsenceDate());
         absenceRepository.save(absence);
     }
@@ -57,18 +56,21 @@ public class AbsenceServiceImpl implements AbsenceService
     }
 
     @Override
-    public List<AbsenceDTO> getAllAbsenceDTOs()
-    {
+    public List<AbsenceDTO> getAllAbsenceDTOs() {
         List<Absence> absences = absenceRepository.findAll();
 
         return absences.stream()
                 .map(absence -> new AbsenceDTO(
                         absence.getId(),
-                        absence.getStudentId(),
-                        absence.getSubjectId(),
-                        absence.getAbsenceDate()))
+                        absence.getStudentId().getId(),
+                        absence.getStudentId().getFirstName() + " " + absence.getStudentId().getLastName(), // Get the full name
+                        absence.getSubjectId().getId(),
+                        absence.getSubjectId().getName(), // Get the subject name
+                        absence.getAbsenceDate()
+                ))
                 .collect(Collectors.toList());
     }
+
 
 //    @Override
 //    public List<Student> getAllStudents()
