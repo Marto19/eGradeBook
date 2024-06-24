@@ -2,6 +2,7 @@ package com.egradebook.eGradeBook.services;
 
 import com.egradebook.eGradeBook.DTOs.classes.SchoolClassDTO;
 import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentSummaryDTO;
 import com.egradebook.eGradeBook.entities.Student;
 import com.egradebook.eGradeBook.exceptions.StudentNotFoundException;
 
@@ -24,4 +25,7 @@ public interface StudentService {
     List<SchoolClassDTO> getAllClassesDto();
 
     Student createStudent(Long studentId, Long classId, Long parentId, Long schoolId) throws RoleNotFoundException;
+
+    List<StudentSummaryDTO> findStudentsByTeacherId(Long teacherId);
+
 }

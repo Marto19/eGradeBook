@@ -2,7 +2,7 @@ package com.egradebook.eGradeBook.controllers;
 
 import com.egradebook.eGradeBook.entities.GradeCatalog;
 import com.egradebook.eGradeBook.exceptions.GradeCatalogNotFoundException;
-import com.egradebook.eGradeBook.services.GradeService;
+import com.egradebook.eGradeBook.services.GradeCatalogService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +20,11 @@ import java.util.List;
 @RequestMapping("/grade-catalog")
 public class GradeCatalogController {
 
-    private final GradeService gradeService;
+    private final GradeCatalogService gradeCatalogService;
 
     @GetMapping
     public String showGradeCatalog(Model model) {
-        List<GradeCatalog> gradeCatalogs = gradeService.getAll();
+        List<GradeCatalog> gradeCatalogs = gradeCatalogService.getAll();
         model.addAttribute("gradeCatalogs", gradeCatalogs);
         return "grade-catalog/list-catalog";
     }
@@ -37,7 +37,7 @@ public class GradeCatalogController {
     @PostMapping("/create")
     public String createGradeCatalog(@RequestParam Double gradeSign) {
 
-        gradeService.save(gradeSign);
+        gradeCatalogService.save(gradeSign);
 
         return "redirect:/grade-catalog";
     }
@@ -47,7 +47,7 @@ public class GradeCatalogController {
 
         GradeCatalog gradeCatalog;
 
-        gradeCatalog = gradeService.getById(gradeId);
+        gradeCatalog = gradeCatalogService.getById(gradeId);
 
         model.addAttribute("grade", gradeCatalog);
         return "grade-catalog/edit-catalog";
@@ -56,7 +56,7 @@ public class GradeCatalogController {
     @PostMapping("/update")
     public String updateGradeCatalog(@RequestParam Long gradeId, @RequestParam Double gradeSign) throws GradeCatalogNotFoundException {
 
-        gradeService.update(gradeId, gradeSign);
+        gradeCatalogService.update(gradeId, gradeSign);
 
         return "redirect:/grade-catalog";
     }
@@ -64,8 +64,10 @@ public class GradeCatalogController {
     @GetMapping("/delete/{gradeId}")
     public String deleteGradeCatalog(@PathVariable Long gradeId) throws GradeCatalogNotFoundException {
 
-        gradeService.delete(gradeId);
+        gradeCatalogService.delete(gradeId);
 
         return "redirect:/grade-catalog";
     }
+
+
 }

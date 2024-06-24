@@ -15,8 +15,10 @@ import com.egradebook.eGradeBook.repositories.TeacherRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.QualificationService;
 import com.egradebook.eGradeBook.services.SchoolService;
+import com.egradebook.eGradeBook.services.StudentService;
 import com.egradebook.eGradeBook.services.TeacherService;
 import com.egradebook.eGradeBook.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+@AllArgsConstructor
 
 @Controller
 @RequestMapping("/teacher")
@@ -37,17 +41,8 @@ public class TeacherController {
     private final UserService userService;
     private final QualificationService qualificationService;
     private final QualificationsRepository qualificationsRepository;
+    private final StudentService studentService;
     private final UserRepository userRepository;
-
-    public TeacherController(TeacherService teacherService, TeacherRepository teacherRepository, SchoolService schoolService, UserService userService, QualificationService qualificationService, QualificationsRepository qualificationsRepository, UserRepository userRepository) {
-        this.teacherService = teacherService;
-        this.teacherRepository = teacherRepository;
-        this.schoolService = schoolService;
-        this.userService = userService;
-        this.qualificationService = qualificationService;
-        this.qualificationsRepository = qualificationsRepository;
-        this.userRepository = userRepository;
-    }
 
     @GetMapping
     public String showTeacher(Model model) {
@@ -117,6 +112,18 @@ public class TeacherController {
 
         return "redirect:/teacher";
     }
+
+    @GetMapping("/{teacherId}/students")
+    public String showTeacherStudents(@PathVariable Long teacherId,
+                                      Model model) {
+
+        model.addAttribute("studentList", studentService.findStudentsByTeacherId(teacherId));
+
+        return "teacher/teacher-view";
+    }
+
+
+
 }
 
 

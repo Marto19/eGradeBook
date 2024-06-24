@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Teacher view')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+
+
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">
+            <i class="fas fa-graduation-cap"></i>
+            Ученик
+        </th>
+        <th scope="col">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each = "student : ${studentList}">
+        <th th:text="${student.id}" scope="row"></th>
+        <td th:text="${student.firstName + ' ' + student.lastName}"></td>
+        <td>
+            <a type="button" th:href="@{/teacher/edit/{studentId}(studentId=${student.id})}" class="btn btn-link text-primary">
+                <i class="fas fa-edit"></i> Оценки </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</html>

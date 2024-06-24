@@ -1,6 +1,7 @@
 package com.egradebook.eGradeBook.repositories;
 
 import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentSummaryDTO;
 import com.egradebook.eGradeBook.entities.Student;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -38,4 +39,17 @@ public interface StudentRepository extends JpaRepository<Student, Long>
                        @Param("schoolId") Long schoolId);
 
     boolean existsByEmail(String email);
+
+
+    @Query("SELECT new com.egradebook.eGradeBook.DTOs.student.StudentSummaryDTO(s.id, s.firstName, s.lastName) " +
+            "FROM Student s " +
+            "JOIN s.classID c " +
+            "JOIN c.curriculumSet curr " +
+            "JOIN curr.teacherId t " +
+            "WHERE t.id = :teacherId")
+    List<StudentSummaryDTO> findStudentsByTeacherId(@Param("teacherId") Long teacherId);
+
+
+
+
 }

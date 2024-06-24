@@ -4,7 +4,9 @@ import com.egradebook.eGradeBook.DTOs.AbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.GradeDTO;
 import com.egradebook.eGradeBook.DTOs.classes.SchoolClassDTO;
 import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentSummaryDTO;
 import com.egradebook.eGradeBook.entities.Class;
+import com.egradebook.eGradeBook.entities.Grade;
 import com.egradebook.eGradeBook.entities.Parent;
 import com.egradebook.eGradeBook.entities.Role;
 import com.egradebook.eGradeBook.entities.School;
@@ -190,4 +192,14 @@ public class StudentServiceImpl implements StudentService {
 
         return student;
     }
+
+    @Override
+    public List<StudentSummaryDTO> findStudentsByTeacherId(Long teacherId) {
+        return studentRepository.findStudentsByTeacherId(teacherId);
+    }
+
+
+
+
+
 }

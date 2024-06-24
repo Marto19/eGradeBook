@@ -12,8 +12,10 @@ import com.egradebook.eGradeBook.entities.Class;
 import com.egradebook.eGradeBook.exceptions.EntityAlreadyExistsException;
 import com.egradebook.eGradeBook.exceptions.StudentNotFoundException;
 import com.egradebook.eGradeBook.repositories.UserRepository;
+import com.egradebook.eGradeBook.services.GradeService;
 import com.egradebook.eGradeBook.services.StudentService;
 import com.egradebook.eGradeBook.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,8 @@ import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 import java.util.ListResourceBundle;
 
+@AllArgsConstructor
+
 @Controller
 @RequestMapping("/student")
 public class StudentController {
@@ -29,12 +33,7 @@ public class StudentController {
     private final StudentService studentService;
     private final UserService userService;
     private final UserRepository userRepository;
-
-    public StudentController(StudentService studentService, UserService userService, UserRepository userRepository) {
-        this.studentService = studentService;
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
+    private final GradeService gradeService;
 
     @GetMapping
     public String showStudentList(Model model) {
@@ -81,8 +80,13 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/student-view")
-    public String showStudentView() {
-        return "student/student-view";
+    @GetMapping("/grades/{studentId}")
+    public String showStudentGrades(@PathVariable Long studentId, Model model) {
+
+        model.addAttribute("gradesList", gradeService.findByStudentId(studentId));
+
+        return "student/student-grades";
     }
+
+
 }

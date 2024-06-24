@@ -58,12 +58,12 @@ public class EGradeBookApplication {
 		@Override
 		public void run(String... args) throws Exception {
 
-			createRoles(roleRepository);
-			createQualifications(qualificationsRepository);
-			createPrincipals(principalRepository, roleRepository, bCryptPasswordEncoder);
-			createSchools(schoolRepository, principalRepository);
-			createTeachers(teacherRepository, roleRepository, bCryptPasswordEncoder);
-			createAdmin(userRepository, roleRepository, bCryptPasswordEncoder);
+//			createRoles(roleRepository);
+//			createQualifications(qualificationsRepository);
+//			createPrincipals(principalRepository, roleRepository, bCryptPasswordEncoder);
+//			createSchools(schoolRepository, principalRepository);
+//			createTeachers(teacherRepository, roleRepository, bCryptPasswordEncoder);
+//			createAdmin(userRepository, roleRepository, bCryptPasswordEncoder);
 
 		}
 
