@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Grade Management')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+<div class="container">
+    <h1 class="my-4">Grade Management</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Grade List</h5>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <a th:href="@{/grades/new}" class="btn btn-primary mb-2">
+                        <i class="fas fa-plus"></i> Add Grade
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Student</th>
+                            <th>Subject</th>
+                            <th>Grade</th>
+                            <th>Teacher</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="grade : ${grades}">
+                            <td th:text="${grade.id}"></td>
+                            <td th:text="${grade.studentId.firstName} + ' ' + ${grade.studentId.lastName}"></td> <!-- Display student full name -->
+                            <td th:text="${grade.subjectId.getName()}"></td> <!-- Display subject name -->
+                            <td th:text="${grade.grade.gradeNumber}"></td> <!-- Display grade catalog number -->
+                            <td th:text="${grade.teacherId.firstName} + ' ' + ${grade.teacherId.lastName}"></td> <!-- Display teacher full name -->
+                            <td>
+                                <a th:href="@{/grades/delete/{id}(id=${grade.id})}" class="btn btn-link text-danger" onclick="return confirm('Are you sure you want to delete this record?');">
+                                    Delete <i class="fas fa-trash"></i>
+                                </a>
+                                <a th:href="@{/grades/edit/{id}(id=${grade.id})}" class="btn btn-link">
+                                    Edit <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</body>
+</html>
