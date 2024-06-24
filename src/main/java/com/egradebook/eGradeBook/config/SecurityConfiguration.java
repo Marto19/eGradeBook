@@ -1,6 +1,5 @@
 package com.egradebook.eGradeBook.config;
 
-
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,24 +13,22 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
-public class SecurityConfiguration
-{
+public class SecurityConfiguration {
     private final DaoAuthenticationProvider authenticationProvider;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
-    {
-
-         return http.authorizeRequests((authorize) -> authorize
-                         .requestMatchers(HttpMethod.GET, "/").permitAll()
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.authorizeRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasAuthority("admin")
-                         .requestMatchers(HttpMethod.GET, "/roles").hasAuthority("admin")
-                         .requestMatchers(HttpMethod.GET, "/absences").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/roles").hasAuthority("admin")
+                        .requestMatchers(HttpMethod.GET, "/absences").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
                         .loginProcessingUrl("/perform_login")
-                        .defaultSuccessUrl("/")
+                        .successHandler(customAuthenticationSuccessHandler)
                         .failureUrl("/login?error=true")
                         .usernameParameter("email")
                         .passwordParameter("password"))
@@ -39,7 +36,7 @@ public class SecurityConfiguration
                         .permitAll()
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login"))
-                 .authenticationProvider(authenticationProvider)
+                .authenticationProvider(authenticationProvider)
                 .build();
     }
 }
