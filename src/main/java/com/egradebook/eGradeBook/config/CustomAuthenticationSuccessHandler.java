@@ -31,6 +31,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         AuthUserDTO authUserDTO = userService.findByEmail(authentication.getName());
 
+        request.getSession().setAttribute("userId", authUserDTO.getId());
+
         for (GrantedAuthority authority : authorities) {
             switch (authority.getAuthority()) {
                 case "admin":

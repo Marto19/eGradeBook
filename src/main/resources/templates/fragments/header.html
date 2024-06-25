@@ -1,4 +1,4 @@
-<header th:fragment="header" class="header">
+<header th:fragment="header" class="header" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" th:href="@{/}">eGradeBook</a>
@@ -8,7 +8,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin}">Admin Panel</a></li>
+                    <li class="nav-item"><a sec:authorize="hasAuthority('admin')" class="nav-link" th:href="@{/admin}">Admin Panel</a></li>
+                    <li class="nav-item"><a sec:authorize="hasAuthority('teacher')" class="nav-link" th:href="@{/teacher/{id}/students(id=${session.userId})}">Students</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
                 </ul>
