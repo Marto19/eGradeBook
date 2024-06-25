@@ -22,7 +22,7 @@
         <th th:text="${student.id}" scope="row"></th>
         <td th:text="${student.firstName + ' ' + student.lastName}"></td>
         <td>
-            <a type="button" th:href="@{/teacher/edit/{studentId}(studentId=${student.id})}" class="btn btn-link text-primary">
+            <a type="button" th:href="@{/student/grades/{studentId}(studentId=${student.id})}" class="btn btn-link text-primary">
                 <i class="fas fa-edit"></i> Оценки </a>
         </td>
     </tr>

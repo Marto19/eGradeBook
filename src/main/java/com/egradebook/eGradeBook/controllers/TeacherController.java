@@ -3,6 +3,7 @@ package com.egradebook.eGradeBook.controllers;
 import com.egradebook.eGradeBook.DTOs.school.SchoolDTO;
 import com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO;
 import com.egradebook.eGradeBook.DTOs.user.UserDTO;
+import com.egradebook.eGradeBook.entities.Grade;
 import com.egradebook.eGradeBook.entities.Qualification;
 import com.egradebook.eGradeBook.entities.Teacher;
 import com.egradebook.eGradeBook.entities.User;
@@ -13,6 +14,7 @@ import com.egradebook.eGradeBook.exceptions.UserNotFoundException;
 import com.egradebook.eGradeBook.repositories.QualificationsRepository;
 import com.egradebook.eGradeBook.repositories.TeacherRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
+import com.egradebook.eGradeBook.services.GradeService;
 import com.egradebook.eGradeBook.services.QualificationService;
 import com.egradebook.eGradeBook.services.SchoolService;
 import com.egradebook.eGradeBook.services.StudentService;
@@ -43,6 +45,7 @@ public class TeacherController {
     private final QualificationsRepository qualificationsRepository;
     private final StudentService studentService;
     private final UserRepository userRepository;
+    private final GradeService gradeService;
 
     @GetMapping
     public String showTeacher(Model model) {
@@ -121,6 +124,13 @@ public class TeacherController {
 
         return "teacher/teacher-view";
     }
+
+    @GetMapping("/edit/{gradeId}")
+    public String showEditStudentForm(@PathVariable Long gradeId, Model model) {
+        model.addAttribute("grade", gradeService.findByStudentId(gradeId));
+        return "teacher/edit-student-grade";
+    }
+
 
 
 

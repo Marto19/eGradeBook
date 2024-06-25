@@ -20,6 +20,7 @@ import com.egradebook.eGradeBook.repositories.RoleRepository;
 import com.egradebook.eGradeBook.repositories.SchoolClassesRepository;
 import com.egradebook.eGradeBook.repositories.SchoolRepository;
 import com.egradebook.eGradeBook.repositories.StudentRepository;
+import com.egradebook.eGradeBook.repositories.TeacherRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.StudentService;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,6 +44,7 @@ public class StudentServiceImpl implements StudentService {
     private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final TeacherRepository teacherRepository;
 
     @Override
     public Student getStudentById(Long id) throws StudentNotFoundException {
@@ -197,9 +199,4 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentSummaryDTO> findStudentsByTeacherId(Long teacherId) {
         return studentRepository.findStudentsByTeacherId(teacherId);
     }
-
-
-
-
-
 }

@@ -49,7 +49,4 @@ public interface StudentRepository extends JpaRepository<Student, Long>
             "WHERE t.id = :teacherId")
     List<StudentSummaryDTO> findStudentsByTeacherId(@Param("teacherId") Long teacherId);
 
-
-
-
 }

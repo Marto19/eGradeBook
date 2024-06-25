@@ -5,6 +5,10 @@
 <header th:insert="~{fragments/header.html :: header}"></header>
 
 
+<a th:href="@{/grades/new}" class="btn btn-primary mb-2">
+    <i class="fas fa-plus"></i>
+    Добави оценка
+</a>
 
 <table class="table">
     <thead class="thead-dark">
@@ -21,11 +25,11 @@
         <td th:text="${grade.studentId.getFirstName() + ' ' + grade.studentId.getLastName()}"></td>
         <td th:text="${grade.grade.getGradeNumber()}"></td>
         <td>
-            <a type="button" th:href="@{/}" class="btn btn-link text-primary">
+            <a type="button" th:href="@{/grades/edit/{id}(id=${grade.id})}" class="btn btn-link text-primary">
                 <i class="fas fa-edit"></i>
                 Промени
             </a>
-            <a type="button" th:href="@{/}" class="btn btn-link2 text-danger"
+            <a type="button" th:href="@{/grades/delete/{id}(id=${grade.id})}" class="btn btn-link2 text-danger"
                onclick="return confirm('Сигурни ли сте че искате да изтриете тази оценка?');">
                 <i class="fas fa-trash"></i>
                 Изтрий
