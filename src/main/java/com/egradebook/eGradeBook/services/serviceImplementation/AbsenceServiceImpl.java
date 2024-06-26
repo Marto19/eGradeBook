@@ -1,6 +1,7 @@
 package com.egradebook.eGradeBook.services.serviceImplementation;
 
 import com.egradebook.eGradeBook.DTOs.absence.AbsenceDTO;
+import com.egradebook.eGradeBook.DTOs.absence.AbsenceSummaryDTO;
 import com.egradebook.eGradeBook.DTOs.absence.CreateAbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.absence.UpdateAbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
@@ -13,6 +14,7 @@ import com.egradebook.eGradeBook.repositories.AbsenceRepository;
 import com.egradebook.eGradeBook.repositories.StudentRepository;
 import com.egradebook.eGradeBook.repositories.SubjectRepository;
 import com.egradebook.eGradeBook.services.AbsenceService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,15 +46,25 @@ public class AbsenceServiceImpl implements AbsenceService
     }
 
     @Override
-    public void updateAbsence(UpdateAbsenceDTO updateAbsenceDTO) throws StudentNotFoundException
-    {
-        //UPDATE ABSENCE DTO
+    public void updateAbsence(Long absenceId, Long studentId, Long subjectId, LocalDate absenceDate) {
+        Absence absence = absenceRepository.findById(absenceId)
+                .orElseThrow(() -> new EntityNotFoundException("Absence not found"));
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new EntityNotFoundException("Subject not found"));
+
+        absence.setStudentId(student);
+        absence.setSubjectId(subject);
+        absence.setAbsenceDate(absenceDate);
+
+        absenceRepository.save(absence);
     }
 
     @Override
     public void deleteAbsence(Long id)
     {
-
+        absenceRepository.deleteById(id);
     }
 
     @Override
@@ -91,4 +103,13 @@ public class AbsenceServiceImpl implements AbsenceService
         return subjectService.getAllSubjectsDto();
     }
 
+    @Override
+    public List<AbsenceSummaryDTO> getStudentAbsenceDTOsById(Long studentId) {
+        return absenceRepository.getStudentAbsenceDTOsById(studentId);
+    }
+
+    @Override
+    public Absence findAbsenceById(Long id) {
+        return absenceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
 }

@@ -23,7 +23,11 @@
         <td th:text="${student.firstName + ' ' + student.lastName}"></td>
         <td>
             <a type="button" th:href="@{/student/grades/{studentId}(studentId=${student.id})}" class="btn btn-link text-primary">
-                <i class="fas fa-edit"></i> Оценки </a>
+                <i class="fas fa-edit"></i>Оценки
+            </a>
+            <a type="button" th:href="@{/absences/student/{studentId}(studentId=${student.id})}" class="btn btn-link text-primary">
+                <i class="fas fa-edit"></i>Отсъствия
+            </a>
         </td>
     </tr>
     </tbody>

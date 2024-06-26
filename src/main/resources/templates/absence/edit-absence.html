@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/header-files.html :: header-files('Edit Absence')">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Edit Absence</title>
@@ -8,7 +8,14 @@
 <header th:insert="fragments/header.html :: header"></header>
 <div class="container mt-5" style="max-width: 600px">
     <h2>Edit Absence</h2>
+
+    <!-- Error Message -->
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        <p th:text="${param.error}"></p>
+    </div>
+
     <form th:action="@{/absences/edit}" th:object="${absence}" method="post">
+        <input type="hidden" name="absenceId" th:value="${absence.id}" />
         <div class="form-group">
             <label for="student">Student</label>
             <select id="student" name="studentId" th:field="*{studentId}" class="form-control">
@@ -30,7 +37,7 @@
         </div>
         <button type="submit" class="btn btn-primary w-100">Save Absence</button>
     </form>
-    <a class="mt-2 mb-2" th:href="@{/absences}">Back to absence list</a>
+    <a class="mt-2 mb-2 d-block" th:href="@{/absences}">Back to absence list</a>
 </div>
 <footer th:insert="fragments/footer.html :: footer"></footer>
 </body>
