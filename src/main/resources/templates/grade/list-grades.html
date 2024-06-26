@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="~{fragments/header-files.html :: header-files('Grade Management')}"></head>
 <body>
 <header th:insert="~{fragments/header.html :: header}"></header>
@@ -18,7 +18,7 @@
                             </button>
                         </div>
                     </div>
-                    <a th:href="@{/grades/new}" class="btn btn-primary mb-2">
+                    <a th:href="@{/grades/new}" class="btn btn-primary mb-2" sec:authorize="hasAuthority('admin')">
                         <i class="fas fa-plus"></i> Add Grade
                     </a>
                 </div>
