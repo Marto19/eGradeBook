@@ -6,6 +6,7 @@ import com.egradebook.eGradeBook.entities.Parent;
 import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.repositories.ParentRepository;
 import com.egradebook.eGradeBook.repositories.UserRepository;
+import com.egradebook.eGradeBook.services.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +26,12 @@ public class ParentController {
     private final ParentRepository parentRepository;
     private final UserRepository userRepository;
 
-    public ParentController(ParentRepository parentRepository, UserRepository userRepository) {
+    private final StudentService studentService;
+
+    public ParentController(ParentRepository parentRepository, UserRepository userRepository, StudentService studentService) {
         this.parentRepository = parentRepository;
         this.userRepository = userRepository;
+        this.studentService = studentService;
     }
 
     @GetMapping
@@ -81,5 +85,14 @@ public class ParentController {
         }
 
         return "redirect:/parent";
+    }
+
+    @GetMapping("/{parentId}/students")
+    public String showParentStudents(@PathVariable Long parentId,
+                                      Model model) {
+
+        model.addAttribute("studentList", studentService.findStudentsByTeacherId(parentId));
+
+        return "teacher/teacher-view";
     }
 }

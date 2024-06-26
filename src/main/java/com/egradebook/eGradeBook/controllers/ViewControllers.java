@@ -35,7 +35,7 @@ public class ViewControllers {
     //parent
     @GetMapping("/parent")
     public String showParentPage(Model model) {
-        return "parent";        //todo: change with parent view
+        return "parent-view";        //todo: change with parent view
     }
 
     //principal

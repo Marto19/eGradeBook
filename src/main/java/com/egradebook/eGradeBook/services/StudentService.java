@@ -28,4 +28,6 @@ public interface StudentService {
 
     List<StudentSummaryDTO> findStudentsByTeacherId(Long teacherId);
 
+    List<StudentSummaryDTO> findStudentsByParentId(Long parentId);
+
 }

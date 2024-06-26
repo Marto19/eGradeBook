@@ -45,7 +45,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                     response.sendRedirect("/view/student");
                     return;
                 case "parent":
-                    response.sendRedirect("/view/parent");
+                    response.sendRedirect("/parent/"+ authUserDTO.getId() +"/students");
                     return;
                 case "principal":
                     response.sendRedirect("/view/principal");

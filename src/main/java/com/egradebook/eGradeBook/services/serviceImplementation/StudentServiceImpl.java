@@ -199,4 +199,9 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentSummaryDTO> findStudentsByTeacherId(Long teacherId) {
         return studentRepository.findStudentsByTeacherId(teacherId);
     }
+
+    @Override
+    public List<StudentSummaryDTO> findStudentsByParentId(Long parentId) {
+        return studentRepository.findStudentsByParentId(parentId);
+    }
 }

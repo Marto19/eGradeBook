@@ -49,4 +49,10 @@ public interface StudentRepository extends JpaRepository<Student, Long>
             "WHERE t.id = :teacherId")
     List<StudentSummaryDTO> findStudentsByTeacherId(@Param("teacherId") Long teacherId);
 
+    @Query("SELECT new com.egradebook.eGradeBook.DTOs.student.StudentSummaryDTO(s.id, s.firstName, s.lastName) " +
+            "FROM Student s " +
+            "JOIN s.parentId p " +
+            "WHERE p.id = :parentId")
+    List<StudentSummaryDTO> findStudentsByParentId(@Param("parentId") Long parentId);
+
 }

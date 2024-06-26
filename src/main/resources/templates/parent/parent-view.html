@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header-files.html :: header-files('Parent View')}"></head>
+<body>
+<header th:insert="~{fragments/header.html :: header}"></header>
+
+<div class="container mt-4">
+    <h2>My Students</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">
+                <i class="fas fa-user-graduate"></i>
+                Student
+            </th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${studentList}">
+            <th th:text="${student.id}" scope="row"></th>
+            <td th:text="${student.firstName + ' ' + student.lastName}"></td>
+            <td>
+                <a type="button" th:href="@{/parent/student/grades/{studentId}(studentId=${student.id})}" class="btn btn-link text-primary">
+                    <i class="fas fa-chart-line"></i> View Grades
+                </a>
+                <a type="button" th:href="@{/parent/student/absences/{studentId}(studentId=${student.id})}" class="btn btn-link text-primary">
+                    <i class="fas fa-calendar-times"></i> View Absences
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:if="${selectedStudent}" class="container mt-5">
+    <h3>Grades for <span th:text="${selectedStudent.firstName + ' ' + selectedStudent.lastName}"></span></h3>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Subject</th>
+            <th scope="col">Grade</th>
+            <th scope="col">Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="grade : ${grades}">
+            <td th:text="${grade.subject}"></td>
+            <td th:text="${grade.value}"></td>
+            <td th:text="${#temporals.format(grade.date, 'dd-MM-yyyy')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+<footer th:insert="~{fragments/footer.html :: footer}"></footer>
+</html>
