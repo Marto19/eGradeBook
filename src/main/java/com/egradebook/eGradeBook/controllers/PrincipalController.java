@@ -1,11 +1,15 @@
 package com.egradebook.eGradeBook.controllers;
 
 import com.egradebook.eGradeBook.DTOs.principal.PrincipalDTO;
+import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
+import com.egradebook.eGradeBook.DTOs.teacher.TeacherDTO;
 import com.egradebook.eGradeBook.DTOs.user.UserDTO;
 import com.egradebook.eGradeBook.entities.Principal;
 import com.egradebook.eGradeBook.entities.User;
 import com.egradebook.eGradeBook.repositories.UserRepository;
 import com.egradebook.eGradeBook.services.PrincipalService;
+import com.egradebook.eGradeBook.services.StudentService;
+import com.egradebook.eGradeBook.services.TeacherService;
 import com.egradebook.eGradeBook.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,6 +36,8 @@ public class PrincipalController {
 
     private final PrincipalService principalService;
     private final UserService userService;
+    private final TeacherService teacherService;
+    private final StudentService studentService;
 
 
     @GetMapping
@@ -88,6 +94,17 @@ public class PrincipalController {
         }
 
         return "redirect:/principal";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+        List<TeacherDTO> teachers = teacherService.getAllTeachersDto();
+        List<StudentDTO> students = studentService.getAllStudentsDto();
+
+        model.addAttribute("teacherList", teachers);
+        model.addAttribute("studentList", students);
+
+        return "principal/principal-view";
     }
 
 //    @GetMapping
