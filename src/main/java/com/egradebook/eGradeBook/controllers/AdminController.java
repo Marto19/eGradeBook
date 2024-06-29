@@ -106,4 +106,18 @@ public class AdminController
         return "redirect:/admin";
     }
 
+    @GetMapping("/makeActive-user/{email}")
+    public String makeUserActive(@PathVariable String email, Model model)
+    {
+        try
+        {
+            userService.makeUserActive(email);
+            model.addAttribute("successMessage", "User activated successfully!");
+        }
+        catch (Exception e)
+        {
+            model.addAttribute("errorMessage", "Error activating user: " + e.getMessage());
+        }
+        return "redirect:/admin";
+    }
 }

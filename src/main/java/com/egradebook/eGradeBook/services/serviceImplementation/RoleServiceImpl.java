@@ -26,7 +26,7 @@ public class RoleServiceImpl implements RoleService
     @Override
     public void createRole(CreateRoleDTO createRoleDTO)
     {
-        if (roleRepository.findByName(createRoleDTO.getName()).isPresent())
+        if (!roleRepository.findByName(createRoleDTO.getName()).isPresent())
         {
 
             Role newRole = Role.builder()
@@ -91,6 +91,4 @@ public class RoleServiceImpl implements RoleService
         return roleRepository.findById(id)
                 .map(role -> new RoleDTO(role.getId(), role.getName()));
     }
-
-
 }

@@ -28,6 +28,8 @@ public interface UserService extends UserDetailsService
 
     void deleteUser(String email) throws UserNotFoundException;
 
+    void makeUserActive(String email) throws UserNotFoundException;
+
     List<UpdateUserDTO> getAllUsers();
 
     List<UserDTO> getAllUsersDto();

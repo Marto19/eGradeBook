@@ -146,6 +146,17 @@ public class UserServiceImpl implements UserService
             userRepository.save(user);
     }
 
+    @Override
+    public void makeUserActive(String email) throws UserNotFoundException
+    {
+        User user = userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User Not Found with email: " + email));
+
+        user.setEnabled(true);
+
+        userRepository.save(user);
+    }
+
     /**
      * This method is used to get all the users in the database.
      * It returns a list of UpdateUserDTO objects that contain the details of the users.
