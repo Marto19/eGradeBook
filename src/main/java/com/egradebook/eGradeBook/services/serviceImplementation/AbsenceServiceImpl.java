@@ -2,8 +2,6 @@ package com.egradebook.eGradeBook.services.serviceImplementation;
 
 import com.egradebook.eGradeBook.DTOs.absence.AbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.absence.AbsenceSummaryDTO;
-import com.egradebook.eGradeBook.DTOs.absence.CreateAbsenceDTO;
-import com.egradebook.eGradeBook.DTOs.absence.UpdateAbsenceDTO;
 import com.egradebook.eGradeBook.DTOs.student.StudentDTO;
 import com.egradebook.eGradeBook.DTOs.subject.SubjectDTO;
 import com.egradebook.eGradeBook.entities.Absence;
@@ -82,18 +80,6 @@ public class AbsenceServiceImpl implements AbsenceService
                 ))
                 .collect(Collectors.toList());
     }
-
-
-//    @Override
-//    public List<Student> getAllStudents()
-//    {
-//        return null;
-//    }
-//
-//    @Override
-//    public List<Subject> getAllSubjects() {
-//        return null;
-//    }
 
     public List<StudentDTO> getAllStudents() {
         return studentService.getAllStudentsDto();

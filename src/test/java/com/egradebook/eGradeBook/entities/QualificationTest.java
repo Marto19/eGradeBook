@@ -41,26 +41,23 @@ class QualificationTest {
     }
 
     @Test
-    void testGetQualificationById_NonExistingId() {
-        // Arrange
+    void testGetQualificationById_NonExistingId()
+    {
         long nonExistingId = 999L;
         when(qualificationsRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
-        // Act and Assert
         assertThrows(QualificationNotFoundException.class, () -> qualificationService.getQualificationById(nonExistingId));
         verify(qualificationsRepository).findById(nonExistingId);
     }
 
     @Test
-    void getId() {
-        // Arrange
+    void getId()
+    {
         long qualificationId = 42L;
         Qualification qualification = new Qualification(qualificationId, "Sig", "Desc", null);
 
-        // Act
         long actualId = qualification.getId();
 
-        // Assert
         assertEquals(qualificationId, actualId);
     }
 

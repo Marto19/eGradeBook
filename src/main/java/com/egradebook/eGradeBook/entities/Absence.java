@@ -6,11 +6,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-/*
-TODO SLOJI @NOTNULL NAVSQKUDE
- */
-
-
 @Entity
 @Table(name = "absences")
 @Getter
